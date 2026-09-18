@@ -43,7 +43,7 @@ Regardless of technical role, all members are expected to contribute approximate
 
 ### Frank — Software Lead
 
-**Email:** [Frank's email]
+**Email:** frankqt.liu@mail.utoronto.ca
 
 **Skills:**
 
