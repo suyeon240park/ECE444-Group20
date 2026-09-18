@@ -1,8 +1,11 @@
 # Team Workflow
 
 **Memo to ECE444 Teaching Staff**
+
 **Team:** Nexus
+
 **Group:** 20
+
 **Date:** September 18, 2026
 
 ## 1. Preamble
