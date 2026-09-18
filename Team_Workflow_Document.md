@@ -21,10 +21,9 @@ Regardless of technical role, all members are expected to contribute approximate
 
 ### Suyeon — Backend Developer
 
-**Email:** [Suyeon's email]
+**Email:** suyeon.park@mail.utoronto.ca
 
 **Skills:**
-
 * Backend development
 * API design
 * Java / Spring Boot
