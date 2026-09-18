@@ -66,7 +66,7 @@ Regardless of technical role, all members are expected to contribute approximate
 
 ### Eyad — Project Manager / Frontend Developer
 
-**Email:** [Eyad's email]
+**Email:** eyad.ahmed@mail.utoronto.ca
 
 **Skills:**
 
