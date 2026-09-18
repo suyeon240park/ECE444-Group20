@@ -89,7 +89,7 @@ Regardless of technical role, all members are expected to contribute approximate
 
 ### Alex — Full-Stack Developer
 
-**Email:** [Alex's email]
+**Email:** alex.an@mail.utoronto.ca
 
 **Skills:**
 
