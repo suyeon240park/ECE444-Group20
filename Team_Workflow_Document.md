@@ -1,103 +1,393 @@
-# Team Workflow Document
+# Team Workflow
 
-**Memo to ECE444 teaching staff**
-**Date:** September 18, 2025
+**Memo to ECE444 Teaching Staff**
+**Team:** Nexus
+**Group:** 20
+**Date:** September 18, 2026
 
-## Preamble
+## 1. Preamble
 
-The following is the workflow document for ECE444 Group – [Group Name], in the current term. All team members have read and approved the contents of this document. The team has also discussed individual expectations for a grade and their respective commitment levels in this course. All team members have also read and understood the ECE444 writing style guidelines.
+This document defines the working agreement for ECE444 Group 20, Team Nexus, for the current term.
 
-## Team Roles
+All team members have reviewed and approved this workflow and agree to follow it throughout the project. The team has discussed individual expectations, expected commitment levels, and standards for collaboration.
 
-**Suyeon — Backend Developer**
+All team members have also reviewed the ECE444 course writing guidelines.
 
-Suyeon's tasks include:
-- Developing and maintaining backend services and APIs
-- Working with the team on data architecture and integrations
-- Participating in notetaking, project management, voting, and other common team duties
+Regardless of technical role, all members are expected to contribute approximately equally to the team's writing, editing, rewriting, and presentation responsibilities throughout the term.
 
-**Frank — Software Lead**
+---
 
-Frank's tasks include:
-- Leading overall software architecture and design decisions
-- Writing development tasks for team members and tracking their progress
-- Keeping project code clean and maintainable
-- Developing a system testing and verification flow for the project
+## 2. Team Roles
 
-**Eyad — Project Manager / Frontend Developer**
+### Suyeon — Backend Developer
 
-Eyad's tasks include:
-- Working closely with the team to ensure milestones are on track
-- Drafting stories/tasks to ensure the team is never facing a lack of work
-- Developing alongside the team as a Frontend Developer
-- Keeping the team focused on delivering value with the user in mind
-- Contributing to all project documents and presentations either as a lead, editor, or rewrite lead
+**Email:** [Suyeon's email]
 
-**Alex — Fullstack Developer**
+**Skills:**
 
-Alex's tasks include:
-- Developing across both frontend and backend as required
-- Ensuring development timelines stay on track
-- Leading, editing, and contributing to milestone documents
-- Participating in notetaking, project management, voting, and other team duties
+* Backend development
+* API design
+* Java / Spring Boot
+* Databases and data architecture
+* System integration
+* Testing
 
-## Team Coordination
+**Responsibilities:**
 
-### Meeting Times
+* Develop and maintain backend services and APIs
+* Design and implement backend integrations
+* Contribute to database and data architecture decisions
+* Participate in backend testing and debugging
+* Review code from other team members
+* Contribute equally to milestone writing, editing, rewriting, and presentations
+* Participate in shared team duties such as note-taking, voting, planning, and project management
 
-**Planning Tool:** https://www.when2meet.com/?
+### Frank — Software Lead
 
-**Proposed Arrangements**
-- Sprint Planning (every other week): Monday 6–7PM EST
-- Backlog Grooming: Monday 6–7PM EST (alternate weeks of Sprint Planning)
-- Synchronous Stand-up: Friday 11–12PM EST
-- Asynchronous Stand-up: Post updates on Monday at 12PM EST
-- Milestone Retrospective: Ad hoc, scheduled as necessary
+**Email:** [Frank's email]
 
-### Meeting Minutes
+**Skills:**
 
-An AI notetaker will join all meetings and automatically send meeting notes to everyone's email afterward, including a summary of action items. This ensures every team member has a written record of decisions and next steps without relying on manual notetaking.
+* Software architecture
+* Full-stack development
+* Software design
+* Testing and verification
+* Code quality
+* Technical leadership
 
-### Communication
+**Responsibilities:**
 
-The team will use Discord as the primary form of communication outside of team meetings, including for chats and online meetings. Team members are expected to respond to questions or comments within 24 hours. In urgent scenarios where Discord fails the intended purpose, the group will resort to email, with the same 24-hour response expectation.
+* Coordinate software architecture and design discussions
+* Help define technical tasks and acceptance criteria
+* Ensure the codebase remains maintainable and consistent
+* Lead development of the system testing and verification process
+* Assist team members with technical blockers
+* Participate in implementation and code reviews
+* Contribute equally to milestone writing, editing, rewriting, and presentations
 
-### File Sharing
+### Eyad — Project Manager / Frontend Developer
 
-The group's project codebase will be stored in a centralized GitHub repo: https://github.com/suyeon240park/ECE444, shared with all members of the group.
+**Email:** [Eyad's email]
 
-## Method of Work
+**Skills:**
 
-### Tracking and Managing Work
+* Project management
+* Agile / Scrum processes
+* Frontend development
+* UI implementation
+* Task planning
+* Technical writing
 
-1. The team will employ an agile mindset, relying on Jira as the primary project management tool, with all members having view and edit access.
-2. The team will follow a SCRUM-based agile process, with sprints, and relevant sprint planning, stand-up, and retrospective sessions.
-3. Jira will be used to manage the team's backlog and sprint board; all work the team does must be tracked as a ticket.
+**Responsibilities:**
 
-### Production Changes
+* Track milestones, deadlines, and team progress
+* Coordinate sprint planning, backlog grooming, and task assignment
+* Ensure upcoming work is represented clearly in Jira
+* Develop frontend functionality alongside the team
+* Help keep the team focused on user needs and milestone requirements
+* Coordinate project communication when deadlines or responsibilities change
+* Contribute equally to milestone writing, editing, rewriting, and presentations
 
-1. All changes are done in non-master branches.
-2. A Pull Request is created with a detailed description of the task acceptance criteria and screenshots if applicable. The PR is self-reviewed with comments explaining any complex code blocks.
-3. Tests must be added for all code changes where applicable. Unit tests must pass, and integration test cases must be written explicitly and tested before a reviewer is requested. Regression tests must also be performed when applicable.
-4. Pull Requests must be reviewed by at least 1 other reviewer (after personal testing and validation) before merging into the master branch.
-5. Merging into master is done by the code owner (initial PR owner); ensure the application works as expected post-merge if there is a production environment.
+### Alex — Full-Stack Developer
 
-### Code Reviews
+**Email:** [Alex's email]
 
-1. Everyone on the team is responsible for an equal share of code reviews.
-2. All code reviewers have the authority to approve a PR; doing so is an act of "signing" an engineering document, and hence the person who approves a PR is held equally liable for any errors as the original PR initiator.
-3. Before picking up a new task, perform code reviews for tickets marked as "Ready for CR," so that other members are unblocked first.
+**Skills:**
 
-## Conflict Resolution
+* Frontend development
+* Backend development
+* Full-stack integration
+* Software testing
+* Technical writing and editing
+* Project coordination
 
-### Creative Conflicts
+**Responsibilities:**
 
-The team will first attempt to resolve any disagreements through open discussion during meetings, giving every member a chance to make their case. If consensus can't be reached this way, the matter will go to a team vote, with each member getting one vote and no abstentions allowed. In the event of a tie, the milestone's writing lead will cast the deciding vote. All conflicts and their resolutions will be documented in the group's meeting minutes for future reference.
+* Develop frontend and backend functionality as required
+* Support integration between frontend and backend components
+* Help ensure implementation timelines remain on track
+* Participate in testing and code reviews
+* Lead or contribute to milestone documents when assigned
+* Contribute equally to milestone writing, editing, rewriting, and presentations
+* Participate in shared duties such as note-taking, voting, planning, and project management
 
-## Actionable Consequences to Participation
+---
 
-**Missed Internal Deadline** – If a team member misses an internal deadline, the Project Manager (Eyad) will issue a warning via email or Discord. The member will be required to explain the reason for the delay, and this communication will be logged for reference. If the same member misses a deadline a second time, the PM will escalate by looping in the rest of the team during the next meeting to discuss impact and next steps. On a third occurrence, the PM will compile a record of all related communications and escalate to the course teaching team.
+## 3. Team Coordination
 
-**Missed Course Deadline** – If a team member misses a course deadline, the PM will lead the team in compiling a document of all communications around the missed work. The team will meet to assess how significant the missed portion is and agree on a recommendation. The PM will then email the teaching team with the document and the team's recommendation for grade deductions based on the agreed-upon significance.
+### 3.1 Meeting Times
 
-**Valid Reason Definition** – Personal and health emergencies as accepted by the Faculty of Applied Science and Engineering at the University of Toronto. See more details: https://undergrad.engineering.utoronto.ca/petitions/about-petitions/
+The team will use the following recurring meeting schedule:
+
+* **Sprint Planning:** Every other Monday, 6:00–7:00 PM ET
+* **Backlog Grooming:** Monday, 6:00–7:00 PM ET on alternating weeks with Sprint Planning
+* **Synchronous Stand-up:** Friday, 11:00 AM–12:00 PM ET
+* **Asynchronous Stand-up:** Updates posted every Monday by 12:00 PM ET
+* **Milestone Retrospective:** Scheduled when needed after major milestones
+
+The team may use When2Meet to resolve scheduling conflicts:
+
+https://www.when2meet.com/
+
+If a recurring meeting time changes permanently, the change will be recorded in the Workflow Updates section.
+
+### 3.2 Meeting Minutes
+
+An AI notetaker will join scheduled team meetings and automatically generate meeting notes.
+
+Meeting minutes will include, where applicable:
+
+* Important decisions
+* Action items
+* Assigned owners
+* Internal deadlines
+* Blockers
+* Follow-up items
+* Unresolved questions
+
+The generated notes will be distributed to team members after each meeting.
+
+If the AI-generated notes contain an important omission or error, a team member will correct the record manually.
+
+Meeting minutes will serve as the team's written record of decisions, responsibilities, and follow-up actions.
+
+### 3.3 Communication
+
+Discord will be the team's main communication method outside scheduled meetings.
+
+Discord will be used for:
+
+* General project discussion
+* Technical questions
+* Status updates
+* Meeting coordination
+* Requests for reviews
+* Deadline reminders
+* Urgent project communication
+
+Team members are expected to acknowledge or respond to direct project-related questions within **24 hours**.
+
+For urgent matters, the sender should directly tag the relevant member and clearly indicate that the message is urgent.
+
+If Discord is unavailable or unsuitable for a specific situation, the team will use email. The same 24-hour response expectation applies.
+
+### 3.4 File Sharing and Task Management
+
+The team's source code and version-controlled project files will be stored in the shared GitHub repository:
+
+https://github.com/suyeon240park/ECE444
+
+All members will have access to the repository.
+
+Jira will be used as the primary task-management tool.
+
+Substantial project work should be represented by a Jira ticket containing, where appropriate:
+
+* Task description
+* Owner
+* Acceptance criteria
+* Priority
+* Expected completion date
+* Current status
+
+GitHub will be used for code, documentation, pull requests, and version history.
+
+Jira will be used for sprint planning, backlog management, ownership tracking, and progress monitoring.
+
+### 3.5 Writing, Editing, Rewriting, and Presentation Responsibilities
+
+All team members are expected to contribute approximately equally to writing, editing, rewriting, and presenting.
+
+For each milestone, the team will assign four primary document responsibilities:
+
+* **Writing Lead:** Coordinates the first complete draft
+* **Editing Lead:** Reviews structure, clarity, evidence, consistency, and compliance with course requirements
+* **Rewrite Lead:** Incorporates feedback and performs substantial revisions where necessary
+* **Final Review Lead:** Checks completeness, formatting, consistency, and submission readiness
+
+These responsibilities will rotate so that each member performs each type of role over the term.
+
+| Rotation   | Writing Lead | Editing Lead | Rewrite Lead | Final Review Lead |
+| ---------- | ------------ | ------------ | ------------ | ----------------- |
+| Rotation 1 | Suyeon       | Frank        | Eyad         | Alex              |
+| Rotation 2 | Frank        | Eyad         | Alex         | Suyeon            |
+| Rotation 3 | Eyad         | Alex         | Suyeon       | Frank             |
+| Rotation 4 | Alex         | Suyeon       | Frank        | Eyad              |
+
+The assigned lead coordinates the responsibility but is not expected to complete the entire task alone.
+
+All members may contribute suggestions, edits, and revisions regardless of their assigned role.
+
+For presentations, preparation and speaking responsibilities will also be distributed approximately equally. Where the milestone format allows, all members will participate in preparing and presenting project work.
+
+---
+
+## 4. Conflict Resolution
+
+### 4.1 Disagreements and Decision-Making
+
+The team will first attempt to resolve disagreements through open discussion.
+
+Each affected member will be given an opportunity to explain their reasoning.
+
+Where possible, decisions should be based on objective evidence such as:
+
+* Course requirements
+* User needs
+* Technical feasibility
+* Testing results
+* Project constraints
+* Documentation
+* Prototype results
+
+If consensus cannot be reached within a reasonable amount of time, the matter will proceed to a team vote.
+
+Each member receives one vote. When a decision is required, members are expected to choose one of the available options rather than abstaining.
+
+If the vote results in a tie, the team will hold a short second discussion focused specifically on the unresolved disagreement.
+
+If the tie remains, the member with primary responsibility for that area will make the final decision.
+
+Examples include:
+
+* Technical architecture decisions: Software Lead
+* Project-management decisions: Project Manager
+* Milestone-writing decisions: current Writing Lead
+
+Significant disagreements and their resolutions will be recorded in the meeting minutes.
+
+### 4.2 Participation, Missed Work, and Exceptional Contributions
+
+#### First Missed Internal Deadline
+
+If a team member misses an internal deadline without communicating the expected delay in advance:
+
+* The Project Manager will contact the member through Discord or email
+* The member will explain the reason for the delay
+* The member will provide a revised completion plan
+* The incident may be recorded in Jira or meeting minutes
+
+#### Second Missed Internal Deadline
+
+If the same member misses another assigned deadline:
+
+* The issue will be discussed with the full team
+* The team will review workload, responsibilities, and contributing circumstances
+* Time-sensitive work may be reassigned to avoid delaying the project
+* The missed commitment and agreed corrective actions will be documented
+
+#### Third Missed Internal Deadline or Continued Pattern
+
+If missed work continues despite previous discussions:
+
+* The Project Manager will compile relevant records, including task assignments, deadlines, communications, and missed commitments
+* The issue will be escalated to the ECE444 teaching team
+* The team may request that documented contribution differences be considered where permitted by course policy
+
+#### Missed Course Deadline
+
+If a team member's failure to complete assigned work contributes to a missed course deadline or seriously threatens a course deadline:
+
+1. The team will document the assigned work and relevant communications
+2. The team will assess the impact on the milestone
+3. Remaining members will prioritize recovering the affected work where possible
+4. The Project Manager will contact the teaching team where appropriate
+5. Documentation of individual contributions may be provided
+
+#### Valid Exceptional Circumstances
+
+The team recognizes that legitimate personal, family, or health emergencies may prevent a member from meeting an agreed deadline.
+
+Members should communicate exceptional circumstances as early as reasonably possible.
+
+Team members are not required to disclose unnecessary private or medical details.
+
+When a valid exceptional circumstance occurs, the team will make a reasonable effort to redistribute short-term work and revise internal deadlines.
+
+Relevant Faculty of Applied Science and Engineering information is available at:
+
+https://undergrad.engineering.utoronto.ca/petitions/about-petitions/
+
+#### Exceptional Contributions
+
+Exceptional contributions may occur when a member performs substantially more work than originally assigned, for example by:
+
+* Resolving an unexpected technical issue
+* Recovering delayed work
+* Taking over urgent milestone responsibilities
+* Completing additional implementation or testing work
+
+Exceptional contributions will be documented through Jira, GitHub, meeting minutes, or other appropriate project records.
+
+A single exceptional contribution does not permanently reduce that member's future responsibilities.
+
+If one or more members consistently contribute substantially more than others, the team will discuss the imbalance and redistribute future responsibilities where practical.
+
+If a significant imbalance continues, the team may document individual contribution levels and raise the issue with the teaching team where relevant.
+
+---
+
+## 5. Method of Work
+
+### 5.1 Tracking and Managing Work
+
+1. The team will follow an agile approach using Jira as the primary project-management tool.
+2. All team members will have view and edit access to the project board.
+3. The team will use a Scrum-inspired development process involving sprints, sprint planning, backlog grooming, stand-ups, and retrospectives.
+4. Jira will be used to manage the backlog and sprint board.
+5. Substantial project work should be represented by a Jira ticket.
+6. Each ticket should identify an owner, scope, status, and acceptance criteria where appropriate.
+7. Team members should communicate blockers as soon as they become known.
+
+### 5.2 Production Changes
+
+1. Development changes must be made on non-master branches.
+2. A Pull Request must be created before code is merged into the master branch.
+3. Pull Requests should contain a clear description of the changes and relevant acceptance criteria.
+4. Screenshots should be included where useful for frontend or UI changes.
+5. The Pull Request author should perform a self-review before requesting review.
+6. Complex or non-obvious implementation decisions should be explained where appropriate.
+7. Tests should be added for code changes when applicable.
+8. Relevant unit and integration tests must pass before merging.
+9. Regression testing should be performed when changes may affect existing functionality.
+10. At least one other team member must review and approve the Pull Request before merging.
+11. The Pull Request owner is responsible for merging the approved change and confirming that the application continues to function as expected afterward.
+
+### 5.3 Code Reviews
+
+1. All members are expected to participate in code reviews.
+2. Code-review workload should be distributed approximately equally.
+3. Reviewers must meaningfully inspect the implementation rather than approving without review.
+4. Reviews should consider:
+
+   * Correctness
+   * Maintainability
+   * Readability
+   * Testing
+   * Security
+   * Compatibility with the system architecture
+5. Before beginning lower-priority new work, members should check whether another team member is blocked waiting for review.
+6. Tickets marked as ready for code review should generally be prioritized to avoid unnecessary blockers.
+
+---
+
+## 6. Workflow Updates
+
+This workflow is a living document and will be updated whenever there is a material change to:
+
+* Team roles
+* Member responsibilities
+* Meeting schedules
+* Communication processes
+* Writing or presentation responsibilities
+* Development processes
+* Conflict-resolution procedures
+* Other significant team-working agreements
+
+Material changes should be discussed with the team before being added to the document.
+
+Each update will be recorded below with the date and a short description.
+
+| Date               | Update                                      | Approval         |
+| ------------------ | ------------------------------------------- | ---------------- |
+| September 18, 2026 | Initial team workflow created and approved. | All team members |
