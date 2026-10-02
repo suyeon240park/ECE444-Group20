@@ -894,19 +894,3 @@ Functional failure behavior is owned by the corresponding functional requirement
 - missing ingredient data/coverage → F4.
 
 Q3 evaluates whether users can understand and navigate the supported outcomes defined by those functional requirements.
-
----
-
-## Requirement relationships
-
-The selected requirements form the following dependency chain:
-
-1. **F1** obtains product identity, ingredient data, nutrition data, and package metadata where available.
-2. **Q1** governs the reliability of Nutrition Facts values obtained through OCR fallback.
-3. **F2** uses sufficiently reliable nutrition and package/serving data to derive whole-package values.
-4. **F3** explains supported nutrient values using reviewed sources.
-5. **F4** analyzes ingredients only when F1 supplies an ingredient list from the product database.
-6. **Q2** constrains the latency of F1's identification/lookup stage.
-7. **Q3** validates whether non-expert users can successfully navigate and understand the outputs of F1–F4.
-
-No selected requirement may silently weaken another selected requirement. If implementation reveals a conflict—for example, an accuracy/performance trade-off that makes an accepted target infeasible—the affected requirement must be explicitly revised and re-reviewed before the change is accepted.
