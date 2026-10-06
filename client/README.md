@@ -10,14 +10,35 @@ npm install
 npm run web          # opens http://localhost:8081 in the browser
 ```
 
-For a phone, install the Expo Go app, run `npm start`, and scan the QR code. The phone must be on the same network as your computer, and the backend URL below must be reachable from the phone (use your computer's LAN IP instead of `localhost`).
-
 The home screen calls the backend health check and shows the result. Start the backend first (see `backend/README.md`), or the card shows "Unreachable".
+
+## Run on a phone (Expo Go)
+
+Expo Go runs the real app on your phone, with real camera and barcode scanning. It loads the JavaScript from your own computer, so each teammate runs their own copy.
+
+One-time setup:
+
+1. Install **Expo Go** from the App Store or Google Play.
+2. Create a free account at https://expo.dev/signup, then run `npx expo login` in `client/` and log in to Expo Go with the same account. Expo requires this.
+
+Each time:
+
+1. Phone and computer on the same Wi-Fi.
+2. Find your computer's LAN IP (`ipconfig` on Windows, `ifconfig` or `ip a` on macOS/Linux), e.g. `192.168.1.23`.
+3. Create `client/.env` from `client/.env.example` and set `EXPO_PUBLIC_API_BASE_URL=http://192.168.1.23:5000` with your IP. `.env` is ignored by git, so this never affects anyone else.
+4. Start the backend so it accepts connections from the network: `flask --app wsgi run --debug --host 0.0.0.0`. Allow it through the firewall if asked.
+5. In `client/`, run `npm start` and scan the QR code with the phone camera (iOS) or from inside Expo Go (Android).
+
+If the card on the phone says "Unreachable", open `http://<your IP>:5000/api/health` in the phone's browser. If that fails too, the problem is the network or the firewall, not the app.
+
+Expo Go cannot produce an installable APK or App Store build. Those come from EAS Build in the release sprint.
 
 ## Backend URL
 
-- Development: `extra.apiBaseUrl` in `app.json` (`http://localhost:5000`).
-- Deployed builds: set `EXPO_PUBLIC_API_BASE_URL` at build time; it overrides `app.json`. This is how the staging deployment (#22) points the client at the staging backend.
+Resolution order, implemented in `src/api.ts`:
+
+1. `EXPO_PUBLIC_API_BASE_URL` from `client/.env` or the build environment. Used for phone testing and by the staging deployment (#22).
+2. `extra.apiBaseUrl` in `app.json` (`http://localhost:5000`), the browser-development default.
 
 ## Check and build
 

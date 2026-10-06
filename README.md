@@ -106,7 +106,9 @@ npm install
 npm run web
 ```
 
-The browser opens the app at http://localhost:8081. The home screen calls the backend health check and shows the result. For a phone, install Expo Go, run `npm start`, and scan the QR code.
+The browser opens the app at http://localhost:8081. The home screen calls the backend health check and shows the result.
+
+**Phone** (optional): install Expo Go, log in with a free Expo account, point the client at your computer's LAN IP through `client/.env`, run `npm start` and scan the QR code. Step-by-step instructions are in [client/README.md](client/README.md#run-on-a-phone-expo-go).
 
 **Database** (optional for now): `docker compose up db` starts PostgreSQL on port 5432 with the credentials in `backend/.env.example`.
 
