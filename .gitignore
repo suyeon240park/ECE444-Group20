@@ -1,0 +1,21 @@
+# Python (backend)
+backend/.venv/
+backend/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+backend/.env
+
+# Node (client); client/.gitignore covers Expo-specific files
+node_modules/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local drafts and tool scratch
+docs/message*.txt
+.claude/worktrees/

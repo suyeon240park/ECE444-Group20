@@ -65,39 +65,78 @@ How we use them:
 
 ## Tech stack
 
-> The stack below is the Software Lead's proposal and is not final until the team confirms it. This section will be updated when the project skeleton is merged.
+Set up in sprint 1 (issue #19).
 
-| Layer | Proposed choice | Why |
+| Layer | Choice | Why |
 |---|---|---|
-| Client (web and mobile) | React Native with Expo and TypeScript, built for web, iOS and Android from one codebase | One codebase covers the browser and phones; the camera and barcode scanner come built in |
-| Backend API | Python with Flask | The course labs use Flask, and Python has the strongest OCR libraries |
-| Database | PostgreSQL | Product cache, ingredient knowledge base |
+| Client (web and mobile) | React Native with Expo SDK 57 and TypeScript, built for web, iOS and Android from one codebase | One codebase covers the browser and phones; the camera and barcode scanner come built in |
+| Backend API | Python 3.10+ with Flask | The course labs use Flask, and Python has the strongest image and data tooling |
+| Database | PostgreSQL 16 (local instance via Docker Compose) | Product cache, ingredient knowledge base. Not used by any code yet |
 | Product data | Open Food Facts API | Free, open, queried by barcode |
-| Nutrition Facts extraction | To be chosen by benchmark (open question in the requirements document) | Must meet requirement Q1 |
-| Tests and CI | pytest, Jest, GitHub Actions | Runs unit tests and the Q1 accuracy benchmark on pull requests |
+| Nutrition Facts extraction | Vision-model API prototype (#22); decision at the end of sprint 1 | Must meet requirement Q1 |
+| Tests and CI | pytest and ruff for the backend, TypeScript and an Expo web build for the client, GitHub Actions | Runs on every pull request and on `main` |
 
 ## Getting started
 
-There is no application code yet. Setup and run instructions will be added with the project skeleton in the first sprint.
-
-To get the repository:
+You need Git, Python 3.10 or newer, and Node 22 or newer. Docker is optional and only needed for the local database.
 
 ```
 git clone https://github.com/suyeon240park/ECE444-Group20.git
 cd ECE444-Group20
 ```
 
+**Backend** (terminal 1):
+
+```
+cd backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows;  source .venv/bin/activate  on macOS / Linux
+pip install -r requirements-dev.txt
+copy .env.example .env          # Windows;  cp .env.example .env  on macOS / Linux
+flask --app wsgi run --debug
+```
+
+Check http://127.0.0.1:5000/api/health returns `{"status": "ok", ...}`.
+
+**Client** (terminal 2):
+
+```
+cd client
+npm install
+npm run web
+```
+
+The browser opens the app at http://localhost:8081. The home screen calls the backend health check and shows the result. For a phone, install Expo Go, run `npm start`, and scan the QR code.
+
+**Database** (optional for now): `docker compose up db` starts PostgreSQL on port 5432 with the credentials in `backend/.env.example`.
+
+**Before opening a pull request:**
+
+```
+cd backend && pytest && ruff check . && ruff format --check .
+cd client && npm run typecheck && npm run build:web
+```
+
+CI runs exactly these commands. Details for each part are in [backend/README.md](backend/README.md) and [client/README.md](client/README.md).
+
 ## Repository layout
 
 ```
 .
+├── backend/                     Flask API: app/ (factory + route blueprints), tests/, wsgi.py
+├── client/                      Expo app: App.tsx, src/ (api.ts and future screens), assets/
+├── tests/
+│   └── fixtures/
+│       └── nutrition_labels/    benchmark photos and ground truth for requirement Q1 (#17)
+├── docs/
+│   └── requirements.md          project goal, stakeholders, scope, selected requirements
+├── .github/workflows/ci.yml     backend lint + tests, client typecheck + web build
+├── docker-compose.yml           local PostgreSQL
 ├── README.md                    this file
 ├── CONTRIBUTING.md              how we branch, review and merge
 ├── CODE_OF_CONDUCT.md           how we treat each other
 ├── Team_Workflow_Document.md    roles, meetings, conflict resolution
-├── team_members.md              names, roles, emails
-└── docs/
-    └── requirements.md          project goal, stakeholders, scope, selected requirements
+└── team_members.md              names, roles, emails
 ```
 
 ## Documentation
