@@ -73,7 +73,7 @@ Set up in sprint 1 (issue #19).
 | Backend API | Python 3.10+ with Flask | The course labs use Flask, and Python has the strongest image and data tooling |
 | Database | PostgreSQL 16 (local instance via Docker Compose) | Product cache, ingredient knowledge base. Not used by any code yet |
 | Product data | Open Food Facts API | Free, open, queried by barcode |
-| Nutrition Facts extraction | Vision-model API prototype (#22); decision at the end of sprint 1 | Must meet requirement Q1 |
+| Nutrition Facts extraction | Vision-model API prototype (#16); decision at the end of sprint 1 | Must meet requirement Q1 |
 | Tests and CI | pytest and ruff for the backend, TypeScript and an Expo web build for the client, GitHub Actions | Runs on every pull request and on `main` |
 
 ## Getting started

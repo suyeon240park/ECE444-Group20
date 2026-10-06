@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
  * Base URL of the backend API.
  *
  * Order of precedence:
- * 1. EXPO_PUBLIC_API_BASE_URL at build time (used by the staging deployment, #23)
+ * 1. EXPO_PUBLIC_API_BASE_URL at build time (used by the staging deployment, #22)
  * 2. `extra.apiBaseUrl` in app.json (local development default)
  */
 export const API_BASE_URL: string =

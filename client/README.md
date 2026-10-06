@@ -17,7 +17,7 @@ The home screen calls the backend health check and shows the result. Start the b
 ## Backend URL
 
 - Development: `extra.apiBaseUrl` in `app.json` (`http://localhost:5000`).
-- Deployed builds: set `EXPO_PUBLIC_API_BASE_URL` at build time; it overrides `app.json`. This is how the staging deployment (#23) points the client at the staging backend.
+- Deployed builds: set `EXPO_PUBLIC_API_BASE_URL` at build time; it overrides `app.json`. This is how the staging deployment (#22) points the client at the staging backend.
 
 ## Check and build
 

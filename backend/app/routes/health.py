@@ -1,4 +1,4 @@
-"""Health check endpoint used by the client, CI and the staging deployment (#23)."""
+"""Health check endpoint used by the client, CI and the staging deployment (#22)."""
 
 from __future__ import annotations
 
