@@ -19,3 +19,29 @@ def test_unknown_route_is_404():
     client = app.test_client()
 
     assert client.get("/api/does-not-exist").status_code == 404
+
+
+def test_cors_allows_each_origin_in_a_comma_separated_list():
+    app = create_app({"TESTING": True, "CORS_ORIGINS": "https://a.example, https://b.example"})
+    client = app.test_client()
+
+    for origin in ("https://a.example", "https://b.example"):
+        response = client.get("/api/health", headers={"Origin": origin})
+        assert response.headers.get("Access-Control-Allow-Origin") == origin
+
+
+def test_cors_rejects_origin_not_in_list():
+    app = create_app({"TESTING": True, "CORS_ORIGINS": "https://a.example"})
+    client = app.test_client()
+
+    response = client.get("/api/health", headers={"Origin": "https://evil.example"})
+    assert "Access-Control-Allow-Origin" not in response.headers
+
+
+def test_cors_wildcard_allows_any_origin():
+    app = create_app({"TESTING": True, "CORS_ORIGINS": "*"})
+    client = app.test_client()
+
+    response = client.get("/api/health", headers={"Origin": "https://anything.example"})
+    # flask-cors answers a wildcard either literally or by echoing the request origin
+    assert response.headers.get("Access-Control-Allow-Origin") in ("*", "https://anything.example")

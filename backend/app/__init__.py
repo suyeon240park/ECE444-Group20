@@ -26,7 +26,23 @@ def create_app(test_config: dict | None = None) -> Flask:
     if test_config:
         app.config.update(test_config)
 
-    CORS(app, origins=app.config["CORS_ORIGINS"])
+    CORS(app, origins=parse_origins(app.config["CORS_ORIGINS"]))
 
     app.register_blueprint(health_bp, url_prefix="/api")
     return app
+
+
+def parse_origins(value: str | list[str]) -> str | list[str]:
+    """Turn the CORS_ORIGINS setting into what flask-cors expects.
+
+    ``"*"`` stays a wildcard. A comma-separated string such as
+    ``"https://a.example, https://b.example"`` becomes a list of exact origins;
+    flask-cors treats a plain string as a single origin, so passing the raw
+    value through would match nothing.
+    """
+    if isinstance(value, list):
+        return value
+    value = value.strip()
+    if value == "*" or value == "":
+        return "*"
+    return [origin.strip() for origin in value.split(",") if origin.strip()]
