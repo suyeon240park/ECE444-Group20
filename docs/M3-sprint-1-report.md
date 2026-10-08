@@ -57,12 +57,12 @@ The team plans three sprints:
 
 | Issue | Task | Owner | Est. hours | Status |
 |---|---|---|---|---|
-| #19 | Set up project skeleton, CI pipeline and development environment | Frank | 6–8 | In review (PR #24, CI green) |
+| #19 | Set up project skeleton, CI pipeline and development environment | Frank | 6–8 | Done (PR #24 merged Oct 8) |
 | #23 | Add README, CONTRIBUTING, Code of Conduct and project-management links | Frank | 3–5 | Done (PR #21 merged) |
 | #16 | Prototype Nutrition Facts extraction with a vision-model API (time-boxed) | Frank | 5 | Not started |
 | #22 | Set up staging deployment and environment configuration | Frank | 5–8 | Not started, depends on #19 |
-| #20 | Define product data model and client–backend API contract | Suyeon | 4–6 | [status] |
-| #14 | Integrate Open Food Facts product lookup | Suyeon | 6–8 | [status] |
+| #20 | Define product data model and client–backend API contract | Suyeon | 4–6 | In review (PR #25 approved by Frank, CI green) [update] |
+| #14 | Integrate Open Food Facts product lookup | Suyeon | 6–8 | In progress [update] |
 | #13 | Implement product image upload and barcode detection | Eyad | 6–10 | [status] |
 | #21 | Validate Open Food Facts coverage and field completeness for Canadian products | Alex | 5–8 | [status] |
 | #15 | Handle complete, incomplete and missing product-database results | Alex | 5–8 | [status], depends on #14 |
@@ -70,9 +70,9 @@ The team plans three sprints:
 **What was delivered** [update before submission]
 
 - Repository documents: README with a project-management section, CONTRIBUTING, Code of Conduct (PR #21).
-- Project skeleton (PR #24): Flask backend with a health endpoint and tests, Expo client whose home screen calls the backend, CI running lint, tests, typecheck and a web build on every pull request, Docker Compose for a local PostgreSQL, fixtures folder for the Q1 benchmark, setup instructions for web and phone.
+- Project skeleton (PR #24, merged Oct 8): Flask backend with a health endpoint and tests, Expo client whose home screen calls the backend, CI running lint, tests, typecheck and a web build on every pull request, Docker Compose for a local PostgreSQL, fixtures folder for the Q1 benchmark, setup instructions for web and phone.
 - Backlog: all seven stories and all sprint-1 tasks on the board with priorities, sprint assignment and owners.
-- [Suyeon: #20, #14 outcome]
+- Product data model and client–backend API contract (PR #25): `GET /api/products/{barcode}` response states, OpenAPI spec, Python model with tests that keep the spec and the model in sync, Open Food Facts field mapping. [Suyeon: update when merged; add #14 outcome]
 - [Eyad: #13 outcome]
 - [Alex: #21 coverage result, #15 outcome]
 
@@ -138,13 +138,13 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 **Sprint 2**
 
-| Task | Estimated time (hours) |
-|---|---|
-| [Sprint 2 task, e.g. orchestration pipeline] | [ ] |
-| [Sprint 2 task, e.g. automated tests for nutrition and ingredient features] | [ ] |
-| Decide on the photo fallback; revise Q1 and requirements document if deferred | 2 |
-| Review team-member pull requests timely and thoroughly | 3 |
-| Participate actively in common team duties | 2 |
+| Task | Estimated time (hours) | Actual time (hours) |
+|---|---|---|
+| [Sprint 2 task, e.g. orchestration pipeline] | [ ] |  |
+| [Sprint 2 task, e.g. automated tests for nutrition and ingredient features] | [ ] |  |
+| Decide on the photo fallback; revise Q1 and requirements document if deferred | 2 |  |
+| Review team-member pull requests timely and thoroughly | 3 |  |
+| Participate actively in common team duties | 2 |  |
 
 ### 3.2 Park's tasks
 
@@ -160,11 +160,11 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 **Sprint 2**
 
-| Task | Estimated time (hours) |
-|---|---|
-| [ ] | [ ] |
-| Review team-member pull requests timely and thoroughly | [ ] |
-| Participate actively in common team duties | [ ] |
+| Task | Estimated time (hours) | Actual time (hours) |
+|---|---|---|
+| [ ] | [ ] |  |
+| Review team-member pull requests timely and thoroughly | [ ] |  |
+| Participate actively in common team duties | [ ] |  |
 
 ### 3.3 Ahmed's tasks
 
@@ -179,11 +179,11 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 **Sprint 2**
 
-| Task | Estimated time (hours) |
-|---|---|
-| [ ] | [ ] |
-| Review team-member pull requests timely and thoroughly | [ ] |
-| Participate actively in common team duties | [ ] |
+| Task | Estimated time (hours) | Actual time (hours) |
+|---|---|---|
+| [ ] | [ ] |  |
+| Review team-member pull requests timely and thoroughly | [ ] |  |
+| Participate actively in common team duties | [ ] |  |
 
 ### 3.4 An's tasks
 
@@ -198,11 +198,11 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 **Sprint 2**
 
-| Task | Estimated time (hours) |
-|---|---|
-| [ ] | [ ] |
-| Review team-member pull requests timely and thoroughly | [ ] |
-| Participate actively in common team duties | [ ] |
+| Task | Estimated time (hours) | Actual time (hours) |
+|---|---|---|
+| [ ] | [ ] |  |
+| Review team-member pull requests timely and thoroughly | [ ] |  |
+| Participate actively in common team duties | [ ] |  |
 
 ---
 
