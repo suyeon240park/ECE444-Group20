@@ -125,13 +125,14 @@ CI runs exactly these commands. Details for each part are in [backend/README.md]
 
 ```
 .
-├── backend/                     Flask API: app/ (factory + route blueprints), tests/, wsgi.py
+├── backend/                     Flask API: app/ (factory, route blueprints, models), tests/, wsgi.py
 ├── client/                      Expo app: App.tsx, src/ (api.ts and future screens), assets/
 ├── tests/
 │   └── fixtures/
 │       └── nutrition_labels/    benchmark photos and ground truth for requirement Q1 (#17)
 ├── docs/
-│   └── requirements.md          project goal, stakeholders, scope, selected requirements
+│   ├── requirements.md          project goal, stakeholders, scope, selected requirements
+│   └── api/                     client–backend API contract: openapi.yaml + README.md (#20)
 ├── .github/workflows/ci.yml     backend lint + tests, client typecheck + web build
 ├── docker-compose.yml           local PostgreSQL
 ├── README.md                    this file
@@ -144,6 +145,7 @@ CI runs exactly these commands. Details for each part are in [backend/README.md]
 ## Documentation
 
 - [Requirements](docs/requirements.md)
+- [Product API contract](docs/api/README.md)
 - [Team Workflow Document](Team_Workflow_Document.md)
 - [Team members](team_members.md)
 - [Contributing guide](CONTRIBUTING.md)

@@ -24,7 +24,7 @@ ruff check .
 ruff format --check .
 ```
 
-CI runs the same three commands on every pull request.
+CI runs the same three commands on every pull request. `pytest` also measures coverage of `app/` and fails below 80% (configured in `pyproject.toml`).
 
 ## Layout
 
@@ -32,8 +32,9 @@ CI runs the same three commands on every pull request.
 backend/
 ├── app/
 │   ├── __init__.py      create_app() factory; reads configuration from the environment
+│   ├── models/          data models; product.py is the code form of docs/api/ (#20)
 │   └── routes/          one blueprint module per API area (health.py today)
-├── tests/               pytest tests, one file per route module
+├── tests/               pytest tests, one file per route or model module
 ├── wsgi.py              entry point for `flask run` and gunicorn
 ├── requirements.txt     runtime dependencies
 ├── requirements-dev.txt runtime + test + lint dependencies
@@ -50,3 +51,7 @@ backend/
 ## Database
 
 PostgreSQL is planned for the product cache and the ingredient knowledge base (#14, #27). A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
+
+## Product data model
+
+`app/models/product.py` implements the product contract in [`docs/api/`](../docs/api/README.md). Build product responses from these classes and serialize them with `to_dict()`; never assemble the JSON by hand. `tests/test_contract_examples.py` fails if the examples in `docs/api/openapi.yaml` and the model's output differ, so update both together.

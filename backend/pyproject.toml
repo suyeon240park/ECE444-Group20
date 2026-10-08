@@ -8,3 +8,5 @@ select = ["E", "F", "I", "B", "UP"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# CI runs plain `pytest`, so this is where the coverage gate is enforced.
+addopts = "--cov=app --cov-report=term-missing --cov-fail-under=80"
