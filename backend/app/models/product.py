@@ -103,15 +103,16 @@ CANONICAL_UNITS: dict[str, str] = {
 
 QUANTITY_UNITS: tuple[str, ...] = ("g", "ml")
 
-# EAN-8, UPC-A (12), EAN-13 and GTIN-14, digits only.
-BARCODE_PATTERN = re.compile(r"^\d{8,14}$")
+# EAN-8, UPC-A (12), EAN-13 and GTIN-14: ASCII digits only (``\d`` would also match
+# other scripts' digits, and ``$`` would accept a trailing newline).
+BARCODE_PATTERN = re.compile(r"[0-9]{8,14}")
 
 _DATABASE_SOURCES = {Source.OPEN_FOOD_FACTS}
 _OCR_CERTAINTIES = {Certainty.CONFIDENT, Certainty.UNCERTAIN}
 
 
 def is_valid_barcode(value: str) -> bool:
-    return bool(BARCODE_PATTERN.match(value))
+    return BARCODE_PATTERN.fullmatch(value) is not None
 
 
 def _check_source_certainty(source: Source, certainty: Certainty) -> None:
