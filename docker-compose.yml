@@ -1,0 +1,17 @@
+# Local development services. Start with:  docker compose up db
+# The backend and client run directly on your machine (see their READMEs); only the
+# database is containerised so that everyone has the same PostgreSQL version.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: wimf
+      POSTGRES_PASSWORD: wimf
+      POSTGRES_DB: wimf
+    ports:
+      - "5432:5432"
+    volumes:
+      - wimf-db:/var/lib/postgresql/data
+
+volumes:
+  wimf-db:
