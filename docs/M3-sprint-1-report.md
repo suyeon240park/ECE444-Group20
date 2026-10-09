@@ -42,8 +42,8 @@ The team plans three sprints:
 | Sprint | Dates | Goal |
 |---|---|---|
 | 1 | October 5 – October 9 | A deployed skeleton where a user can submit a product image, detect its barcode, retrieve normalized Open Food Facts data, and receive sensible complete/partial/not-found states. |
-| 2 | [start] – [end] | Turn retrieved product data into the actual user-facing product: whole-package nutrition, nutrient explanations, ingredient analysis, and one integrated results experience. |
-| 3 | [start] – [end] | Quality validation and release: performance, usability, end-to-end tests, defect fixes, final deployment. |
+| 2 | October 10 – October 23 | Turn retrieved product data into the actual user-facing product: whole-package nutrition, nutrient explanations, ingredient analysis, and one integrated results experience. |
+| 3 | October 24 – [week 10 deadline, mid-November] | Quality validation and release: performance, usability, end-to-end tests, defect fixes, final deployment. |
 
 ### 2.2 Sprint 1 summary
 
@@ -147,14 +147,14 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 | Task | Estimated time (hours) | Actual time (hours) |
 |---|---|---|
-| #19 Set up project skeleton, CI pipeline and development environment (including review fixes) | 7 | [ ] |
-| #23 Write README, CONTRIBUTING and Code of Conduct * | 4 | [ ] |
-| #16 Vision-model Nutrition Facts extraction prototype (time-boxed) | 5 | [ ] |
+| #19 Set up project skeleton, CI pipeline and development environment (including review fixes) | 7 | 1.5 |
+| #23 Write README, CONTRIBUTING and Code of Conduct * | 4 | 1 |
+| #16 Vision-model Nutrition Facts extraction prototype (time-boxed) | 5 | 2.5 |
 | #22 Staging deployment and environment configuration | 6 | [ ] (in progress) |
-| Set up and sort the backlog on the project board (stories, priorities, sprints) | 2 | [ ] |
-| Draft this sprint report | 2 | [ ] |
-| Review team-member pull requests timely and thoroughly (PR #25, PR #26) | 2 | [ ] |
-| Participate actively in common team duties (meetings, planning, Discord coordination) | 2 | [ ] |
+| Set up and sort the backlog on the project board (stories, priorities, sprints) | 2 | 1.5 |
+| Draft this sprint report | 2 | 2 |
+| Review team-member pull requests timely and thoroughly (PR #25, PR #26) | 2 | 0.5 |
+| Participate actively in common team duties (meetings, planning, Discord coordination) | 2 | 1.5 |
 
 \* The documents were written on October 4, before the sprint-planning estimates existed; this estimate comes from the planning table of October 5.
 
