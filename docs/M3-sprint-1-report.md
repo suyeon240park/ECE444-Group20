@@ -50,7 +50,7 @@ The team plans three sprints:
 
 - **Three sprints**, with the breakdown above, agreed on October 5.
 - **Tech stack:** React Native with Expo (TypeScript) for one client codebase covering web, iOS and Android; Python with Flask for the backend; PostgreSQL; Open Food Facts as the product-data source; GitHub Actions for CI.
-- **Photo fallback:** the OCR-library approach was dropped. Nutrition Facts extraction from a photo will be prototyped with a vision-model API instead (#16, which originally described OCR), time-boxed to 5 hours. The team decides at the end of sprint 1, using the Open Food Facts lookup results (#14), the coverage check and the prototype result, whether the photo fallback stays in scope. If it is deferred, requirement Q1 is revised through the normal review process. The OCR benchmark (#17) and the accuracy check (#18) wait for that decision. The prototype result (October 8): `gemini-3.5-flash` read all 166 printed fields on 10 test photos correctly, in about 7 seconds per photo, on Google's free tier; the recommendation posted in #16 is to keep the photo fallback, with user confirmation of photo values and the 50-photo benchmark (#17) as conditions.
+- **Photo path:** the OCR-library approach was dropped. Nutrition Facts extraction from a photo will be prototyped with a vision-model API instead (#16, which originally described OCR), time-boxed to 5 hours. The prototype (October 8) settled it: `gemini-3.5-flash` read all 166 printed fields on 10 test photos correctly, in about 7 seconds per photo, on Google's free tier. **The photo path stays in scope**, using that model. Q1 is unchanged; its 50-photo benchmark (#17) and user confirmation of photo values are sprint 2 work, and the automated accuracy check (#18) follows in sprint 3.
 - **Product API contract:** the client–backend contract for `GET /api/products/{barcode}` was agreed in #20 (PR #25), so the barcode, lookup and photo tasks can be built in parallel against one response shape. Missing data is always `null`, never zero or a guess, and "not found" is kept separate from "lookup failed".
 - **Sprint 2 assignment:** owners for sprint 2 tasks are assigned after sprint 1 closes (agreed October 7), once it is clear what carries over.
 - **Process:** tasks are tracked on GitHub Projects instead of the Jira named in the original workflow document. README, CONTRIBUTING and Code of Conduct were added to the repository. A repository ruleset (added October 6, limited to `main` on October 8) requires a pull request with one approval and resolved review conversations before merging.
@@ -85,7 +85,7 @@ The team plans three sprints:
 - **The work was more sequential than the plan suggested.** #13, #14 and #15 all depended on the skeleton (#19), which merged on October 8, so the dependent tasks had about one day of sprint 1 left. Next time the skeleton should land in the first two days, and dependent work should start against mocks.
 - **Review caught two real defects before merge.** The CORS setting ignored comma-separated origin lists, and the npm lockfile pointed at a personal mirror registry from one member's global npm configuration. Both were fixed in PR #24; the client now pins the official registry in `client/.npmrc`.
 - **Issue numbers were planned before the issues existed.** The planning table used predicted numbers that collided with pull requests (#21, #24, #25), and one extra issue had to be repurposed. Issues are now created first and referenced by their real numbers.
-- **The coverage check was planned but never created as an issue**, so it has not started and the photo-fallback decision lacks its data.
+- **The coverage check was planned but never created as an issue**, so it has not started, and we do not yet know how often users will need the photo path.
 - **Expo Go now requires an Expo account** on both the computer and the phone, which added setup steps for phone testing. The steps are in `client/README.md`.
 - **The repository ruleset first applied to every branch**, so nobody could push follow-up commits to their own working branch and merges waited on a code-scanning check that was never set up. It was limited to `main` on October 8.
 - **Vision-model availability changed under us.** The planned `gemini-2.5-flash` is closed to new API keys, and the newest `gemini-3.8-flash` failed every request (overloaded, then out of free quota). The prototype uses `gemini-3.5-flash`; the model name is a setting, so a later switch is a configuration change plus one benchmark run.
@@ -117,19 +117,18 @@ The team plans three sprints:
 | Build integrated product analysis / results page | #2, #3, #9 | Frontend / full-stack | 10–14 | ingredient UI, orchestration | [ ] |
 | Implement loading, partial-data, empty and error states | #10, #2, #3, #9 | Frontend | 5–8 | results page | [ ] |
 | Add automated tests for nutrition and ingredient features | #2, #3, #9 | Testing | 8–12 | orchestration, results page | [ ] |
-| Decision: keep or defer the photo fallback; if deferred, revise Q1 and update `docs/requirements.md` | #4, #10 | Requirements | 2 | #16 (done), coverage check | Frank |
+| Build the 50-photo Nutrition Facts benchmark; a second teammate checks the ground truth (#17) | #4 | Testing / data | [ ] | #16 | [ ] |
+| Photo endpoint that reads a label photo with the #16 extraction | #10, #4 | Backend | [ ] | #16, #15 | [ ] |
+| Screen where the user confirms photo values before they are used (Q1 safe-use rule) | #4, #10 | Frontend | [ ] | photo endpoint | [ ] |
 
 Likely carried over from sprint 1 (confirm when sprint 1 closes): #13 image upload and barcode detection, #15 completeness and fallback routing, #22 staging deployment, the coverage check, and #14 if not finished. [update]
-
-If the team keeps the photo fallback, sprint 2 also needs: the 50-photo benchmark with a second teammate checking the ground truth (#17), a photo endpoint that uses the #16 extraction, and a screen where the user confirms photo values before they are used (Q1's safe-use rule). The automated accuracy check in CI (#18) can stay in sprint 3.
-
 **Risks for sprint 2**
 
 - **Carry-over.** Several sprint-1 tasks move into sprint 2 and will compete with the planned features. The barcode → lookup path (#13, #14, #15) has to finish first, since every sprint-2 feature consumes its data.
 - **The ingredient knowledge base** is the largest and least predictable piece of work (two tasks, 20–30 hours combined). It should start on day one of the sprint.
 - **Late integration.** The orchestration pipeline and the results page depend on all three features, so integration problems will surface late. Mitigation: build the results page early against the example responses in the #20 contract.
 - **Open Food Facts rate limit** of 15 product reads per minute per IP. Product caching must be in place before user testing.
-- If the photo fallback is deferred, Q1 needs a replacement quality requirement to keep three in scope.
+- **Photo accuracy rests on 10 photos** until the 50-photo benchmark (#17) runs. If it falls below Q1's 95% target, the extraction prompt or model has to change before the photo path ships.
 
 ---
 
@@ -160,7 +159,6 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 |---|---|---|
 | [Sprint 2 task, e.g. orchestration pipeline] | [ ] |  |
 | [Sprint 2 task, e.g. automated tests for nutrition and ingredient features] | [ ] |  |
-| Decide on the photo fallback; revise Q1 and requirements document if deferred | 2 |  |
 | Review team-member pull requests timely and thoroughly | 3 |  |
 | Participate actively in common team duties | 2 |  |
 
