@@ -14,6 +14,25 @@ def test_health_returns_ok():
     assert body["commit"] == "abc123"
 
 
+def test_health_reports_render_commit_unless_git_commit_is_set(monkeypatch):
+    monkeypatch.delenv("GIT_COMMIT", raising=False)
+    monkeypatch.setenv("RENDER_GIT_COMMIT", "f00dfeed")
+    assert create_app({"TESTING": True}).test_client().get("/api/health").get_json()["commit"] == (
+        "f00dfeed"
+    )
+
+    monkeypatch.setenv("GIT_COMMIT", "abc123")
+    assert create_app({"TESTING": True}).test_client().get("/api/health").get_json()["commit"] == (
+        "abc123"
+    )
+
+    monkeypatch.delenv("GIT_COMMIT")
+    monkeypatch.delenv("RENDER_GIT_COMMIT")
+    assert create_app({"TESTING": True}).test_client().get("/api/health").get_json()["commit"] == (
+        "dev"
+    )
+
+
 def test_unknown_route_is_404():
     app = create_app({"TESTING": True})
     client = app.test_client()

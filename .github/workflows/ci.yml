@@ -40,3 +40,27 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run build:web
+
+  # Staging (#22): after both jobs pass on main, tell Render to deploy exactly this
+  # commit. The two deploy-hook URLs are repository secrets; see docs/deployment.md.
+  deploy-staging:
+    name: Deploy staging
+    needs: [backend, client]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
+    steps:
+      - name: Trigger Render deploys
+        env:
+          BACKEND_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
+          CLIENT_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_CLIENT }}
+        run: |
+          if [ -z "$BACKEND_HOOK" ] || [ -z "$CLIENT_HOOK" ]; then
+            echo "::warning::Render deploy hooks are not configured; staging was not deployed."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$BACKEND_HOOK&ref=$GITHUB_SHA" > /dev/null
+          curl --fail --silent --show-error -X POST "$CLIENT_HOOK&ref=$GITHUB_SHA" > /dev/null
+          echo "Requested staging deploys of $GITHUB_SHA"

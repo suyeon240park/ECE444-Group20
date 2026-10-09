@@ -12,6 +12,17 @@ export const API_BASE_URL: string =
   (Constants.expoConfig?.extra?.apiBaseUrl as string | undefined) ??
   'http://localhost:5000';
 
+/**
+ * Commit the client was built from. The staging build sets EXPO_PUBLIC_GIT_COMMIT
+ * from Render's RENDER_GIT_COMMIT (#22); local builds show "dev".
+ */
+export const CLIENT_COMMIT: string = process.env.EXPO_PUBLIC_GIT_COMMIT || 'dev';
+
+/** First 7 characters of a commit hash, the length GitHub shows. */
+export function shortCommit(commit: string): string {
+  return /^[0-9a-f]{8,}$/i.test(commit) ? commit.slice(0, 7) : commit;
+}
+
 export type HealthResponse = {
   status: string;
   service: string;

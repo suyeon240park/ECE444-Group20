@@ -20,7 +20,8 @@ def create_app(test_config: dict | None = None) -> Flask:
     app.config.update(
         ENV=os.getenv("FLASK_ENV", "production"),
         DATABASE_URL=os.getenv("DATABASE_URL", ""),
-        GIT_COMMIT=os.getenv("GIT_COMMIT", "dev"),
+        # Render sets RENDER_GIT_COMMIT on every deploy (#22); GIT_COMMIT overrides it.
+        GIT_COMMIT=os.getenv("GIT_COMMIT") or os.getenv("RENDER_GIT_COMMIT") or "dev",
         CORS_ORIGINS=os.getenv("CORS_ORIGINS", "*"),
     )
     if test_config:

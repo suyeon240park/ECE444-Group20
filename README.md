@@ -11,6 +11,7 @@ ECE444 Software Engineering, University of Toronto, Fall 2026 · Group 20, Team 
 - [Project management](#project-management)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
+- [Staging](#staging)
 - [Repository layout](#repository-layout)
 - [Documentation](#documentation)
 - [Team](#team)
@@ -43,7 +44,7 @@ Deferred this semester: personalised allergen flagging ([#7](https://github.com/
 
 ## Project management
 
-The repository and the project board are private. The links below work for team members, the instructor and the TAs.
+The repository is public. The project board is private; its link works for team members, the instructor and the TAs.
 
 | Purpose | Tool | Link |
 |---|---|---|
@@ -51,7 +52,8 @@ The repository and the project board are private. The links below work for team 
 | User stories, requirements review and implementation tasks | GitHub Issues | https://github.com/suyeon240park/ECE444-Group20/issues |
 | Code review and merging | GitHub Pull Requests | https://github.com/suyeon240park/ECE444-Group20/pulls |
 | Version control | Git and GitHub | https://github.com/suyeon240park/ECE444-Group20 |
-| Continuous integration (planned) | GitHub Actions | https://github.com/suyeon240park/ECE444-Group20/actions |
+| Continuous integration and staging deploys | GitHub Actions | https://github.com/suyeon240park/ECE444-Group20/actions |
+| Staging hosting | Render (free tier) | see [Staging](#staging) |
 | Day-to-day communication | Discord (private team server) | not public |
 | Scheduling meetings | When2Meet | https://www.when2meet.com/ |
 | Meeting minutes | AI notetaker in team meetings, corrected by hand when needed | not public |
@@ -75,6 +77,7 @@ Set up in sprint 1 (issue #19).
 | Product data | Open Food Facts API | Free, open, queried by barcode |
 | Nutrition Facts extraction | Vision-model API prototype (#16); decision at the end of sprint 1 | Must meet requirement Q1 |
 | Tests and CI | pytest and ruff for the backend, TypeScript and an Expo web build for the client, GitHub Actions | Runs on every pull request and on `main` |
+| Staging hosting | Render free tier: backend as a web service, Expo web build as a static site (#22) | Free, builds from the public repository, and CI can trigger deploys through deploy hooks |
 
 ## Getting started
 
@@ -121,6 +124,15 @@ cd client && npm run typecheck && npm run build:web
 
 CI runs exactly these commands. Details for each part are in [backend/README.md](backend/README.md) and [client/README.md](client/README.md).
 
+## Staging
+
+The latest `main` runs on Render's free tier (#22):
+
+- App: [STAGING_APP_URL]
+- Backend health check: [STAGING_API_URL]/api/health
+
+A merge to `main` is deployed automatically once CI passes. The home screen shows the commit of the app build and of the backend, so you can check that staging is up to date. The backend sleeps after 15 minutes without traffic, so the first request after a quiet period takes about a minute. Setup, settings and limits: [docs/deployment.md](docs/deployment.md).
+
 ## Repository layout
 
 ```
@@ -132,8 +144,9 @@ CI runs exactly these commands. Details for each part are in [backend/README.md]
 │       └── nutrition_labels/    benchmark photos and ground truth for requirement Q1 (#17)
 ├── docs/
 │   ├── requirements.md          project goal, stakeholders, scope, selected requirements
+│   ├── deployment.md            staging on Render: setup, settings, limits (#22)
 │   └── api/                     client–backend API contract: openapi.yaml + README.md (#20)
-├── .github/workflows/ci.yml     backend lint + tests, client typecheck + web build
+├── .github/workflows/ci.yml     backend lint + tests, client typecheck + web build, staging deploy
 ├── docker-compose.yml           local PostgreSQL
 ├── README.md                    this file
 ├── CONTRIBUTING.md              how we branch, review and merge
@@ -146,6 +159,7 @@ CI runs exactly these commands. Details for each part are in [backend/README.md]
 
 - [Requirements](docs/requirements.md)
 - [Product API contract](docs/api/README.md)
+- [Staging deployment](docs/deployment.md)
 - [Team Workflow Document](Team_Workflow_Document.md)
 - [Team members](team_members.md)
 - [Contributing guide](CONTRIBUTING.md)

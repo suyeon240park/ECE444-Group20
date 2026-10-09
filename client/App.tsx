@@ -2,7 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { API_BASE_URL, fetchHealth, type HealthResponse } from './src/api';
+import {
+  API_BASE_URL,
+  CLIENT_COMMIT,
+  fetchHealth,
+  shortCommit,
+  type HealthResponse,
+} from './src/api';
 
 type BackendState =
   | { kind: 'loading' }
@@ -30,11 +36,13 @@ export default function App() {
         {backend.kind === 'loading' && <Text>Checking…</Text>}
         {backend.kind === 'ok' && (
           <Text style={styles.ok}>
-            {backend.health.status} · {backend.health.service} · {backend.health.commit}
+            {backend.health.status} · {backend.health.service} · {shortCommit(backend.health.commit)}
           </Text>
         )}
         {backend.kind === 'error' && <Text style={styles.error}>Unreachable: {backend.message}</Text>}
       </View>
+
+      <Text style={styles.version}>App build {shortCommit(CLIENT_COMMIT)}</Text>
 
       <StatusBar style="auto" />
     </View>
@@ -64,4 +72,5 @@ const styles = StyleSheet.create({
   label: { fontWeight: '500' },
   ok: { color: '#1b7f3b' },
   error: { color: '#b3261e' },
+  version: { color: '#888', fontSize: 12 },
 });
