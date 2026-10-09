@@ -50,10 +50,10 @@ The team plans three sprints:
 
 - **Three sprints**, with the breakdown above, agreed on October 5.
 - **Tech stack:** React Native with Expo (TypeScript) for one client codebase covering web, iOS and Android; Python with Flask for the backend; PostgreSQL; Open Food Facts as the product-data source; GitHub Actions for CI.
-- **Photo fallback:** the OCR-library approach was dropped. Nutrition Facts extraction from a photo will be prototyped with a vision-model API instead (#16, which originally described OCR), time-boxed to 5 hours. The team decides at the end of sprint 1, using the Open Food Facts lookup results (#14), the coverage check and the prototype result, whether the photo fallback stays in scope. If it is deferred, requirement Q1 is revised through the normal review process. The OCR benchmark (#17) and the accuracy check (#18) wait for that decision.
+- **Photo fallback:** the OCR-library approach was dropped. Nutrition Facts extraction from a photo will be prototyped with a vision-model API instead (#16, which originally described OCR), time-boxed to 5 hours. The team decides at the end of sprint 1, using the Open Food Facts lookup results (#14), the coverage check and the prototype result, whether the photo fallback stays in scope. If it is deferred, requirement Q1 is revised through the normal review process. The OCR benchmark (#17) and the accuracy check (#18) wait for that decision. The prototype result (October 8): `gemini-3.5-flash` read all 166 printed fields on 10 test photos correctly, in about 7 seconds per photo, on Google's free tier; the recommendation posted in #16 is to keep the photo fallback, with user confirmation of photo values and the 50-photo benchmark (#17) as conditions.
 - **Product API contract:** the client–backend contract for `GET /api/products/{barcode}` was agreed in #20 (PR #25), so the barcode, lookup and photo tasks can be built in parallel against one response shape. Missing data is always `null`, never zero or a guess, and "not found" is kept separate from "lookup failed".
 - **Sprint 2 assignment:** owners for sprint 2 tasks are assigned after sprint 1 closes (agreed October 7), once it is clear what carries over.
-- **Process:** tasks are tracked on GitHub Projects instead of the Jira named in the original workflow document. README, CONTRIBUTING and Code of Conduct were added to the repository. A repository ruleset (added October 6) requires a pull request with one approval and resolved review conversations before merging.
+- **Process:** tasks are tracked on GitHub Projects instead of the Jira named in the original workflow document. README, CONTRIBUTING and Code of Conduct were added to the repository. A repository ruleset (added October 6, limited to `main` on October 8) requires a pull request with one approval and resolved review conversations before merging.
 
 **Sprint 1 tasks and status** (as of October 8; owners update their rows before submission)
 
@@ -61,10 +61,10 @@ The team plans three sprints:
 |---|---|---|---|---|
 | #19 | Set up project skeleton, CI pipeline and development environment | Frank | 6–8 | Done (PR #24, merged October 8) |
 | #23 | Add README, CONTRIBUTING, Code of Conduct and project-management links | Frank | 3–5 | Done (PR #21, merged October 6) |
-| #16 | Prototype Nutrition Facts extraction with a vision-model API (time-boxed) | Frank | 5 | Not started; needs an API provider and key [update] |
+| #16 | Prototype Nutrition Facts extraction with a vision-model API (time-boxed) | Frank | 5 | In review: PR #27 opened October 8; results and recommendation posted in #16 |
 | #22 | Set up staging deployment and environment configuration | Frank | 5–8 | Not started; unblocked since #19 merged, needs a hosting choice [update] |
-| #20 | Define product data model and client–backend API contract | Suyeon | 4–6 | In review: PR #25 approved October 8, CI green [update when merged] |
-| #14 | Integrate Open Food Facts product lookup | Suyeon | 6–8 | In progress [update] |
+| #20 | Define product data model and client–backend API contract | Suyeon | 4–6 | Done (PR #25, merged October 8) |
+| #14 | Integrate Open Food Facts product lookup | Suyeon | 6–8 | In review: PR #26 opened October 8 [update] |
 | #13 | Implement product image upload and barcode detection | Eyad | 6–10 | Not started as of October 8 [update] |
 | — | Validate Open Food Facts coverage and field completeness for Canadian products (no issue created yet) | Alex | 5–8 | Not started [update] |
 | #15 | Database completeness and fallback routing (complete / incomplete / missing results) | Alex | 5–8 | Not started; depends on #14 [update] |
@@ -73,7 +73,8 @@ The team plans three sprints:
 
 - Repository documents: README with a project-management section, CONTRIBUTING, Code of Conduct (PR #21).
 - Project skeleton (PR #24, merged October 8): Flask backend with a health endpoint and tests, Expo client for web, iOS and Android whose home screen calls the backend, CI running lint, tests, typecheck and a web build on every pull request, Docker Compose for a local PostgreSQL, fixtures folder for the Q1 benchmark, setup instructions for web and phone (Expo Go). Review feedback fixed before merge: comma-separated CORS origins, npm lockfile regenerated against the official registry.
-- Product data model and client–backend API contract (PR #25, approved October 8): `GET /api/products/{barcode}` with distinct states for found, incomplete, invalid barcode, not found, upstream failure and timeout; OpenAPI spec; Python model with tests that keep the spec and the model in sync; Open Food Facts field mapping verified against the live API. [Suyeon: update when merged]
+- Product data model and client–backend API contract (PR #25, merged October 8): `GET /api/products/{barcode}` with distinct states for found, incomplete, invalid barcode, not found, upstream failure and timeout; OpenAPI spec; Python model with tests that keep the spec and the model in sync; Open Food Facts field mapping verified against the live API.
+- Vision-model label extraction prototype (PR #27, in review): a photo of a Nutrition Facts table goes to Google's Gemini API and comes back in the contract's field names, with unreadable values left empty rather than guessed. A benchmark script scores it against hand-transcribed labels under Q1's rules. First 10 benchmark photos and their ground truth added (the start of #17's 50-photo set). Result: `gemini-3.5-flash` 100% (166/166 fields), 6.9 s mean, free tier ($0.017 per photo on the paid tier); the smaller `gemini-3.5-flash-lite` scored 98.2% and misread a sodium %DV.
 - Backlog: all seven selected stories and the sprint-1 tasks on the board, with Priority and Sprint fields and owners.
 - [Suyeon: #14 outcome]
 - [Eyad: #13 outcome]
@@ -86,14 +87,16 @@ The team plans three sprints:
 - **Issue numbers were planned before the issues existed.** The planning table used predicted numbers that collided with pull requests (#21, #24, #25), and one extra issue had to be repurposed. Issues are now created first and referenced by their real numbers.
 - **The coverage check was planned but never created as an issue**, so it has not started and the photo-fallback decision lacks its data.
 - **Expo Go now requires an Expo account** on both the computer and the phone, which added setup steps for phone testing. The steps are in `client/README.md`.
+- **The repository ruleset first applied to every branch**, so nobody could push follow-up commits to their own working branch and merges waited on a code-scanning check that was never set up. It was limited to `main` on October 8.
+- **Vision-model availability changed under us.** The planned `gemini-2.5-flash` is closed to new API keys, and the newest `gemini-3.8-flash` failed every request (overloaded, then out of free quota). The prototype uses `gemini-3.5-flash`; the model name is a setting, so a later switch is a configuration change plus one benchmark run.
 - **Midterms during the sprint** reduced available hours for some members.
 
 **Open questions carried into sprint 2** (from `docs/requirements.md`)
 
 - Open Food Facts coverage for Canadian products: not yet measured (coverage check not started). Findings from #20 so far: Open Food Facts often has an empty `ingredients_text` for Canadian products, and it allows 15 product reads per minute per IP, so #14 needs caching.
 - Where net package quantity comes from when the database lacks it.
-- Hosting and budget for the staging deployment and for the vision-model API.
-- Whether uploaded photos are stored.
+- Hosting and budget for the staging deployment. (Vision-model API: answered by #16. The free tier is enough for development and user testing; the paid tier would cost about $0.017 per photo.)
+- Whether uploaded photos are stored. Related: on the free tier, Google may use the photos sent to the API to improve its products, which the app should state.
 - Photo-path additions to the #20 contract raised in review: a certainty flag on serving size and servings per package (Q1's critical fields), and a "confirmed by user" state for vision-model values.
 
 ### 2.3 Sprint 2 plan
@@ -114,9 +117,11 @@ The team plans three sprints:
 | Build integrated product analysis / results page | #2, #3, #9 | Frontend / full-stack | 10–14 | ingredient UI, orchestration | [ ] |
 | Implement loading, partial-data, empty and error states | #10, #2, #3, #9 | Frontend | 5–8 | results page | [ ] |
 | Add automated tests for nutrition and ingredient features | #2, #3, #9 | Testing | 8–12 | orchestration, results page | [ ] |
-| Decision: keep or defer the photo fallback; if deferred, revise Q1 and update `docs/requirements.md` | #4, #10 | Requirements | 2 | #16, coverage check | Frank |
+| Decision: keep or defer the photo fallback; if deferred, revise Q1 and update `docs/requirements.md` | #4, #10 | Requirements | 2 | #16 (done), coverage check | Frank |
 
-Likely carried over from sprint 1 (confirm when sprint 1 closes): #13 image upload and barcode detection, #15 completeness and fallback routing, #16 vision-model prototype, #22 staging deployment, the coverage check, and #14 if not finished. [update]
+Likely carried over from sprint 1 (confirm when sprint 1 closes): #13 image upload and barcode detection, #15 completeness and fallback routing, #22 staging deployment, the coverage check, and #14 if not finished. [update]
+
+If the team keeps the photo fallback, sprint 2 also needs: the 50-photo benchmark with a second teammate checking the ground truth (#17), a photo endpoint that uses the #16 extraction, and a screen where the user confirms photo values before they are used (Q1's safe-use rule). The automated accuracy check in CI (#18) can stay in sprint 3.
 
 **Risks for sprint 2**
 
