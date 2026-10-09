@@ -62,11 +62,11 @@ The team plans three sprints:
 | #19 | Set up project skeleton, CI pipeline and development environment | Frank | 6–8 | Done (PR #24, merged October 8) |
 | #23 | Add README, CONTRIBUTING, Code of Conduct and project-management links | Frank | 3–5 | Done (PR #21, merged October 6) |
 | #16 | Prototype Nutrition Facts extraction with a vision-model API (time-boxed) | Frank | 5 | In review: PR #27 opened October 8; results and recommendation posted in #16 |
-| #22 | Set up staging deployment and environment configuration | Frank | 5–8 | Not started; unblocked since #19 merged, needs a hosting choice [update] |
+| #22 | Set up staging deployment and environment configuration | Frank | 5–8 | In progress: hosting chosen (Render free tier), code and setup guide on branch `feature/22-staging-deployment`, services being created [update] |
 | #20 | Define product data model and client–backend API contract | Suyeon | 4–6 | Done (PR #25, merged October 8) |
 | #14 | Integrate Open Food Facts product lookup | Suyeon | 6–8 | In review: PR #26 opened October 8 [update] |
 | #13 | Implement product image upload and barcode detection | Eyad | 6–10 | Not started as of October 8 [update] |
-| — | Validate Open Food Facts coverage and field completeness for Canadian products (no issue created yet) | Alex | 5–8 | Not started [update] |
+| #28 | Measure Open Food Facts coverage for Canadian products | Alex | 5–8 | Not started; issue created October 8 [update] |
 | #15 | Database completeness and fallback routing (complete / incomplete / missing results) | Alex | 5–8 | Not started; depends on #14 [update] |
 
 **What was delivered**
@@ -85,7 +85,7 @@ The team plans three sprints:
 - **The work was more sequential than the plan suggested.** #13, #14 and #15 all depended on the skeleton (#19), which merged on October 8, so the dependent tasks had about one day of sprint 1 left. Next time the skeleton should land in the first two days, and dependent work should start against mocks.
 - **Review caught two real defects before merge.** The CORS setting ignored comma-separated origin lists, and the npm lockfile pointed at a personal mirror registry from one member's global npm configuration. Both were fixed in PR #24; the client now pins the official registry in `client/.npmrc`.
 - **Issue numbers were planned before the issues existed.** The planning table used predicted numbers that collided with pull requests (#21, #24, #25), and one extra issue had to be repurposed. Issues are now created first and referenced by their real numbers.
-- **The coverage check was planned but never created as an issue**, so it has not started, and we do not yet know how often users will need the photo path.
+- **The coverage check was planned but not created as an issue until October 8 (#28)**, so it has not started, and we do not yet know how often users will need the photo path.
 - **Expo Go now requires an Expo account** on both the computer and the phone, which added setup steps for phone testing. The steps are in `client/README.md`.
 - **The repository ruleset first applied to every branch**, so nobody could push follow-up commits to their own working branch and merges waited on a code-scanning check that was never set up. It was limited to `main` on October 8.
 - **Vision-model availability changed under us.** The planned `gemini-2.5-flash` is closed to new API keys, and the newest `gemini-3.8-flash` failed every request (overloaded, then out of free quota). The prototype uses `gemini-3.5-flash`; the model name is a setting, so a later switch is a configuration change plus one benchmark run.
@@ -93,9 +93,9 @@ The team plans three sprints:
 
 **Open questions carried into sprint 2** (from `docs/requirements.md`)
 
-- Open Food Facts coverage for Canadian products: not yet measured (coverage check not started). Findings from #20 so far: Open Food Facts often has an empty `ingredients_text` for Canadian products, and it allows 15 product reads per minute per IP, so #14 needs caching.
+- Open Food Facts coverage for Canadian products: not yet measured (#28 not started). Findings from #20 so far: Open Food Facts often has an empty `ingredients_text` for Canadian products, and it allows 15 product reads per minute per IP, so #14 needs caching.
 - Where net package quantity comes from when the database lacks it.
-- Hosting and budget for the staging deployment. (Vision-model API: answered by #16. The free tier is enough for development and user testing; the paid tier would cost about $0.017 per photo.)
+- Hosting and budget: answered. Staging runs on Render's free tier (#22, `docs/deployment.md`); its backend sleeps after 15 minutes idle, so Q2 measurements must warm it first. (Vision-model API: answered by #16. The free tier is enough for development and user testing; the paid tier would cost about $0.017 per photo.)
 - Whether uploaded photos are stored. Related: on the free tier, Google may use the photos sent to the API to improve its products, which the app should state.
 - Photo-path additions to the #20 contract raised in review: a certainty flag on serving size and servings per package (Q1's critical fields), and a "confirmed by user" state for vision-model values.
 
@@ -121,7 +121,7 @@ The team plans three sprints:
 | Photo endpoint that reads a label photo with the #16 extraction | #10, #4 | Backend | [ ] | #16, #15 | [ ] |
 | Screen where the user confirms photo values before they are used (Q1 safe-use rule) | #4, #10 | Frontend | [ ] | photo endpoint | [ ] |
 
-Likely carried over from sprint 1 (confirm when sprint 1 closes): #13 image upload and barcode detection, #15 completeness and fallback routing, #22 staging deployment, the coverage check, and #14 if not finished. [update]
+Likely carried over from sprint 1 (confirm when sprint 1 closes): #13 image upload and barcode detection, #15 completeness and fallback routing, #22 staging deployment, #28 coverage check, and #14 if not finished. [update]
 **Risks for sprint 2**
 
 - **Carry-over.** Several sprint-1 tasks move into sprint 2 and will compete with the planned features. The barcode → lookup path (#13, #14, #15) has to finish first, since every sprint-2 feature consumes its data.
@@ -207,7 +207,7 @@ Each member: one table for sprint 1 with estimated and actual hours, one for spr
 
 | Task | Estimated time (hours) | Actual time (hours) |
 |---|---|---|
-| Validate Open Food Facts coverage and field completeness for Canadian products (no issue yet) | 5–8 | [ ] |
+| #28 Measure Open Food Facts coverage for Canadian products | 5–8 | [ ] |
 | #15 Database completeness and fallback routing | 5–8 | [ ] |
 | Review team-member pull requests timely and thoroughly | [ ] | [ ] |
 | Participate actively in common team duties | [ ] | [ ] |
