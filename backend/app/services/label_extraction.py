@@ -29,7 +29,7 @@ DEFAULT_MODEL = "gemini-3.5-flash"
 DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 
 # Nutrients read from the table, in Canadian Nutrition Facts table order. Same names
-# and units as ALL_NUTRIENTS / CANONICAL_UNITS in app/models/product.py (#20, PR #25).
+# and units as CANONICAL_UNITS in app/models/product.py (#20); a test keeps them in sync.
 NUTRIENT_UNITS: dict[str, str] = {
     "calories": "kcal",
     "total_fat": "g",

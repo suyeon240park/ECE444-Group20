@@ -233,3 +233,9 @@ def test_mime_types(tmp_path: Path):
     assert post.calls[0][1]["json"]["contents"][0]["parts"][0]["inline_data"]["mime_type"] == (
         "image/png"
     )
+
+
+def test_nutrients_match_the_product_contract():
+    from app.models.product import CANONICAL_UNITS
+
+    assert le.NUTRIENT_UNITS == CANONICAL_UNITS
