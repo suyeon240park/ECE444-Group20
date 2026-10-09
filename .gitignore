@@ -5,6 +5,8 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+.coverage
+htmlcov/
 backend/.env
 
 # Node (client); client/.gitignore covers Expo-specific files

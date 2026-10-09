@@ -1,0 +1,460 @@
+openapi: 3.1.0
+info:
+  title: What's in My Food? — Product API
+  version: 0.1.0
+  description: |
+    Contract for product data returned by the backend (#20). Read `README.md` in
+    this folder for the rules behind these shapes: how missing data is represented,
+    sources and certainty, nutrition basis, and when a result is complete.
+
+    Every property is always present. Missing data is `null`, never `0` or `""`.
+    The Python implementation is `backend/app/models/product.py`, and
+    `backend/tests/test_contract_examples.py` checks that the examples below match it.
+servers:
+  - url: /
+    description: The backend itself (http://localhost:5000 in local development)
+# The API has no authentication.
+security: []
+
+paths:
+  /api/products/{barcode}:
+    get:
+      operationId: getProductByBarcode
+      summary: Look up a packaged food by barcode
+      description: |
+        Looks the barcode up in Open Food Facts and returns it in the application's
+        product model. Implemented by #14.
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          description: EAN-8, UPC-A, EAN-13 or GTIN-14, digits only.
+          schema:
+            type: string
+            pattern: "^\\d{8,14}$"
+          example: "3017624010701"
+      responses:
+        "200":
+          description: |
+            Product found. `completeness` says whether it has everything a full
+            analysis needs; `missing_fields` lists what is missing.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResult"
+              examples:
+                complete:
+                  $ref: "#/components/examples/productComplete"
+                incomplete:
+                  $ref: "#/components/examples/productIncomplete"
+                nutritionOnly:
+                  $ref: "#/components/examples/nutritionOnly"
+        "400":
+          description: The barcode is not 8 to 14 digits. No lookup was attempted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                invalidBarcode:
+                  $ref: "#/components/examples/errorInvalidBarcode"
+        "404":
+          description: |
+            The product database has no usable record for this barcode. This is a
+            successful lookup with a negative answer, not a failure. The client
+            should offer the Nutrition Facts photo fallback (F1).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                notFound:
+                  $ref: "#/components/examples/errorProductNotFound"
+        "502":
+          description: |
+            The product database failed or returned something unusable (server
+            error, rate limit, non-JSON body). Whether the product exists is unknown;
+            the client may retry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unavailable:
+                  $ref: "#/components/examples/errorUpstreamUnavailable"
+        "504":
+          description: |
+            The product database did not answer in time. Returned within Q2's
+            10-second limit. Whether the product exists is unknown.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                timeout:
+                  $ref: "#/components/examples/errorUpstreamTimeout"
+
+components:
+  schemas:
+    ProductResult:
+      type: object
+      additionalProperties: false
+      required: [result, completeness, missing_fields, product]
+      properties:
+        result:
+          type: string
+          enum: [product, nutrition_only]
+          description: |
+            `product`: identified by barcode. `nutrition_only`: read from a Nutrition
+            Facts photo without identifying the product (produced by #15). A
+            nutrition-only result must be labelled "Nutrition-only result" (F1).
+        completeness:
+          type: string
+          enum: [complete, incomplete]
+          description: "`complete` exactly when `missing_fields` is empty."
+        missing_fields:
+          type: array
+          description: |
+            Dotted paths into `product` of required data that is missing or uncertain,
+            e.g. `ingredients_text`, `serving.size_text`, `nutrition.basis`,
+            `nutrition.nutrients.fibre`. Empty when complete.
+          items:
+            type: string
+        product:
+          $ref: "#/components/schemas/Product"
+
+    Product:
+      type: object
+      additionalProperties: false
+      required: [barcode, name, brand, ingredients_text, serving, package, nutrition, source]
+      properties:
+        barcode:
+          type: [string, "null"]
+          pattern: "^\\d{8,14}$"
+          description: Canonical barcode as stored by the database. `null` for nutrition-only.
+        name:
+          type: [string, "null"]
+          description: Product name. `null` if unknown and always `null` for nutrition-only.
+        brand:
+          type: [string, "null"]
+          description: Brand(s) as listed by the database, e.g. `"Ferrero"`.
+        ingredients_text:
+          type: [string, "null"]
+          description: |
+            The ingredient list as printed. `null` means not available: show
+            "Not available" and do not run ingredient analysis (F4).
+        serving:
+          $ref: "#/components/schemas/Serving"
+        package:
+          $ref: "#/components/schemas/Package"
+        nutrition:
+          $ref: "#/components/schemas/Nutrition"
+        source:
+          $ref: "#/components/schemas/DataSource"
+
+    Serving:
+      type: object
+      additionalProperties: false
+      required: [size_text, quantity, unit, source]
+      properties:
+        size_text:
+          type: [string, "null"]
+          description: Serving size as printed, e.g. `"6 crackers (30 g)"`.
+        quantity:
+          type: [number, "null"]
+          exclusiveMinimum: 0
+          description: Metric serving quantity, e.g. `30`.
+        unit:
+          type: [string, "null"]
+          enum: [g, ml, null]
+        source:
+          $ref: "#/components/schemas/SourceOrNull"
+
+    Package:
+      type: object
+      additionalProperties: false
+      required: [quantity_text, quantity, unit, servings_per_package, source]
+      properties:
+        quantity_text:
+          type: [string, "null"]
+          description: Net quantity as listed, e.g. `"400 g"`.
+        quantity:
+          type: [number, "null"]
+          exclusiveMinimum: 0
+        unit:
+          type: [string, "null"]
+          enum: [g, ml, null]
+        servings_per_package:
+          type: [number, "null"]
+          exclusiveMinimum: 0
+          description: Only when a source states it. Never estimated by the backend.
+        source:
+          $ref: "#/components/schemas/SourceOrNull"
+
+    Nutrition:
+      type: object
+      additionalProperties: false
+      required: [basis, nutrients]
+      properties:
+        basis:
+          type: [string, "null"]
+          enum: [serving, "100g", "100ml", null]
+          description: |
+            What every value in `nutrients` refers to. One basis per result; values
+            from different bases are never mixed. `null` only when no nutrient is known.
+        nutrients:
+          type: object
+          additionalProperties: false
+          description: |
+            Every key is always present; `null` means not available. Amounts are in
+            each nutrient's canonical unit (kcal for calories, mg for sodium and
+            cholesterol, g otherwise). A `0` amount means the source states zero.
+          required:
+            - calories
+            - total_fat
+            - saturated_fat
+            - sodium
+            - carbohydrate
+            - sugars
+            - fibre
+            - protein
+            - trans_fat
+            - cholesterol
+          properties:
+            calories: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            total_fat: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            saturated_fat: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            sodium: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            carbohydrate: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            sugars: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            fibre: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            protein: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            trans_fat: {$ref: "#/components/schemas/NutrientValueOrNull"}
+            cholesterol: {$ref: "#/components/schemas/NutrientValueOrNull"}
+
+    NutrientValueOrNull:
+      oneOf:
+        - $ref: "#/components/schemas/NutrientValue"
+        - type: "null"
+
+    NutrientValue:
+      type: object
+      additionalProperties: false
+      required: [amount, unit, daily_value_percent, source, certainty]
+      properties:
+        amount:
+          type: number
+          minimum: 0
+        unit:
+          type: string
+          enum: [kcal, g, mg]
+        daily_value_percent:
+          type: [number, "null"]
+          minimum: 0
+          description: |
+            The %DV printed on the label, only from a label photo. Always `null` for
+            Open Food Facts values. Calculated %DV (F3) is not carried here.
+        source:
+          $ref: "#/components/schemas/Source"
+        certainty:
+          type: string
+          enum: [reported, confident, uncertain]
+          description: |
+            `reported` for database values. `confident` or `uncertain` for label-photo
+            values (Q1). Uncertain values must not be explained or used in
+            whole-package calculations.
+
+    DataSource:
+      type: object
+      additionalProperties: false
+      required: [provider, url, retrieved_at, last_modified_at]
+      properties:
+        provider:
+          $ref: "#/components/schemas/Source"
+        url:
+          type: [string, "null"]
+          format: uri
+          description: Public page for the record, for a "View source" link.
+        retrieved_at:
+          type: string
+          format: date-time
+          description: When the backend fetched or read the data (UTC).
+        last_modified_at:
+          type: [string, "null"]
+          format: date-time
+          description: When the source record was last edited, if known (UTC).
+
+    Source:
+      type: string
+      enum: [open_food_facts, nutrition_label_photo]
+
+    SourceOrNull:
+      description: "`null` exactly when every other value in the object is `null`."
+      oneOf:
+        - $ref: "#/components/schemas/Source"
+        - type: "null"
+
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [invalid_barcode, product_not_found, upstream_timeout, upstream_unavailable]
+            message:
+              type: string
+              description: For logs and developers. The client shows its own wording.
+
+  examples:
+    productComplete:
+      summary: Found with everything a full analysis needs
+      value:
+        result: product
+        completeness: complete
+        missing_fields: []
+        product:
+          barcode: "0012345678905"
+          name: Whole Wheat Crackers
+          brand: Example Foods
+          ingredients_text: "Whole wheat flour, canola oil, sugar, salt, baking soda."
+          serving:
+            size_text: "6 crackers (30 g)"
+            quantity: 30
+            unit: g
+            source: open_food_facts
+          package:
+            quantity_text: "300 g"
+            quantity: 300
+            unit: g
+            servings_per_package: null
+            source: open_food_facts
+          nutrition:
+            basis: serving
+            nutrients:
+              calories: {amount: 140, unit: kcal, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              total_fat: {amount: 5, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              saturated_fat: {amount: 0.5, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              sodium: {amount: 210, unit: mg, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              carbohydrate: {amount: 21, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              sugars: {amount: 1, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              fibre: {amount: 3, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              protein: {amount: 3, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              trans_fat: {amount: 0, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              cholesterol: null
+          source:
+            provider: open_food_facts
+            url: https://world.openfoodfacts.org/product/0012345678905
+            retrieved_at: "2026-10-08T14:00:00Z"
+            last_modified_at: "2026-03-20T09:30:00Z"
+
+    productIncomplete:
+      summary: Found, but no serving size and no fibre (real Open Food Facts data for Nutella 400 g)
+      value:
+        result: product
+        completeness: incomplete
+        missing_fields:
+          - serving.size_text
+          - nutrition.basis
+          - nutrition.nutrients.fibre
+        product:
+          barcode: "3017624010701"
+          name: Nutella
+          brand: Ferrero
+          ingredients_text: "sugar, palm oil, hazelnuts, skimmed milk powder, fat reduced cocoa, emulsifier, vanillin"
+          serving:
+            size_text: null
+            quantity: null
+            unit: null
+            source: null
+          package:
+            quantity_text: "400.0 g"
+            quantity: 400
+            unit: g
+            servings_per_package: null
+            source: open_food_facts
+          nutrition:
+            basis: "100g"
+            nutrients:
+              calories: {amount: 539, unit: kcal, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              total_fat: {amount: 30.9, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              saturated_fat: {amount: 10.6, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              sodium: {amount: 43, unit: mg, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              carbohydrate: {amount: 57.5, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              sugars: {amount: 56.3, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              fibre: null
+              protein: {amount: 6.3, unit: g, daily_value_percent: null, source: open_food_facts, certainty: reported}
+              trans_fat: null
+              cholesterol: null
+          source:
+            provider: open_food_facts
+            url: https://world.openfoodfacts.org/product/3017624010701
+            retrieved_at: "2026-10-08T14:00:00Z"
+            last_modified_at: null
+
+    nutritionOnly:
+      summary: Read from a Nutrition Facts photo after barcode lookup failed (#15); sugars was uncertain
+      value:
+        result: nutrition_only
+        completeness: incomplete
+        missing_fields:
+          - nutrition.nutrients.sugars
+        product:
+          barcode: null
+          name: null
+          brand: null
+          ingredients_text: null
+          serving:
+            size_text: "1 cup (250 mL)"
+            quantity: 250
+            unit: ml
+            source: nutrition_label_photo
+          package:
+            quantity_text: null
+            quantity: null
+            unit: null
+            servings_per_package: null
+            source: null
+          nutrition:
+            basis: serving
+            nutrients:
+              calories: {amount: 110, unit: kcal, daily_value_percent: null, source: nutrition_label_photo, certainty: confident}
+              total_fat: {amount: 0, unit: g, daily_value_percent: 0, source: nutrition_label_photo, certainty: confident}
+              saturated_fat: {amount: 0, unit: g, daily_value_percent: 0, source: nutrition_label_photo, certainty: confident}
+              sodium: {amount: 10, unit: mg, daily_value_percent: 0, source: nutrition_label_photo, certainty: confident}
+              carbohydrate: {amount: 26, unit: g, daily_value_percent: null, source: nutrition_label_photo, certainty: confident}
+              sugars: {amount: 22, unit: g, daily_value_percent: 22, source: nutrition_label_photo, certainty: uncertain}
+              fibre: {amount: 0, unit: g, daily_value_percent: 0, source: nutrition_label_photo, certainty: confident}
+              protein: {amount: 2, unit: g, daily_value_percent: null, source: nutrition_label_photo, certainty: confident}
+              trans_fat: {amount: 0, unit: g, daily_value_percent: null, source: nutrition_label_photo, certainty: confident}
+              cholesterol: {amount: 0, unit: mg, daily_value_percent: null, source: nutrition_label_photo, certainty: confident}
+          source:
+            provider: nutrition_label_photo
+            url: null
+            retrieved_at: "2026-10-08T14:00:00Z"
+            last_modified_at: null
+
+    errorInvalidBarcode:
+      summary: Barcode is not 8-14 digits
+      value:
+        error: {code: invalid_barcode, message: "Barcode must be 8 to 14 digits."}
+
+    errorProductNotFound:
+      summary: No usable record in the product database
+      value:
+        error: {code: product_not_found, message: "No product found for barcode 0000000000001."}
+
+    errorUpstreamUnavailable:
+      summary: Product database failed or returned an unusable response
+      value:
+        error: {code: upstream_unavailable, message: "The product database is unavailable. Try again shortly."}
+
+    errorUpstreamTimeout:
+      summary: Product database did not answer in time
+      value:
+        error: {code: upstream_timeout, message: "The product database did not respond in time."}
