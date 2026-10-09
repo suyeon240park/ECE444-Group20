@@ -66,7 +66,7 @@ Tests use responses captured from the real API (`tests/fixtures/off/`, see its R
 
 ## Database
 
-PostgreSQL is planned for the product cache and the ingredient knowledge base (#27); for now product lookups are cached in memory. A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
+PostgreSQL is planned for the product cache and the ingredient knowledge base; for now product lookups are cached in memory. A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
 
 ## Product data model
 

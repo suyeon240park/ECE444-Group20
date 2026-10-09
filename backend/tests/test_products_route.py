@@ -193,3 +193,15 @@ def test_cors_headers_are_present_on_product_responses(app):
     )
 
     assert response.headers.get("Access-Control-Allow-Origin") in ("*", "http://localhost:8081")
+
+
+@responses.activate
+def test_12_digit_upc_a_returns_the_product(app, off_response):
+    # Phone scanners report North American barcodes as 12 digits. This used to answer 502.
+    responses.get(off_url("0057000002916"), json=off_response("ketchup_zero_upc_a"))
+
+    response = app.test_client().get("/api/products/057000002916")
+
+    assert response.status_code == 200
+    assert response.get_json()["product"]["barcode"] == "0057000002916"
+    assert responses.calls[0].request.url.startswith(off_url("0057000002916") + "?")

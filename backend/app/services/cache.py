@@ -2,7 +2,7 @@
 
 Open Food Facts allows 15 product reads per minute per IP, so repeat scans of the
 same product must not each cost a request. The cache is per process; it is meant to
-be replaced by the PostgreSQL product cache planned in #27.
+be replaced by a PostgreSQL product cache later.
 """
 
 from __future__ import annotations

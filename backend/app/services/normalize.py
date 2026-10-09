@@ -164,7 +164,8 @@ def normalize_off_product(raw: dict[str, Any], barcode: str, retrieved_at: datet
     canonical = code if isinstance(code, str) and is_valid_barcode(code) else barcode
     return Product(
         barcode=canonical,
-        name=_first_text(raw, "product_name", "product_name_en", "product_name_fr"),
+        # English first, like the ingredients, so both are in the same language.
+        name=_first_text(raw, "product_name_en", "product_name", "product_name_fr"),
         brand=_text(raw.get("brands")),
         ingredients_text=_first_text(
             raw, "ingredients_text_en", "ingredients_text", "ingredients_text_fr"

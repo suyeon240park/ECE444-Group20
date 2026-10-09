@@ -41,6 +41,10 @@ FIELDS = ",".join(
     ]
 )
 
+# OFF answers "success_with_warnings" for a found product whose code it had to
+# normalize, e.g. a 12-digit UPC-A padded to 13 digits.
+_SUCCESS_STATUSES = {"success", "success_with_warnings"}
+
 _TIMEOUT_MESSAGE = "The product database did not respond in time."
 _UNAVAILABLE_MESSAGE = "The product database is unavailable. Try again shortly."
 
@@ -104,7 +108,7 @@ class OpenFoodFactsClient:
         usable = (
             response.status_code == 200
             and body is not None
-            and body.get("status") == "success"
+            and body.get("status") in _SUCCESS_STATUSES
             and isinstance(product, dict)
         )
         if not usable:

@@ -16,6 +16,16 @@ class ProductSource(Protocol):
     def fetch_product(self, barcode: str) -> dict[str, Any] | None: ...
 
 
+def to_ean13(barcode: str) -> str:
+    """A 12-digit UPC-A as its EAN-13 form: the same product with a leading zero.
+
+    Phone scanners and people typing the digits under a North American barcode give
+    12 digits, while OFF stores 13. Converting first keeps one cache entry per
+    product, so a product scanned both ways costs one OFF read, not two.
+    """
+    return "0" + barcode if len(barcode) == 12 else barcode
+
+
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -39,6 +49,7 @@ class ProductLookupService:
         """
         if not is_valid_barcode(barcode):
             raise ProductLookupError(ErrorCode.INVALID_BARCODE, "Barcode must be 8 to 14 digits.")
+        barcode = to_ean13(barcode)
 
         cached = self._cache.get(barcode)
         if cached is not None:

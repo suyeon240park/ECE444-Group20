@@ -9,6 +9,7 @@ as indented JSON); the others are written by hand.
 | `ketchup_found.json` | real | Heinz Tomato Ketchup `0013000006408`: per-serving data for every required nutrient, so a complete result. Note `nutrition_data_per` is `"100g"` even though serving values exist. |
 | `nutella_found.json` | real | `3017624010701`: per-100 g data only, no `serving_size`, no fibre, so an incomplete result. |
 | `kraft_no_ingredients.json` | real | `0068100058925`: identity and package size, empty `ingredients_text`, no nutrition. |
+| `ketchup_zero_upc_a.json` | real | Heinz Ketchup Zero requested as the 12-digit UPC-A `057000002916` (captured 2026-10-09). OFF pads the code to `0057000002916` and answers `"status": "success_with_warnings"`. |
 | `not_found.json` | real | v3 answer (HTTP 404) for an unknown barcode. |
 | `empty_record.json` | synthetic | A record that exists but holds only its code. OFF returned one of these on 2026-10-08, but it has since been filled in, so this is a stand-in. |
 

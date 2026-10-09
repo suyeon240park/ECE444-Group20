@@ -5,7 +5,7 @@ import pytest
 from app.models.product import Completeness, ErrorCode, ResultType
 from app.services.cache import TTLCache
 from app.services.errors import ProductLookupError
-from app.services.product_lookup import ProductLookupService
+from app.services.product_lookup import ProductLookupService, to_ean13
 
 NOW = datetime(2026, 10, 8, 14, 0, tzinfo=timezone.utc)
 KETCHUP = "0013000006408"
@@ -128,3 +128,40 @@ def test_default_clock_is_timezone_aware(off_product):
     svc = ProductLookupService(FakeClient({KETCHUP: off_product("ketchup_found")}), TTLCache(0))
 
     assert svc.lookup(KETCHUP).product.source.retrieved_at.tzinfo is not None
+
+
+KETCHUP_ZERO_UPC_A = "057000002916"
+KETCHUP_ZERO_EAN_13 = "0057000002916"
+
+
+@pytest.mark.parametrize(
+    ("barcode", "expected"),
+    [
+        ("057000002916", "0057000002916"),  # UPC-A gets its leading zero
+        ("0057000002916", "0057000002916"),  # EAN-13 unchanged
+        ("12345670", "12345670"),  # EAN-8 unchanged
+        ("10057000002913", "10057000002913"),  # GTIN-14 unchanged
+    ],
+)
+def test_to_ean13(barcode, expected):
+    assert to_ean13(barcode) == expected
+
+
+def test_upc_a_is_looked_up_as_ean_13(off_product):
+    client = FakeClient({KETCHUP_ZERO_EAN_13: off_product("ketchup_zero_upc_a")})
+
+    result = service(client).lookup(KETCHUP_ZERO_UPC_A)
+
+    assert client.calls == [KETCHUP_ZERO_EAN_13]
+    assert result.product.barcode == KETCHUP_ZERO_EAN_13
+
+
+def test_upc_a_and_ean_13_share_one_cache_entry(off_product):
+    client = FakeClient({KETCHUP_ZERO_EAN_13: off_product("ketchup_zero_upc_a")})
+    svc = service(client)
+
+    first = svc.lookup(KETCHUP_ZERO_UPC_A)
+    second = svc.lookup(KETCHUP_ZERO_EAN_13)
+
+    assert second is first
+    assert client.calls == [KETCHUP_ZERO_EAN_13]

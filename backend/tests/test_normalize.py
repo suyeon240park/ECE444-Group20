@@ -123,10 +123,20 @@ def test_record_with_only_a_code_has_no_data(off_product):
 # --- text fields ---------------------------------------------------------------------------------
 
 
-def test_name_falls_back_through_languages():
-    assert normalize({"product_name": "Plain", "product_name_en": "En"}).name == "Plain"
-    assert normalize({"product_name": " ", "product_name_en": "En"}).name == "En"
-    assert normalize({"product_name_en": "", "product_name_fr": "Fr"}).name == "Fr"
+def test_name_prefers_english_then_generic_then_french():
+    # A French-primary Canadian record must not get a French name with English ingredients.
+    french_primary = {
+        "product_name": "Craquelins de blé entier",
+        "product_name_en": "Whole Wheat Crackers",
+        "ingredients_text": "Farine de blé entier",
+        "ingredients_text_en": "Whole wheat flour",
+    }
+    product = normalize(french_primary)
+    assert product.name == "Whole Wheat Crackers"
+    assert product.ingredients_text == "Whole wheat flour"
+
+    assert normalize({"product_name": "Plain", "product_name_en": " "}).name == "Plain"
+    assert normalize({"product_name": "", "product_name_fr": "Fr"}).name == "Fr"
     assert normalize({"product_name": "  "}).name is None
 
 

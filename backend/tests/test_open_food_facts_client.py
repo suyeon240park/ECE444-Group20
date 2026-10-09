@@ -129,3 +129,27 @@ def test_timeout_is_passed_to_requests():
         OpenFoodFactsClient(BASE, UA, timeout=2.5, session=FakeSession()).fetch_product(BARCODE)
 
     assert seen["timeout"] == 2.5
+
+
+@responses.activate
+def test_found_with_warnings_is_a_found_product(client, off_response):
+    # Real OFF answer for the 12-digit UPC-A 057000002916: it pads the code and replies
+    # "success_with_warnings". This used to be reported as an outage (502).
+    body = off_response("ketchup_zero_upc_a")
+    responses.get(f"{BASE}/api/v3/product/057000002916", json=body)
+
+    product = client.fetch_product("057000002916")
+
+    assert body["status"] == "success_with_warnings"
+    assert product == body["product"]
+    assert product["code"] == "0057000002916"
+
+
+@responses.activate
+def test_unrecognized_status_is_still_unavailable(client, off_response):
+    body = off_response("nutella_found") | {"status": "something_new"}
+    responses.get(URL, json=body)
+
+    with pytest.raises(ProductLookupError) as excinfo:
+        client.fetch_product(BARCODE)
+    assert error_code(excinfo) is ErrorCode.UPSTREAM_UNAVAILABLE
