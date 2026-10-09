@@ -21,3 +21,6 @@ Thumbs.db
 # Local drafts and tool scratch
 docs/message*.txt
 .claude/worktrees/
+
+# Saved vision-model replies from scripts/label_benchmark.py --out (#16)
+.label-results/
