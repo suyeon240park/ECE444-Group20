@@ -7,7 +7,11 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
+from app.routes.barcode import barcode_bp
 from app.routes.health import health_bp
+
+# Largest request body accepted. Phone photos are typically 2-8 MB.
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
 
 def create_app(test_config: dict | None = None) -> Flask:
@@ -22,6 +26,7 @@ def create_app(test_config: dict | None = None) -> Flask:
         DATABASE_URL=os.getenv("DATABASE_URL", ""),
         GIT_COMMIT=os.getenv("GIT_COMMIT", "dev"),
         CORS_ORIGINS=os.getenv("CORS_ORIGINS", "*"),
+        MAX_CONTENT_LENGTH=MAX_UPLOAD_BYTES,
     )
     if test_config:
         app.config.update(test_config)
@@ -29,6 +34,7 @@ def create_app(test_config: dict | None = None) -> Flask:
     CORS(app, origins=parse_origins(app.config["CORS_ORIGINS"]))
 
     app.register_blueprint(health_bp, url_prefix="/api")
+    app.register_blueprint(barcode_bp, url_prefix="/api")
     return app
 
 
