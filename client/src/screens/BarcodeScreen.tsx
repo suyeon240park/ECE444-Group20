@@ -132,14 +132,18 @@ export default function BarcodeScreen() {
     <View style={styles.container}>
       <Text style={styles.heading}>Scan a product</Text>
       <Text style={styles.help}>
-        Take a photo of the barcode, or upload one. Keep the barcode flat, in focus and fully in
+        Scan the barcode, or upload a photo of it. Keep the barcode flat, in focus and fully in
         frame.
       </Text>
 
       <View style={styles.buttons}>
-        <ActionButton label="Take photo" onPress={() => pick('camera')} disabled={busy} primary />
-        <ActionButton label="Upload photo" onPress={() => pick('library')} disabled={busy} />
-        {liveSupported && <ActionButton label="Scan live" onPress={startLive} disabled={busy} />}
+        <ActionButton label="Upload photo" onPress={() => pick('library')} disabled={busy} primary />
+        {liveSupported ? (
+          <ActionButton label="Scan live" onPress={startLive} disabled={busy} />
+        ) : (
+          // Phones in Expo Go, and web pages that cannot open a webcam, take one photo instead.
+          <ActionButton label="Take photo" onPress={() => pick('camera')} disabled={busy} />
+        )}
       </View>
 
       {state.kind === 'live' && (
