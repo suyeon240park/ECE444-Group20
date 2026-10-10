@@ -52,6 +52,12 @@ class DetectedBarcode:
     format: str
 
 
+def _too_many_pixels() -> BarcodeError:
+    return BarcodeError(
+        "image_too_large", "The image has too many pixels. Upload a smaller photo.", 413
+    )
+
+
 def load_image(data: bytes) -> Image.Image:
     """Validate ``data`` as a supported image and return it, rotated upright.
 
@@ -65,6 +71,10 @@ def load_image(data: bytes) -> Image.Image:
             image_format = probe.format
             width, height = probe.size
             probe.verify()
+    except Image.DecompressionBombError:
+        # Pillow refuses to open an image far past its own pixel limit (about 179 MP by
+        # default) and raises this before our check below runs.
+        raise _too_many_pixels() from None
     except (UnidentifiedImageError, OSError, SyntaxError, ValueError):
         raise BarcodeError(
             "invalid_image", "The uploaded file is not a readable image.", 400
@@ -77,9 +87,7 @@ def load_image(data: bytes) -> Image.Image:
             415,
         )
     if width * height > MAX_IMAGE_PIXELS:
-        raise BarcodeError(
-            "image_too_large", "The image has too many pixels. Upload a smaller photo.", 413
-        )
+        raise _too_many_pixels()
 
     try:
         # verify() leaves the image unusable, so decode from a fresh handle.

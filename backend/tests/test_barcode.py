@@ -177,5 +177,17 @@ def test_image_with_too_many_pixels(client, monkeypatch):
     assert_error(response, 413, "image_too_large")
 
 
+def test_image_past_pillows_own_pixel_limit_is_413_not_500(client, monkeypatch):
+    """Pillow raises DecompressionBombError while opening, before our own check runs.
+
+    Pillow's real limit is about 179 MP. Lowering it here avoids building such an image.
+    """
+    monkeypatch.setattr(Image, "MAX_IMAGE_PIXELS", 1000)
+
+    response = post_image(client, encode(Image.new("RGB", (100, 100), "white")))
+
+    assert_error(response, 413, "image_too_large")
+
+
 def test_wrong_method_is_405(client):
     assert client.get("/api/barcode").status_code == 405
