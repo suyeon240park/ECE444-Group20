@@ -1,3 +1,4 @@
+import { File as NativeFile } from 'expo-file-system';
 import { Platform } from 'react-native';
 
 import { API_BASE_URL } from './api';
@@ -22,12 +23,10 @@ async function buildForm(image: PickedImage): Promise<FormData> {
     const blob = image.file ?? (await (await fetch(image.uri)).blob());
     form.append(UPLOAD_FIELD, blob, image.fileName ?? 'photo');
   } else {
-    // React Native's FormData uploads a file from a { uri, name, type } object.
-    form.append(UPLOAD_FIELD, {
-      uri: image.uri,
-      name: image.fileName ?? 'photo.jpg',
-      type: image.mimeType ?? 'image/jpeg',
-    } as unknown as Blob);
+    // expo/fetch, the default fetch on iOS and Android, cannot send React Native's
+    // { uri, name, type } form parts and throws before any request is made. A File from
+    // expo-file-system is a Blob it can send.
+    form.append(UPLOAD_FIELD, new NativeFile(image.uri), image.fileName ?? 'photo.jpg');
   }
   return form;
 }
