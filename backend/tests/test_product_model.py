@@ -364,3 +364,9 @@ def test_api_error_status_and_body(code, status):
 
     assert error.http_status == status
     assert error.to_dict() == {"error": {"code": code.value, "message": "something happened"}}
+
+
+@pytest.mark.parametrize("barcode", ["3017624010701\n", "٣٠١٧٦٢٤٠١٠٧٠١"])
+def test_barcode_must_be_exactly_ascii_digits(barcode):
+    # A trailing newline and non-ASCII digits both slipped past an earlier regex.
+    assert not is_valid_barcode(barcode)
