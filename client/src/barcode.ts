@@ -57,7 +57,12 @@ export async function detectBarcode(image: PickedImage): Promise<BarcodeResult> 
     if (controller.signal.aborted) {
       return failure('timeout');
     }
-    return failure(error instanceof TypeError ? 'network_error' : 'unexpected_response');
+    // Shows in the Expo terminal and the browser console, so a failure before any reply
+    // arrived (for example a photo that could not be packed into the request) can be traced.
+    console.warn('Barcode upload failed', error);
+    // A TypeError is how fetch reports a network failure. Any other error was thrown before
+    // a reply existed; "unexpected_response" is kept for replies that really were unreadable.
+    return failure(error instanceof TypeError ? 'network_error' : 'upload_failed');
   } finally {
     clearTimeout(timer);
   }

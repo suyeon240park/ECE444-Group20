@@ -29,6 +29,7 @@ export type ClientErrorCode =
   | 'picker_error'
   | 'webcam_unavailable'
   | 'live_timeout'
+  | 'upload_failed'
   | 'network_error'
   | 'timeout'
   | 'unexpected_response';
@@ -64,6 +65,7 @@ export const ERROR_MESSAGES: Record<BarcodeErrorCode, string> = {
     'We could not open the webcam. Allow camera access in your browser, or upload a photo instead.',
   live_timeout:
     "We couldn't find a barcode after a minute. Hold it flat, closer to the camera and well lit, or upload a photo instead.",
+  upload_failed: "We couldn't send the photo. Please try again.",
   network_error: "We couldn't reach the server. Check your connection and try again.",
   timeout: 'The server took too long to respond. Try again.',
   unexpected_response: "We couldn't understand the server's answer. Please try again.",
