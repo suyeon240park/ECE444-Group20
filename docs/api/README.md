@@ -107,17 +107,17 @@ Every value says where it came from, so the UI can label database values versus 
 
 ## Open Food Facts → model mapping (for #14)
 
-Verified against the live API on 2026-10-08. Use **API v3**: `GET https://world.openfoodfacts.org/api/v3/product/{barcode}?fields=…`. v2 is deprecated, and it answers HTTP 200 for unknown codes.
+Field names verified against the live API on 2026-10-08 using Nutella, Heinz ketchup, Cheerios and an "Original Potato Crisps" product (`0038000138416`); `product_name_fr` and `ingredients_text_fr` were seen only on the Kraft record. Use **API v3**: `GET https://world.openfoodfacts.org/api/v3/product/{barcode}?fields=…`. v2 is deprecated, and it answers HTTP 200 for unknown codes.
 
 | Model field | Open Food Facts field(s) | Notes |
 |---|---|---|
-| `barcode` | `code` | OFF normalizes codes (e.g. strips leading zeros); use the code it returns. |
+| `barcode` | `code` | Use OFF's `code` when it is a valid barcode, otherwise the requested one. (OFF rewrote the all-zero invalid code `0000000000001` to `00000001`; products such as Cheerios `0016000275287` keep their leading zeros.) |
 | `name` | `product_name`, then `product_name_en`, then `product_name_fr` | Blank → `null`. |
 | `brand` | `brands` | Blank → `null`. |
 | `ingredients_text` | `ingredients_text_en`, then `ingredients_text`, then `ingredients_text_fr` | Often `""` for Canadian products → `null`. |
 | `serving.size_text` / `quantity` / `unit` | `serving_size` / `serving_quantity` / `serving_quantity_unit` | |
 | `package.quantity_text` / `quantity` / `unit` | `quantity` / `product_quantity` / `product_quantity_unit` | |
-| `nutrition.basis` | `serving` if `serving_size` is set and `*_serving` values exist, else `100g`/`100ml` from `nutrition_data_per` | Never mix `*_serving` and `*_100g`. |
+| `nutrition.basis` | `serving` if `serving_size` is set and any `*_serving` value exists, else per 100 g / 100 mL from the `*_100g` values | Never mix `*_serving` and `*_100g`. Do not use `nutrition_data_per`: it said `"100g"` for every product checked, including ones with serving data. A product whose package or serving unit is `ml` is treated as per 100 mL (an assumption, not confirmed against OFF documentation). |
 | `calories` | `energy-kcal_serving` / `energy-kcal_100g` | kcal |
 | `total_fat`, `saturated_fat`, `trans_fat` | `fat_*`, `saturated-fat_*`, `trans-fat_*` | g |
 | `sodium`, `cholesterol` | `sodium_*`, `cholesterol_*` | OFF stores **g**: multiply by 1000 for mg. |
@@ -131,7 +131,7 @@ OFF responses observed:
 |---|---|
 | HTTP 200, `"result": {"id": "product_found"}` | 200 `ProductResult`, or 404 if the record is an empty shell |
 | HTTP 404, `"result": {"id": "product_not_found"}` | 404 `product_not_found` |
-| HTML "Page temporarily unavailable" (HTTP 503) | 502 `upstream_unavailable` |
+| HTML "Page temporarily unavailable" page instead of JSON (status not confirmed; we treat any non-JSON body as a failure) | 502 `upstream_unavailable` |
 | HTTP 429 or other 5xx, or JSON that doesn't parse | 502 `upstream_unavailable` |
 | No answer before the timeout | 504 `upstream_timeout` |
 
