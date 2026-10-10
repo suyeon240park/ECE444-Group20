@@ -1,1 +1,1 @@
-"""Business logic used by the route modules."""
+"""Business logic behind the routes: product lookup, Open Food Facts, caching, barcodes."""
