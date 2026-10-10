@@ -42,6 +42,22 @@ backend/
 └── .env.example         every environment variable the app reads, with safe defaults
 ```
 
+## Product lookup (`GET /api/products/<barcode>`)
+
+Looks a barcode up in [Open Food Facts](https://openfoodfacts.github.io/openfoodfacts-server/api/) (API v3) and returns it in the contract's shape ([docs/api/](../docs/api/README.md)). Try it: `curl localhost:5000/api/products/0013000006408`.
+
+```
+routes/products.py          the endpoint; maps errors to HTTP status codes
+services/product_lookup.py  validate barcode -> cache -> Open Food Facts -> normalize
+services/open_food_facts.py HTTP client; timeouts and bad responses become upstream errors
+services/normalize.py       OFF record -> Product (blank/missing -> null, sodium g -> mg, one basis)
+services/cache.py           in-memory TTL cache for found products
+```
+
+Open Food Facts allows 15 product reads per minute per IP and asks every client to send a `User-Agent` of the form `AppName/Version (contact)`. Found products are cached in memory for a day; failures and "not found" are not cached. Settings (all in `.env.example`): `OFF_BASE_URL`, `OFF_USER_AGENT`, `OFF_TIMEOUT_SECONDS`, `PRODUCT_CACHE_TTL_SECONDS`.
+
+Tests use responses captured from the real API (`tests/fixtures/off/`, see its README) and never touch the network. Two opt-in tests call the real API: `pytest -m live --no-cov`.
+
 ## Adding a route
 
 1. Create `app/routes/<area>.py` with a `Blueprint`.
@@ -50,7 +66,7 @@ backend/
 
 ## Database
 
-PostgreSQL is planned for the product cache and the ingredient knowledge base (#14, #27). A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
+PostgreSQL is planned for the product cache and the ingredient knowledge base; for now product lookups are cached in memory. A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
 
 ## Product data model
 

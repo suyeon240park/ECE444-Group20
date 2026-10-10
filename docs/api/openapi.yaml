@@ -313,7 +313,7 @@ components:
 
   examples:
     productComplete:
-      summary: Found with everything a full analysis needs
+      summary: Found with everything a full analysis needs (synthetic example)
       value:
         result: product
         completeness: complete
@@ -398,7 +398,7 @@ components:
             last_modified_at: null
 
     nutritionOnly:
-      summary: Read from a Nutrition Facts photo after barcode lookup failed (#15); sugars was uncertain
+      summary: Read from a Nutrition Facts photo after barcode lookup failed (#15); sugars was uncertain (synthetic example)
       value:
         result: nutrition_only
         completeness: incomplete
