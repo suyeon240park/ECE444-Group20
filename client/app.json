@@ -22,6 +22,15 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "What's in My Food? uses the camera to photograph product barcodes.",
+          "photosPermission": "What's in My Food? reads the photo you choose so it can find the barcode."
+        }
+      ]
+    ],
     "extra": {
       "apiBaseUrl": "http://localhost:5000"
     }
