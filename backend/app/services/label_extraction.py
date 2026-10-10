@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import base64
 import json
+import math
 import os
 import re
 import time
@@ -188,28 +189,49 @@ def extract_label(
     if response.status_code != 200:
         raise LabelExtractionError(f"HTTP {response.status_code}: {response.text[:300]}")
 
-    data = response.json()
+    try:
+        data = response.json()
+    except ValueError:
+        raise LabelExtractionError(f"reply is not JSON: {response.text[:200]!r}") from None
+    if not isinstance(data, dict):
+        raise LabelExtractionError(f"reply is not a JSON object: {str(data)[:200]!r}")
     reply = _parse_reply(data)
-    usage = data.get("usageMetadata", {})
+    usage = _dict(data.get("usageMetadata"))
     return Extraction(
         result=normalize_reply(reply),
         model=config.model,
         latency_seconds=latency,
-        input_tokens=int(usage.get("promptTokenCount", 0)),
+        input_tokens=_count(usage, "promptTokenCount"),
         # Thinking tokens are billed as output.
-        output_tokens=int(usage.get("candidatesTokenCount", 0))
-        + int(usage.get("thoughtsTokenCount", 0)),
+        output_tokens=_count(usage, "candidatesTokenCount") + _count(usage, "thoughtsTokenCount"),
     )
 
 
+def _dict(value: Any) -> dict[str, Any]:
+    """The value if it is a JSON object, else an empty one: the API sometimes sends null."""
+    return value if isinstance(value, dict) else {}
+
+
+def _count(usage: dict[str, Any], key: str) -> int:
+    """A token count, or 0 when missing or malformed; it only feeds the cost report."""
+    value = usage.get(key)
+    return value if isinstance(value, int) and not isinstance(value, bool) else 0
+
+
 def _parse_reply(data: dict[str, Any]) -> Any:
-    candidates = data.get("candidates") or []
-    if not candidates:
-        reason = data.get("promptFeedback", {}).get("blockReason", "no candidates")
+    candidates = data.get("candidates")
+    if not isinstance(candidates, list) or not candidates:
+        reason = _dict(data.get("promptFeedback")).get("blockReason") or "no candidates"
         raise LabelExtractionError(f"model returned no answer ({reason})")
-    candidate = candidates[0]
-    parts = candidate.get("content", {}).get("parts", [])
-    text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
+    candidate = _dict(candidates[0])
+    parts = _dict(candidate.get("content")).get("parts")
+    if not isinstance(parts, list):
+        parts = []
+    text = "".join(
+        p["text"]
+        for p in parts
+        if isinstance(p, dict) and isinstance(p.get("text"), str) and not p.get("thought")
+    )
     # JSON mode should prevent code fences, but strip them if the model adds them.
     text = re.sub(r"^\s*```(?:json)?\s*|\s*```\s*$", "", text)
     try:
@@ -242,6 +264,9 @@ def normalize_reply(reply: Any) -> dict[str, Any]:
             return None
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             rejected.append(f"{path}: not a number ({value!r})")
+            return None
+        if not math.isfinite(value):
+            rejected.append(f"{path}: not a finite number ({value!r})")
             return None
         if value < 0 or (positive and value == 0):
             rejected.append(f"{path}: out of range ({value!r})")
