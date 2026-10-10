@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { API_BASE_URL, fetchHealth, type HealthResponse } from './src/api';
+import BarcodeScreen from './src/screens/BarcodeScreen';
 
 type BackendState =
   | { kind: 'loading' }
@@ -21,13 +22,14 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <Text style={styles.title}>What's in My Food?</Text>
-      <Text style={styles.subtitle}>Project skeleton. Features arrive in sprint 1 and 2.</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Backend: {API_BASE_URL}</Text>
-        {backend.kind === 'loading' && <Text>Checking…</Text>}
+      <BarcodeScreen />
+
+      <View style={styles.status}>
+        <Text style={styles.statusLabel}>Backend: {API_BASE_URL}</Text>
+        {backend.kind === 'loading' && <Text style={styles.statusText}>Checking…</Text>}
         {backend.kind === 'ok' && (
           <Text style={styles.ok}>
             {backend.health.status} · {backend.health.service} · {backend.health.commit}
@@ -37,31 +39,23 @@ export default function App() {
       </View>
 
       <StatusBar style="auto" />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
     padding: 24,
-    gap: 12,
+    paddingTop: 56,
+    gap: 24,
   },
   title: { fontSize: 24, fontWeight: '600' },
-  subtitle: { color: '#555' },
-  card: {
-    marginTop: 16,
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    gap: 6,
-    minWidth: 280,
-  },
-  label: { fontWeight: '500' },
-  ok: { color: '#1b7f3b' },
-  error: { color: '#b3261e' },
+  status: { gap: 4, alignItems: 'center', marginTop: 8 },
+  statusLabel: { color: '#777', fontSize: 12 },
+  statusText: { color: '#777', fontSize: 12 },
+  ok: { color: '#1b7f3b', fontSize: 12 },
+  error: { color: '#b3261e', fontSize: 12 },
 });
