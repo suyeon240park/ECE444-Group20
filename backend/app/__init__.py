@@ -7,11 +7,15 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
+from app.routes.barcode import barcode_bp
 from app.routes.health import health_bp
 from app.routes.products import products_bp
 from app.services.cache import TTLCache
 from app.services.open_food_facts import OpenFoodFactsClient
 from app.services.product_lookup import ProductLookupService
+
+# Largest request body accepted. Phone photos are typically 2-8 MB.
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
 
 def create_app(test_config: dict | None = None) -> Flask:
@@ -26,6 +30,7 @@ def create_app(test_config: dict | None = None) -> Flask:
         DATABASE_URL=os.getenv("DATABASE_URL", ""),
         GIT_COMMIT=os.getenv("GIT_COMMIT", "dev"),
         CORS_ORIGINS=os.getenv("CORS_ORIGINS", "*"),
+        MAX_CONTENT_LENGTH=MAX_UPLOAD_BYTES,
         OFF_BASE_URL=os.getenv("OFF_BASE_URL", "https://world.openfoodfacts.org"),
         OFF_USER_AGENT=os.getenv("OFF_USER_AGENT", "WhatsInMyFood/0.1 (ECE444 student project)"),
         OFF_TIMEOUT_SECONDS=float(os.getenv("OFF_TIMEOUT_SECONDS", "8")),
@@ -39,6 +44,7 @@ def create_app(test_config: dict | None = None) -> Flask:
     app.extensions["product_lookup"] = build_product_lookup(app.config)
 
     app.register_blueprint(health_bp, url_prefix="/api")
+    app.register_blueprint(barcode_bp, url_prefix="/api")
     app.register_blueprint(products_bp, url_prefix="/api")
     return app
 

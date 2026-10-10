@@ -33,7 +33,8 @@ backend/
 ├── app/
 │   ├── __init__.py      create_app() factory; reads configuration from the environment
 │   ├── models/          data models; product.py is the code form of docs/api/ (#20)
-│   └── routes/          one blueprint module per API area (health.py today)
+│   ├── routes/          one blueprint module per API area (health.py, barcode.py)
+│   └── services/        logic the routes call (barcode.py: image validation and detection)
 ├── tests/               pytest tests, one file per route or model module
 ├── wsgi.py              entry point for `flask run` and gunicorn
 ├── requirements.txt     runtime dependencies
@@ -63,6 +64,26 @@ Tests use responses captured from the real API (`tests/fixtures/off/`, see its R
 1. Create `app/routes/<area>.py` with a `Blueprint`.
 2. Register it in `create_app()` under the `/api` prefix.
 3. Add `tests/test_<area>.py`. Use `create_app({"TESTING": True})` and the Flask test client, as in `tests/test_health.py`.
+
+## Barcode detection (#13)
+
+`POST /api/barcode` takes a product photo as `multipart/form-data` in the `image` field (JPEG, PNG or WebP, up to 10 MB) and returns the barcode in it. It does not look the product up; pass the result to `GET /api/products/{barcode}` (#14).
+
+```
+curl -F "image=@photo.jpg" http://127.0.0.1:5000/api/barcode
+{"barcode": "5901234123457", "format": "EAN13"}
+```
+
+| Situation | HTTP | `error.code` |
+|---|---|---|
+| No file in the `image` field, or the request is not multipart | 400 | `missing_image` |
+| Empty, corrupt or non-image file | 400 | `invalid_image` |
+| Image is not JPEG, PNG or WebP | 415 | `unsupported_media_type` |
+| Upload over the size limit | 413 | `file_too_large` |
+| Image has too many pixels | 413 | `image_too_large` |
+| Valid image, no readable EAN-8, UPC-A, EAN-13 or GTIN-14 barcode | 422 | `no_barcode_found` |
+
+Detection uses `zxing-cpp`. A UPC-A is returned as its 12 printed digits with `format: "UPCA"`. These error codes are not in `docs/api/openapi.yaml` yet.
 
 ## Database
 
