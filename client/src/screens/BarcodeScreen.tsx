@@ -24,10 +24,13 @@ type ScreenState =
 
 const PICKER_OPTIONS: ImagePicker.ImagePickerOptions = {
   mediaTypes: ['images'],
-  // Re-encodes to JPEG on phones, which also turns most iPhone HEIC photos into JPEG.
+  // Compresses the photo before it is uploaded.
   quality: 0.8,
   allowsEditing: false,
   exif: false,
+  // iOS keeps library photos as HEIC unless it is asked for the compatible (JPEG) version.
+  // Ignored on Android and the web. The HEIC check in validateImage stays as a fallback.
+  preferredAssetRepresentationMode: ImagePicker.UIImagePickerPreferredAssetRepresentationMode.Compatible,
 };
 
 function toState(previewUri: string | null, outcome: BarcodeResult): ScreenState {

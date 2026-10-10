@@ -12,7 +12,7 @@ npm run web          # opens http://localhost:8081 in the browser
 
 The home screen lets you upload a photo of a product barcode, or scan it live with the webcam, and shows the barcode the backend finds (`POST /api/barcode`, #13). A line at the bottom shows the result of the backend health check. Start the backend first (see `backend/README.md`), or uploads fail with "We couldn't reach the server" and the status line shows "Unreachable".
 
-The second button is "Scan live" where the browser allows the webcam, and "Take photo" otherwise (Expo Go on a phone, or a plain `http://<LAN IP>` page). Photos must be JPEG, PNG or WebP and under 10 MB; iPhone HEIC photos are rejected with a message.
+The second button is "Scan live" where the browser allows the webcam, and "Take photo" otherwise (Expo Go on a phone, or a plain `http://<LAN IP>` page). Photos must be JPEG, PNG or WebP and under 10 MB. On iOS the picker asks for the JPEG version of library photos; a HEIC photo that still arrives is rejected with a message.
 
 **Scan live** opens the webcam and keeps sending frames to `POST /api/barcode` until one has a barcode (it gives up after a minute, and **Stop** ends it). Browsers only offer the webcam on `localhost` or https, so there the button is replaced by "Take photo".
 
