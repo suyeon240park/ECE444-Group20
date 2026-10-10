@@ -14,6 +14,8 @@ The home screen lets you take or upload a photo of a product barcode and shows t
 
 On the web, "Take photo" opens the camera on a phone browser and a file picker on a desktop. Photos must be JPEG, PNG or WebP and under 10 MB; iPhone HEIC photos are rejected with a message.
 
+On the web, **Scan live** opens the webcam and keeps sending frames to `POST /api/barcode` until one has a barcode (it gives up after a minute, and **Stop** ends it). Browsers only offer the webcam on `localhost` or https, so the button is hidden on a plain `http://<LAN IP>` page and on phones running the Expo Go app, which use the photo buttons.
+
 ## Run on a phone (Expo Go)
 
 Expo Go runs the real app on your phone, with real camera and barcode scanning. It loads the JavaScript from your own computer, so each teammate runs their own copy.

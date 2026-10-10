@@ -10,11 +10,14 @@ import {
   type BarcodeErrorCode,
   type BarcodeResult,
 } from '../barcodeRules';
+import LiveScanner, { isLiveScanSupported } from '../LiveScanner';
+import type { LiveScanOutcome } from '../liveScan';
 
 type Source = 'camera' | 'library';
 
 type ScreenState =
   | { kind: 'idle' }
+  | { kind: 'live'; request: number }
   | { kind: 'loading'; previewUri: string }
   | { kind: 'success'; previewUri: string; barcode: string; format: string }
   | { kind: 'failure'; previewUri: string | null; code: BarcodeErrorCode; message: string };
@@ -39,7 +42,10 @@ function toState(previewUri: string | null, outcome: BarcodeResult): ScreenState
   return { kind: 'failure', previewUri, code: outcome.code, message: outcome.message };
 }
 
-/** Take or upload a photo of a product, send it to the backend, show the barcode found. */
+/**
+ * Take or upload a photo of a product, send it to the backend, show the barcode found.
+ * On the web, a webcam mode keeps scanning until it reads one.
+ */
 export default function BarcodeScreen() {
   const [state, setState] = useState<ScreenState>({ kind: 'idle' });
   // Only the latest request may update the screen; older ones, and ones that finish
@@ -52,7 +58,25 @@ export default function BarcodeScreen() {
     };
   }, []);
 
-  const busy = state.kind === 'loading';
+  const busy = state.kind === 'loading' || state.kind === 'live';
+  const liveSupported = isLiveScanSupported();
+
+  function startLive() {
+    setState({ kind: 'live', request: ++latestRequest.current });
+  }
+
+  function stopLive() {
+    latestRequest.current += 1;
+    setState({ kind: 'idle' });
+  }
+
+  function onLiveResult(request: number, outcome: LiveScanOutcome) {
+    if (latestRequest.current !== request) {
+      return;
+    }
+    const previewUri = outcome.image?.file ? URL.createObjectURL(outcome.image.file) : null;
+    setState(toState(previewUri, outcome.result));
+  }
 
   async function pick(source: Source) {
     const request = ++latestRequest.current;
@@ -115,7 +139,12 @@ export default function BarcodeScreen() {
       <View style={styles.buttons}>
         <ActionButton label="Take photo" onPress={() => pick('camera')} disabled={busy} primary />
         <ActionButton label="Upload photo" onPress={() => pick('library')} disabled={busy} />
+        {liveSupported && <ActionButton label="Scan live" onPress={startLive} disabled={busy} />}
       </View>
+
+      {state.kind === 'live' && (
+        <LiveScanner onResult={(outcome) => onLiveResult(state.request, outcome)} onStop={stopLive} />
+      )}
 
       {'previewUri' in state && state.previewUri ? (
         <Image

@@ -27,6 +27,8 @@ export type ClientErrorCode =
   | 'heic_image'
   | 'camera_permission_denied'
   | 'picker_error'
+  | 'webcam_unavailable'
+  | 'live_timeout'
   | 'network_error'
   | 'timeout'
   | 'unexpected_response';
@@ -58,6 +60,10 @@ export const ERROR_MESSAGES: Record<BarcodeErrorCode, string> = {
   camera_permission_denied:
     'Camera access is turned off. Allow it in your device settings, or upload a photo instead.',
   picker_error: "We couldn't open the camera or photo library. Try again, or use the other button.",
+  webcam_unavailable:
+    'We could not open the webcam. Allow camera access in your browser, or upload a photo instead.',
+  live_timeout:
+    "We couldn't find a barcode after a minute. Hold it flat, closer to the camera and well lit, or upload a photo instead.",
   network_error: "We couldn't reach the server. Check your connection and try again.",
   timeout: 'The server took too long to respond. Try again.',
   unexpected_response: "We couldn't understand the server's answer. Please try again.",
