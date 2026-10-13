@@ -508,6 +508,19 @@ Each flagged ingredient entry must contain:
 
 An ingredient is **not** flagged merely because its name is unfamiliar, technical, or chemical-sounding.
 
+Implementation clarification for #33: "restricts" means a safety-specific action
+or formal warning, not the routine permitted-use limits or acceptable daily intake
+that accompany many authorizations. The four authorities above are the operative
+semester policy; the wider list in story #9 is not adopted by this implementation.
+Food-use/population scope and decision/effective dates must be preserved, and
+material disagreement is determined during content review, not inferred at runtime.
+
+Reviewed entries are version-controlled JSON loaded into memory. Names, French
+aliases, E-numbers, and explicitly stored INS numbers support exact matching.
+Nested ingredient components are parsed separately; functional grouping headings
+do not count as additional ingredients. Counts deduplicate canonical matches and
+identical normalized unknowns. Ambiguous text remains unmatched with a warning.
+
 ### Acceptance criteria
 
 #### Ingredient-data source
