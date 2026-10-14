@@ -158,7 +158,11 @@ class IngredientAnalysisResult:
             "warnings": [_json_value(asdict(w)) for w in self.warnings],
             "message": message,
             "coverage_text": (
-                f"Checked {self.checked_count} of {self.total_count} ingredients "
-                "against our reviewed ingredient database."
+                None
+                if self.status is IngredientStatus.UNAVAILABLE or self.total_count == 0
+                else (
+                    f"Checked {self.checked_count} of {self.total_count} ingredients "
+                    "against our reviewed ingredient database."
+                )
             ),
         }

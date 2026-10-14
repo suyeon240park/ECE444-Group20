@@ -161,6 +161,7 @@ def test_provenance_and_absence(knowledge):
         result = service.analyze(p).to_dict()
         assert result["status"] == "unavailable"
         assert result["message"] == "Ingredient information not available"
+        assert result["coverage_text"] is None
         assert result["checked_count"] == result["total_count"] == 0
         assert result["matched"] == result["unmatched"] == result["warnings"] == []
 
@@ -169,6 +170,9 @@ def test_empty_collection_is_not_missing_list():
     result = analyze(IngredientKnowledgeBase([], load_source_policy()), "sugar, salt")
     assert result["status"] == "no_matches"
     assert result["total_count"] == 2
+    assert result["coverage_text"] == (
+        "Checked 0 of 2 ingredients against our reviewed ingredient database."
+    )
 
 
 def test_limits_and_non_ingredient_text(knowledge):
@@ -252,3 +256,97 @@ def test_surrounding_punctuation_preserves_identifier_suffix(knowledge):
     result = analyze(knowledge, "[(E150(i))], E150(ii)")
     assert [m["ingredient"]["id"] for m in result["matched"]] == ["caramel_i"]
     assert result["total_count"] == 2
+
+
+@pytest.mark.parametrize(
+    "description",
+    [
+        "from fresh, ripe tomatoes",
+        "FROM FRESH RIPE TOMATOES",
+        "from fresh tomatoes",
+        "from concentrate",
+        "made from tomatoes",
+        "made from fresh tomatoes",
+        "made from fresh ripe tomatoes",
+        "made from fresh, ripe tomatoes",
+        "made from concentrate",
+        "à partir de concentré",
+        "à partir de tomates",
+        "fait de tomates",
+        "faite de tomates",
+        "faite de tomates mûres et fraîches",
+    ],
+)
+def test_source_description_is_one_parent_occurrence(knowledge, description):
+    text = f"Tomato paste ({description})"
+    parsed = parse_ingredients(text, knowledge)
+    assert [(c.text, c.lookup_text) for c in parsed.candidates] == [(text, "Tomato paste")]
+    result = analyze(knowledge, text)
+    assert result["total_count"] == 1
+    assert result["unmatched"][0]["text"] == text
+    assert result["warnings"] == []
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Chocolate (sugar, milk)",
+        "Chocolate (made with sugar, milk)",
+        "Chocolate (made from sugar, milk)",
+        "Chocolate (à partir de sugar, milk)",
+        "Chocolate (fait de sugar, milk)",
+        "Chocolate (faite de sugar, milk)",
+    ],
+)
+def test_description_prefix_cannot_hide_actual_components(knowledge, text):
+    result = analyze(knowledge, text)
+    assert [m["ingredient"]["id"] for m in result["matched"]] == ["chocolate", "sugar", "milk"]
+    assert result["unmatched"] == []
+    assert result["total_count"] == 3
+
+
+def test_description_filter_preserves_separate_groups_and_flagged_children(knowledge):
+    result = analyze(
+        knowledge,
+        "Tomato paste (from fresh, ripe tomatoes) (salt), "
+        "colour (titanium dioxide), emulsifier (soy lecithin), "
+        "grape juice (contains sulphites)",
+    )
+    assert [m["ingredient"]["id"] for m in result["matched"]] == [
+        "salt",
+        "titanium_dioxide",
+        "soy_lecithin",
+        "grape_juice",
+        "sulphites",
+    ]
+    assert [u["text"] for u in result["unmatched"]] == ["Tomato paste"]
+    assert result["total_count"] == 6
+    assert result["flagged_ids"] == ["titanium_dioxide"]
+
+
+def test_unrecognized_description_is_not_silently_discarded(knowledge):
+    result = analyze(knowledge, "Chocolate (made with unfamiliar ingredient, sugar)")
+    assert [m["ingredient"]["id"] for m in result["matched"]] == ["chocolate", "sugar"]
+    assert [u["text"] for u in result["unmatched"]] == ["unfamiliar ingredient"]
+    assert result["total_count"] == 3
+
+
+def test_enriched_flour_counts_parent_and_named_components(knowledge):
+    result = analyze(knowledge, "Enriched wheat flour (wheat flour, niacin, reduced iron)")
+    assert [u["text"] for u in result["unmatched"]] == [
+        "Enriched wheat flour",
+        "wheat flour",
+        "niacin",
+        "reduced iron",
+    ]
+    assert result["total_count"] == 4
+
+
+@pytest.mark.parametrize("text", ["Contains: milk. May contain: peanuts.", "Ingredients:"])
+def test_no_recoverable_candidates_has_no_coverage_claim(knowledge, text):
+    result = analyze(knowledge, text)
+    assert result["status"] == "no_matches"
+    assert result["coverage_text"] is None
+    assert result["message"] == "No verified ingredient analysis available."
+    assert result["total_count"] == 0
+    assert [w["code"] for w in result["warnings"]] == ["no_ingredient_candidates"]

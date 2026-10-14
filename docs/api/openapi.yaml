@@ -392,7 +392,10 @@ components:
           - type: string
           - type: 'null'
         coverage_text:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Null when unavailable or no ingredient candidates could be recovered.
       description: 'Reusable F4 service result for #40/#43. Not yet returned by GET /api/products/{barcode}.
         See ingredient-analysis.md and ingredient-examples.json. Counts deduplicate canonical matches
         and identical normalized unknowns. Warnings must accompany coverage. All flagged IDs are returned,

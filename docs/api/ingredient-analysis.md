@@ -55,15 +55,24 @@ scope, source, and dates. Do not infer a universal safe/unsafe verdict.
 - Recognized bilingual/synonymous forms count once. Unknown translations are not
   guessed to be equivalent; only identical normalized unknown text is deduplicated.
 - The supplied `coverage_text` reads `Checked X of Y ingredients against our
-  reviewed ingredient database.` Keep it visible with flags/no-flags messages.
+  reviewed ingredient database.` Keep it visible with flags/no-flags messages
+  when non-null. It is `null` for `unavailable`, and also when no ingredient
+  candidates can be recovered (Y = 0). Never substitute a "Checked 0 of 0"
+  message. A genuine list with zero matches still shows "Checked 0 of Y".
 - Named compound ingredients and named components both count. Functional/group
   headings such as `Sugars (...)` and `colour (...)` do not add an ingredient.
+  For example, `Shortening (vegetable oil, modified palm oil)` counts three
+  candidates. A later repeated `vegetable oil` does not add a fourth. This is
+  the existing #33 counting policy, not a count of only top-level label items;
+  reviewers should explicitly confirm it alongside the F4 clarification.
 - For `Sugar, corn syrup, modified corn starch, colour (titanium dioxide), carnauba
   wax`, a database containing the first four produces 4 of 5, not 4 of 6.
 - Preserve warnings alongside coverage: on malformed input, Y describes the
   candidates that could be segmented, not a verified count of the printed label.
 - Show unknowns under `Not in our database yet`. Neither unknown nor unflagged
   means safe. If no candidates can be recovered, use `no_matches`, not unavailable.
+  Keep the `no_ingredient_candidates` warning and the no-verified-analysis message,
+  with null coverage text.
 
 ## Parsing and limits
 
@@ -78,6 +87,16 @@ alternatives. Known complete aliases take precedence over splitting. Chemical
 numeric locants are protected. Trailing ingredient percentages and an explicit
 list of purpose annotations do not add ingredients; leading qualifiers such as
 `2% milk` remain meaningful. Unknown E/INS suffixes remain unmatched identifiers.
+
+Whole source descriptions in the bounded `_SOURCE_ANNOTATIONS` list (for example,
+`from fresh, ripe tomatoes`, `from concentrate`, and the ketchup label's French
+`faite de tomates mûres et fraîches`) annotate the parent. They are recognized
+before commas or conjunctions split children. Original label text stays in the
+occurrence. This is deliberately not a rule that deletes every child beginning
+with `from` or `made with`: a composition such as `chocolate (made with sugar,
+milk)` retains its components. Unrecognized source/composition introductions are
+stripped inside components and their remaining names stay subject to ordinary
+exact matching; arbitrary prose is not guaranteed to be understood.
 
 `vegetable oil (corn, canola and/or soybean)` uses a narrow oil-component table;
 `corn` in that context is looked up as `corn oil`. Named oil mixtures still count
@@ -112,3 +131,17 @@ tests compare their complete JSON to the service and validate against OpenAPI.
 Production entries and a real 30-product coverage benchmark arrive in #34/#35.
 See [the authoring guide](../../backend/content/ingredients/README.md) for content
 fields, source policy, review requirements, and the offline validator.
+
+The smaller [real-label regression set](../../backend/tests/fixtures/ingredients/real_labels.json)
+contains source-traceable text from five Canadian-market products plus a missing
+OFF record. Tests assert ordered candidate names, canonical matches, unknowns,
+and coverage against expectations authored independently of parser output. They
+run offline with the synthetic database and do not measure production coverage
+or validate health claims. The transcriptions and counting decisions await a
+teammate's verification; see the [fixture review instructions](../../backend/tests/fixtures/ingredients/README.md).
+
+The milk fixture explicitly preserves a known limitation: unknown English and
+French names are not translated or deduplicated by inference. Its three printed
+ingredients yield six unmatched candidates until reviewed aliases are supplied.
+Do not describe this as six distinct physical ingredients or a passed bilingual
+semantic-deduplication benchmark. Known aliases are tested separately.

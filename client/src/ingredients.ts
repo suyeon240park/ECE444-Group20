@@ -87,5 +87,5 @@ export type IngredientAnalysisResult = {
   flagged_ids: string[];
   warnings: IngredientWarning[];
   message: string | null;
-  coverage_text: string;
+  coverage_text: string | null;
 };

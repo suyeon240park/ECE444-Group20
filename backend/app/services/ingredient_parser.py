@@ -50,6 +50,28 @@ _ANNOTATIONS = {
     "émulsifiant",
     "agent de conservation",
 }
+# Whole descriptions, not prefix rules: "made with sugar, salt" can declare
+# actual components. Keep this list bounded and add source-backed regressions
+# when extending it. Inspect the whole child before commas/conjunctions split it.
+_SOURCE_ANNOTATIONS = {
+    "from fresh, ripe tomatoes",
+    "from fresh ripe tomatoes",
+    "from fresh tomatoes",
+    "from concentrate",
+    "made from tomatoes",
+    "made from fresh tomatoes",
+    "made from fresh ripe tomatoes",
+    "made from fresh, ripe tomatoes",
+    "made from concentrate",
+    "à partir de concentré",
+    "à partir de tomates",
+    "fait de tomates",
+    "faite de tomates",
+    "faite de tomates mûres et fraîches",
+}
+_COMPONENT_INTRO = re.compile(
+    r"^(?:made (?:with|from)|from|à partir de|fait(?:e)? (?:de|à partir de))\s+", re.I
+)
 _IGNORE = re.compile(
     r"^(?:contains\b|may contain\b|contient\b|peut contenir\b|"
     r"gluten[- ]free\b|sans gluten\b|sans gélatine\b|sans agent de conservation\b|"
@@ -212,8 +234,10 @@ def parse_ingredients(text: str, knowledge: IngredientKnowledgeBase) -> ParsedIn
                 visit(part, (*path, i), depth + 1, oil, component)
             return
         declaration = re.match(r"^(?:contains|contient)\b\s*:?\s*", value, re.I)
-        if component and declaration:
-            value = value[declaration.end() :]
+        component_intro = _COMPONENT_INTRO.match(value) if component else None
+        if component and (declaration or component_intro):
+            intro = declaration or component_intro
+            value = value[intro.end() :]
             parts, balanced, _ = _split(value)
         elif _IGNORE.match(value):
             # Discard the whole advisory, including any comma-separated list.
@@ -260,7 +284,7 @@ def parse_ingredients(text: str, knowledge: IngredientKnowledgeBase) -> ParsedIn
             substantive = []
             for child in children:
                 child_match = knowledge.match(child)
-                if normalize_name(child) in _ANNOTATIONS:
+                if normalize_name(child) in _ANNOTATIONS | _SOURCE_ANNOTATIONS:
                     continue
                 if re.fullmatch(r"\s*\d+(?:[.,]\d+)?\s*%\s*", child):
                     continue

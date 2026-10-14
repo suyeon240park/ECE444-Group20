@@ -11,7 +11,27 @@
       "flagged_ids": [],
       "warnings": [],
       "message": "Ingredient information not available",
-      "coverage_text": "Checked 0 of 0 ingredients against our reviewed ingredient database."
+      "coverage_text": null
+    }
+  },
+  "no_candidates": {
+    "ingredients_text": "Contains: milk. May contain: peanuts.",
+    "result": {
+      "status": "no_matches",
+      "checked_count": 0,
+      "total_count": 0,
+      "flagged_count": 0,
+      "matched": [],
+      "unmatched": [],
+      "flagged_ids": [],
+      "warnings": [
+        {
+          "code": "no_ingredient_candidates",
+          "text": "No ingredient names could be parsed from the supplied text."
+        }
+      ],
+      "message": "No verified ingredient analysis available.",
+      "coverage_text": null
     }
   },
   "no_matches": {
