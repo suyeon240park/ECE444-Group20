@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "bacterial_culture",
+    "name": "Bacterial culture",
+    "aliases": [
+      "bacterial cultures",
+      "culture bacterienne",
+      "cultures bacteriennes"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Bacterial cultures are live bacteria used in food fermentation.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "why_used": {
+      "text": "They ferment dairy and other foods to produce flavors and textures.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "explanation": {
+      "text": "On Canadian labels, bacteria species may be listed collectively as bacterial culture.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "sources": [
+      {
+        "id": "names",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Common Names for Ingredients and Components",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/common-names-ingredients-and-components",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

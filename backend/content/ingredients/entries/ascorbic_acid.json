@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "ascorbic_acid",
+    "name": "Ascorbic acid",
+    "aliases": [
+      "vitamin c",
+      "vitamine c",
+      "acide ascorbique"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Ascorbic acid is vitamin C.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "why_used": {
+      "text": "It preserves foods and is added as a nutrient.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "Used both as a preservative to prevent spoilage and as a nutrient supplement.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

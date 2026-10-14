@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "cocoa_butter",
+    "name": "Cocoa butter",
+    "aliases": [
+      "beurre de cacao"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Cocoa butter is the fat extracted from cacao beans.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It provides texture and structure in chocolate products.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "explanation": {
+      "text": "A plant-derived fat used in chocolate and confectionery.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

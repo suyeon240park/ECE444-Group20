@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "cocoa",
+    "name": "Cocoa",
+    "aliases": [
+      "cocoa powder",
+      "cacao",
+      "poudre de cacao"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Cocoa is the powder remaining after cocoa butter is removed from cocoa mass.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It adds chocolate flavor to foods.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "explanation": {
+      "text": "A processed cacao product providing flavor without the full fat content of cocoa butter.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

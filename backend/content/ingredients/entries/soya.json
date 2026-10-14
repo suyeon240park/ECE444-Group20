@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "soya",
+    "name": "Soya",
+    "aliases": [
+      "soy",
+      "soja"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Soya refers to the soybean plant and its products.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It provides protein and oil in foods.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "explanation": {
+      "text": "Soy is a priority food allergen in Canada and must be declared on labels.",
+      "source_ids": [
+        "labels"
+      ]
+    },
+    "sources": [
+      {
+        "id": "labels",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "List of ingredients and allergens on food labels",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/list-ingredients-and-allergens",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "_comment": "Seed data for generate_entries.py. Shared sources are defined once; each ingredient references them by id. Text is sourced from the referenced authority pages.",
+  "sources": [
+    {
+      "id": "fda_types",
+      "publisher": "FDA",
+      "title": "Types of Food Ingredients",
+      "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "names",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Common Names for Ingredients and Components",
+      "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/common-names-ingredients-and-components",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "labels",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "List of ingredients and allergens on food labels",
+      "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/list-ingredients-and-allergens",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "standards",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Canadian Food Compositional Standards",
+      "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "fats",
+      "publisher": "Health Canada",
+      "title": "Choose foods with healthy fats",
+      "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/choosing-healthy-fats.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "food_guide",
+      "publisher": "Health Canada",
+      "title": "Canada's Food Guide",
+      "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "oils",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Labelling requirements for fats and oils",
+      "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/fats-and-oils",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "food_additives",
+      "publisher": "Health Canada",
+      "title": "Food additives",
+      "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/food-safety/food-additives.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "dairy",
+      "publisher": "Health Canada",
+      "title": "Milk and alternatives",
+      "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/milk-alternatives.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "citric_acid",
+      "name": "Citric acid",
+      "aliases": ["acide citrique"],
+      "source_ids": ["fda_types", "food_additives"],
+      "what_it_is": "Citric acid is an organic acid found naturally in citrus fruits.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "It preserves foods and controls their acidity.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "Used as a preservative and pH control agent in many packaged foods.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "cocoa_butter",
+      "name": "Cocoa butter",
+      "aliases": ["beurre de cacao"],
+      "source_ids": ["standards"],
+      "what_it_is": "Cocoa butter is the fat extracted from cacao beans.",
+      "why_used": "It provides texture and structure in chocolate products.",
+      "explanation": "A plant-derived fat used in chocolate and confectionery."
+    },
+    {
+      "id": "yeast",
+      "name": "Yeast",
+      "aliases": ["levure"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Yeast is a single-celled fungus used in food production.",
+      "why_used": "It promotes rising of baked goods.",
+      "explanation": "A leavening agent that produces carbon dioxide to make dough rise."
+    },
+    {
+      "id": "vinegar",
+      "name": "Vinegar",
+      "aliases": ["vinaigre"],
+      "source_ids": ["names", "fda_types"],
+      "what_it_is": "Vinegar is a dilute solution of acetic acid.",
+      "what_it_is_sources": ["names"],
+      "why_used": "It preserves foods and adds a sour taste.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "On Canadian labels, vinegar may refer to wine, spirit, malt, cider, or other specified types.",
+      "explanation_sources": ["names"]
+    },
+    {
+      "id": "baking_soda",
+      "name": "Baking soda",
+      "aliases": ["sodium bicarbonate", "bicarbonate de sodium"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Baking soda is sodium bicarbonate.",
+      "why_used": "It promotes rising of baked goods.",
+      "explanation": "A leavening agent that reacts with acids to produce carbon dioxide."
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "aliases": ["lait", "whole milk", "lait entier"],
+      "source_ids": ["names", "dairy"],
+      "what_it_is": "Milk is the liquid produced by mammals, most commonly cows.",
+      "what_it_is_sources": ["dairy"],
+      "why_used": "It provides moisture, protein, and fat in foods.",
+      "why_used_sources": ["dairy"],
+      "explanation": "On Canadian labels, various forms of milk may be grouped as milk ingredients.",
+      "explanation_sources": ["names"]
+    },
+    {
+      "id": "palm_oil",
+      "name": "Palm oil",
+      "aliases": ["huile de palme"],
+      "source_ids": ["standards", "fats"],
+      "what_it_is": "Palm oil is a vegetable oil from the fruit of oil palms.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It supplies fat when preparing foods.",
+      "why_used_sources": ["fats"],
+      "explanation": "A plant-derived fat listed among saturated fat sources by Health Canada.",
+      "explanation_sources": ["fats"]
+    },
+    {
+      "id": "cocoa_mass",
+      "name": "Cocoa mass",
+      "aliases": ["cocoa liquor", "chocolate liquor", "pate de cacao", "masse de cacao"],
+      "source_ids": ["standards"],
+      "what_it_is": "Cocoa mass is ground cacao beans containing both cocoa solids and cocoa butter.",
+      "why_used": "It provides the base chocolate flavor and color in confectionery.",
+      "explanation": "A processed cacao product used to make chocolate."
+    },
+    {
+      "id": "cocoa",
+      "name": "Cocoa",
+      "aliases": ["cocoa powder", "cacao", "poudre de cacao"],
+      "source_ids": ["standards"],
+      "what_it_is": "Cocoa is the powder remaining after cocoa butter is removed from cocoa mass.",
+      "why_used": "It adds chocolate flavor to foods.",
+      "explanation": "A processed cacao product providing flavor without the full fat content of cocoa butter."
+    },
+    {
+      "id": "almonds",
+      "name": "Almonds",
+      "aliases": ["amandes", "almond"],
+      "source_ids": ["labels", "food_guide"],
+      "what_it_is": "Almonds are tree nuts from the almond tree.",
+      "what_it_is_sources": ["labels"],
+      "why_used": "They add flavor, texture, and nutrition to foods.",
+      "why_used_sources": ["food_guide"],
+      "explanation": "Almonds are a priority food allergen in Canada and must be declared on labels.",
+      "explanation_sources": ["labels"]
+    },
+    {
+      "id": "peanuts",
+      "name": "Peanuts",
+      "aliases": ["peanut", "arachides", "arachide"],
+      "source_ids": ["labels", "food_guide"],
+      "what_it_is": "Peanuts are legumes commonly used in foods.",
+      "what_it_is_sources": ["labels"],
+      "why_used": "They add flavor, texture, protein, and fat to foods.",
+      "why_used_sources": ["food_guide"],
+      "explanation": "Peanuts are a priority food allergen in Canada and must be declared on labels.",
+      "explanation_sources": ["labels"]
+    },
+    {
+      "id": "maltodextrin",
+      "name": "Maltodextrin",
+      "aliases": ["maltodextrine"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Maltodextrin is a starch-derived carbohydrate.",
+      "why_used": "It adds bulk and texture to processed foods.",
+      "explanation": "A common food additive used as a thickener and filler."
+    },
+    {
+      "id": "dextrose",
+      "name": "Dextrose",
+      "aliases": ["glucose", "d-glucose"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Dextrose is a simple sugar chemically identical to glucose.",
+      "why_used": "It adds sweetness.",
+      "explanation": "A sweetener derived from starch, commonly from corn."
+    },
+    {
+      "id": "lactic_acid",
+      "name": "Lactic acid",
+      "aliases": ["acide lactique"],
+      "source_ids": ["fda_types", "food_additives"],
+      "what_it_is": "Lactic acid is an organic acid produced by fermentation.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "It controls acidity and prevents spoilage.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "Used as a pH control agent and acidulant in packaged foods.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "pectin",
+      "name": "Pectin",
+      "aliases": ["pectine"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Pectin is a naturally occurring polysaccharide found in fruits.",
+      "why_used": "It produces a gel-like texture and acts as a thickener.",
+      "explanation": "A stabilizer and thickener commonly used in jams and jellies."
+    },
+    {
+      "id": "whey_powder",
+      "name": "Whey powder",
+      "aliases": ["whey", "dried whey", "poudre de lactoserum", "lactoserum"],
+      "source_ids": ["names", "dairy"],
+      "what_it_is": "Whey powder is dried whey, the liquid portion of milk remaining after cheese making.",
+      "what_it_is_sources": ["names"],
+      "why_used": "It adds protein and improves texture in foods.",
+      "why_used_sources": ["dairy"],
+      "explanation": "On Canadian labels, whey and whey derivatives may be grouped under milk-derived ingredients.",
+      "explanation_sources": ["names"]
+    },
+    {
+      "id": "rice_flour",
+      "name": "Rice flour",
+      "aliases": ["farine de riz"],
+      "source_ids": ["standards"],
+      "what_it_is": "Rice flour is flour made by milling rice.",
+      "why_used": "It serves as a gluten-free flour alternative.",
+      "explanation": "A grain-based flour used in baking and as a thickener."
+    },
+    {
+      "id": "tapioca_starch",
+      "name": "Tapioca starch",
+      "aliases": ["tapioca", "amidon de tapioca", "amidon de manioc"],
+      "source_ids": ["standards", "fda_types"],
+      "what_it_is": "Tapioca starch is extracted from the cassava root.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It thickens and stabilizes foods.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "A plant-derived starch commonly used as a thickener.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "sunflower_lecithin",
+      "name": "Sunflower lecithin",
+      "aliases": ["lecithine de tournesol"],
+      "source_ids": ["names", "fda_types"],
+      "what_it_is": "Sunflower lecithin is an emulsifier derived from sunflower seeds.",
+      "what_it_is_sources": ["names"],
+      "why_used": "It allows smooth mixing and prevents separation.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "An emulsifier used as an alternative to soy lecithin.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "calcium_carbonate",
+      "name": "Calcium carbonate",
+      "aliases": ["carbonate de calcium"],
+      "source_ids": ["fda_types", "food_additives"],
+      "what_it_is": "Calcium carbonate is a mineral compound.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "It adds calcium as a nutrient and acts as a leavening agent.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "Used both as a nutrient supplement and a leavening agent in foods.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "spices",
+      "name": "Spices",
+      "aliases": ["spice", "epices", "epice"],
+      "source_ids": ["names", "fda_types"],
+      "what_it_is": "Spices are dried plant-derived seasonings.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "They add flavor to foods.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "On Canadian labels, individual spices may be listed collectively as spices.",
+      "explanation_sources": ["names"]
+    },
+    {
+      "id": "enzymes",
+      "name": "Enzymes",
+      "aliases": ["enzyme"],
+      "source_ids": ["fda_types", "names"],
+      "what_it_is": "Enzymes are proteins that catalyze chemical reactions in foods.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "They modify proteins, polysaccharides, and fats during food processing.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "Enzyme preparations are used in cheese making, baking, and other food processes.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "flavouring",
+      "name": "Flavouring",
+      "aliases": ["flavoring", "artificial flavour", "artificial flavor", "arome", "arome artificiel"],
+      "source_ids": ["names", "fda_types"],
+      "what_it_is": "Flavouring substances add specific flavors to foods.",
+      "what_it_is_sources": ["fda_types"],
+      "why_used": "They add or enhance flavor.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "On Canadian labels, flavourings from chemical synthesis must be declared as artificial.",
+      "explanation_sources": ["names"]
+    },
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "aliases": ["ble"],
+      "source_ids": ["labels", "standards"],
+      "what_it_is": "Wheat is a cereal grain.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It provides structure, starch, and protein in foods.",
+      "why_used_sources": ["standards"],
+      "explanation": "Wheat is a priority food allergen in Canada and must be declared on labels.",
+      "explanation_sources": ["labels"]
+    },
+    {
+      "id": "whole_grain_wheat",
+      "name": "Whole grain wheat",
+      "aliases": ["whole wheat", "ble entier"],
+      "source_ids": ["standards", "food_guide"],
+      "what_it_is": "Whole grain wheat includes the bran, germ, and endosperm of the wheat kernel.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It provides fibre and nutrients in grain products.",
+      "why_used_sources": ["food_guide"],
+      "explanation": "Whole grains are recommended by Canada's Food Guide as a source of fibre.",
+      "explanation_sources": ["food_guide"]
+    },
+    {
+      "id": "wheat_bran",
+      "name": "Wheat bran",
+      "aliases": ["son de ble"],
+      "source_ids": ["standards", "food_guide"],
+      "what_it_is": "Wheat bran is the outer layer of the wheat kernel.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It adds dietary fibre to foods.",
+      "why_used_sources": ["food_guide"],
+      "explanation": "A source of dietary fibre often added to cereals and baked goods.",
+      "explanation_sources": ["food_guide"]
+    },
+    {
+      "id": "barley_malt_extract",
+      "name": "Barley malt extract",
+      "aliases": ["malt extract", "extrait de malt", "extrait de malt d'orge"],
+      "source_ids": ["standards", "fda_types"],
+      "what_it_is": "Barley malt extract is a sweetener derived from sprouted barley.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It adds sweetness and flavor to foods.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "A natural sweetener and flavoring commonly used in cereals and baked goods.",
+      "explanation_sources": ["fda_types"]
+    },
+    {
+      "id": "bacterial_culture",
+      "name": "Bacterial culture",
+      "aliases": ["bacterial cultures", "culture bacterienne", "cultures bacteriennes"],
+      "source_ids": ["names"],
+      "what_it_is": "Bacterial cultures are live bacteria used in food fermentation.",
+      "why_used": "They ferment dairy and other foods to produce flavors and textures.",
+      "explanation": "On Canadian labels, bacteria species may be listed collectively as bacterial culture."
+    },
+    {
+      "id": "ascorbic_acid",
+      "name": "Ascorbic acid",
+      "aliases": ["vitamin c", "vitamine c", "acide ascorbique"],
+      "source_ids": ["fda_types"],
+      "what_it_is": "Ascorbic acid is vitamin C.",
+      "why_used": "It preserves foods and is added as a nutrient.",
+      "explanation": "Used both as a preservative to prevent spoilage and as a nutrient supplement."
+    },
+    {
+      "id": "soya",
+      "name": "Soya",
+      "aliases": ["soy", "soja"],
+      "source_ids": ["labels", "standards"],
+      "what_it_is": "Soya refers to the soybean plant and its products.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It provides protein and oil in foods.",
+      "why_used_sources": ["standards"],
+      "explanation": "Soy is a priority food allergen in Canada and must be declared on labels.",
+      "explanation_sources": ["labels"]
+    },
+    {
+      "id": "enriched_wheat_flour",
+      "name": "Enriched wheat flour",
+      "aliases": ["enriched flour", "farine de ble enrichie", "farine enrichie"],
+      "source_ids": ["standards", "fda_types"],
+      "what_it_is": "Enriched wheat flour is wheat flour with added vitamins and minerals.",
+      "what_it_is_sources": ["standards"],
+      "why_used": "It replaces vitamins and minerals lost during milling.",
+      "why_used_sources": ["fda_types"],
+      "explanation": "Enrichment adds nutrients such as niacin, riboflavin, folic acid, and iron back to refined flour.",
+      "explanation_sources": ["fda_types"]
+    }
+  ]
+}

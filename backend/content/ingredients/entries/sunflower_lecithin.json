@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "sunflower_lecithin",
+    "name": "Sunflower lecithin",
+    "aliases": [
+      "lecithine de tournesol"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Sunflower lecithin is an emulsifier derived from sunflower seeds.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "why_used": {
+      "text": "It allows smooth mixing and prevents separation.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "An emulsifier used as an alternative to soy lecithin.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "sources": [
+      {
+        "id": "names",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Common Names for Ingredients and Components",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/common-names-ingredients-and-components",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}
