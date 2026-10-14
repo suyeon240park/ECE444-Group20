@@ -74,10 +74,18 @@ _COMPONENT_INTRO = re.compile(
 )
 _IGNORE = re.compile(
     r"^(?:contains\b|may contain\b|contient\b|peut contenir\b|"
-    r"gluten[- ]free\b|sans gluten\b|sans gélatine\b|sans agent de conservation\b|"
     r"made with\b|fait (?:de|à partir)\b|keep refrigerated\b|garder au réfrigérateur\b)",
     re.I,
 )
+_DIETARY_CLAIM = re.compile(
+    r"(?:gluten[- ]free|sans gluten|sans gélatine|sans agent de conservation)", re.I
+)
+_QUANTITY_INTRO = re.compile(
+    r"^contains\s+(?:less than\s+\d+(?:[.,]\d+)?\s*%\s+of|"
+    r"\d+(?:[.,]\d+)?\s*%\s+or less\s+of)\s*:?\s*",
+    re.I,
+)
+_LEADING_CONJUNCTION = re.compile(r"^(?:and\s*/\s*or|et\s*/\s*ou|and|or|et|ou)\s+", re.I)
 _CONJUNCTION = re.compile(r"\s+(?:and\s*/\s*or|et\s*/\s*ou|and|or|et|ou)\s+|\s*/\s*", re.I)
 _COMPOUND_NAMES = {
     "mono- and diglycerides",
@@ -134,8 +142,8 @@ def _split(text: str) -> tuple[list[str], bool, bool]:
             if char == ".":
                 before = text[start:i].rstrip().casefold()
                 after = text[i + 1 :]
-                delimiter = (not after or after[0].isspace()) and not (
-                    before.endswith(("no", "vit")) or (after.lstrip()[:1].isdigit())
+                delimiter = (not after or after[0].isspace() or after[0] == ",") and not (
+                    re.search(r"\b(?:no|vit)$", before) or (after.lstrip()[:1].isdigit())
                 )
                 if delimiter:
                     sentences.append(text[sentence_start:i])
@@ -226,7 +234,10 @@ def parse_ingredients(text: str, knowledge: IngredientKnowledgeBase) -> ParsedIn
             add(raw, value, path, True)
             return
         value = _LEADING_HEADING.sub("", value)
+        value = _LEADING_CONJUNCTION.sub("", value)
         if not normalize_name(value):
+            return
+        if _DIETARY_CLAIM.fullmatch(normalize_name(value)):
             return
         parts, balanced, sentence_split = _split(value)
         if sentence_split:
@@ -235,8 +246,9 @@ def parse_ingredients(text: str, knowledge: IngredientKnowledgeBase) -> ParsedIn
             return
         declaration = re.match(r"^(?:contains|contient)\b\s*:?\s*", value, re.I)
         component_intro = _COMPONENT_INTRO.match(value) if component else None
-        if component and (declaration or component_intro):
-            intro = declaration or component_intro
+        quantity_intro = _QUANTITY_INTRO.match(value)
+        if quantity_intro or (component and (declaration or component_intro)):
+            intro = quantity_intro or declaration or component_intro
             value = value[intro.end() :]
             parts, balanced, _ = _split(value)
         elif _IGNORE.match(value):
@@ -256,7 +268,7 @@ def parse_ingredients(text: str, knowledge: IngredientKnowledgeBase) -> ParsedIn
             return
         if len(parts) > 1:
             for i, part in enumerate(parts):
-                if not component and _IGNORE.match(part):
+                if not component and _IGNORE.match(part) and not _QUANTITY_INTRO.match(part):
                     break  # Remaining comma-separated words belong to this advisory.
                 visit(part, (*path, i), depth + 1, oil, component)
             return
