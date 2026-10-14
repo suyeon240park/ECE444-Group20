@@ -4,10 +4,7 @@
     "id": "water",
     "name": "Water",
     "aliases": [
-      "filtered water",
-      "purified water",
-      "eau",
-      "eau filtree"
+      "eau"
     ],
     "e_numbers": [],
     "ins_numbers": [],
