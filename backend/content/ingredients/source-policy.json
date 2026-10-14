@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "allowed_hosts": [
+    "canada.ca",
+    "www.canada.ca",
+    "food-guide.canada.ca",
+    "inspection.canada.ca",
+    "efsa.europa.eu",
+    "www.efsa.europa.eu",
+    "fda.gov",
+    "www.fda.gov",
+    "who.int",
+    "www.who.int",
+    "apps.who.int",
+    "cdn.who.int"
+  ]
+}

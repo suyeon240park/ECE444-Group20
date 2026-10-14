@@ -1,0 +1,971 @@
+[
+  {
+    "id": "sugar",
+    "name": "Sugar",
+    "aliases": [
+      "sucre",
+      "cane sugar"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "aliases": [
+      "sel"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "corn_syrup",
+    "name": "Corn syrup",
+    "aliases": [
+      "sirop de maïs"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "modified_corn_starch",
+    "name": "Modified corn starch",
+    "aliases": [
+      "amidon de maïs modifié"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "titanium_dioxide",
+    "name": "Titanium dioxide",
+    "aliases": [
+      "dioxyde de titane",
+      "TiO2"
+    ],
+    "e_numbers": [
+      "E171"
+    ],
+    "ins_numbers": [
+      "INS 171"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      },
+      {
+        "id": "efsa",
+        "publisher": "EFSA (synthetic fixture)",
+        "title": "Synthetic opposing reference",
+        "url": "https://www.efsa.europa.eu/en",
+        "published_on": "2000-01-01",
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [
+      {
+        "id": "hc_position",
+        "authority": "health_canada",
+        "statement": "Synthetic first assessment.",
+        "scope": "Synthetic food-use scope.",
+        "source_ids": [
+          "hc"
+        ],
+        "assessed_on": "2000-01-01",
+        "effective_on": null
+      },
+      {
+        "id": "efsa_position",
+        "authority": "efsa",
+        "statement": "Synthetic differing assessment.",
+        "scope": "Synthetic food-use scope.",
+        "source_ids": [
+          "efsa"
+        ],
+        "assessed_on": "2000-01-01",
+        "effective_on": null
+      }
+    ],
+    "flag": {
+      "flag_reason": "Synthetic disagreement example; not food guidance.",
+      "category": "conflicting_assessments",
+      "source_ids": [
+        "hc",
+        "efsa"
+      ],
+      "position_ids": [
+        "hc_position",
+        "efsa_position"
+      ]
+    }
+  },
+  {
+    "id": "ascorbic_acid",
+    "name": "Ascorbic acid",
+    "aliases": [
+      "vitamin C",
+      "acide ascorbique"
+    ],
+    "e_numbers": [
+      "E300"
+    ],
+    "ins_numbers": [
+      "INS 300"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [
+      {
+        "id": "hc_position",
+        "authority": "health_canada",
+        "statement": "Synthetic first assessment.",
+        "scope": "Synthetic food-use scope.",
+        "source_ids": [
+          "hc"
+        ],
+        "assessed_on": "2000-01-01",
+        "effective_on": null
+      }
+    ],
+    "flag": {
+      "flag_reason": "Synthetic authority-action example; not food guidance.",
+      "category": "authority_action",
+      "source_ids": [
+        "hc"
+      ],
+      "position_ids": [
+        "hc_position"
+      ]
+    }
+  },
+  {
+    "id": "sodium_benzoate",
+    "name": "Sodium benzoate",
+    "aliases": [
+      "benzoate de sodium"
+    ],
+    "e_numbers": [
+      "E211"
+    ],
+    "ins_numbers": [
+      "INS 211"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [
+      {
+        "id": "hc_position",
+        "authority": "health_canada",
+        "statement": "Synthetic first assessment.",
+        "scope": "Synthetic food-use scope.",
+        "source_ids": [
+          "hc"
+        ],
+        "assessed_on": "2000-01-01",
+        "effective_on": null
+      }
+    ],
+    "flag": {
+      "flag_reason": "Synthetic authority-action example; not food guidance.",
+      "category": "authority_action",
+      "source_ids": [
+        "hc"
+      ],
+      "position_ids": [
+        "hc_position"
+      ]
+    }
+  },
+  {
+    "id": "mono_diglycerides",
+    "name": "Mono- and diglycerides",
+    "aliases": [
+      "mono- et diglycérides"
+    ],
+    "e_numbers": [
+      "E471"
+    ],
+    "ins_numbers": [
+      "INS 471"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "soy_lecithin",
+    "name": "Soy lecithin",
+    "aliases": [
+      "lécithine de soja",
+      "lecithin (soy)"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "vegetable_oil",
+    "name": "Vegetable oil",
+    "aliases": [
+      "huile végétale"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "corn_oil",
+    "name": "Corn oil",
+    "aliases": [
+      "huile de maïs"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "canola_oil",
+    "name": "Canola oil",
+    "aliases": [
+      "huile de canola"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "soybean_oil",
+    "name": "Soybean oil",
+    "aliases": [
+      "huile de soja"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "corn",
+    "name": "Corn",
+    "aliases": [
+      "maïs"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "milk",
+    "name": "Milk",
+    "aliases": [
+      "lait"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "chocolate",
+    "name": "Chocolate",
+    "aliases": [
+      "chocolat"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "sulphites",
+    "name": "Sulphites",
+    "aliases": [
+      "sulfites"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "grape_juice",
+    "name": "Grape juice",
+    "aliases": [
+      "jus de raisin"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "chemical_locant",
+    "name": "1,3-Butylene glycol",
+    "aliases": [],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "caramel_i",
+    "name": "Plain caramel",
+    "aliases": [],
+    "e_numbers": [
+      "E150(i)"
+    ],
+    "ins_numbers": [
+      "INS 150a"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [],
+    "flag": null
+  },
+  {
+    "id": "erythrosine",
+    "name": "Erythrosine",
+    "aliases": [
+      "FD&C Red No. 3"
+    ],
+    "e_numbers": [
+      "E127"
+    ],
+    "ins_numbers": [
+      "INS 127"
+    ],
+    "what_it_is": {
+      "text": "Synthetic identity text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "why_used": {
+      "text": "Synthetic function text for automated tests only.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "explanation": {
+      "text": "Synthetic explanation; not reviewed food guidance.",
+      "source_ids": [
+        "hc"
+      ]
+    },
+    "sources": [
+      {
+        "id": "hc",
+        "publisher": "Health Canada (synthetic fixture)",
+        "title": "Synthetic source reference",
+        "url": "https://www.canada.ca/en/health-canada.html",
+        "published_on": null,
+        "accessed_on": "2000-01-01"
+      }
+    ],
+    "last_reviewed": "2000-01-01",
+    "authority_positions": [
+      {
+        "id": "hc_position",
+        "authority": "health_canada",
+        "statement": "Synthetic first assessment.",
+        "scope": "Synthetic food-use scope.",
+        "source_ids": [
+          "hc"
+        ],
+        "assessed_on": "2000-01-01",
+        "effective_on": null
+      }
+    ],
+    "flag": {
+      "flag_reason": "Synthetic authority-action example; not food guidance.",
+      "category": "authority_action",
+      "source_ids": [
+        "hc"
+      ],
+      "position_ids": [
+        "hc_position"
+      ]
+    }
+  }
+]

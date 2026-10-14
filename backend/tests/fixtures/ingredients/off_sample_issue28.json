@@ -1,0 +1,1414 @@
+{
+  "sample_source": "https://github.com/suyeon240park/ECE444-Group20/issues/28#issuecomment-6090889655",
+  "spreadsheet_source": "https://github.com/user-attachments/files/33269855/off_coverage_check_issue28.xlsx",
+  "sample_method": "All 30 retailer-selected barcodes in issue #28, original spreadsheet order; no selection based on parser success.",
+  "record_source": "Open Food Facts v3 API; fields limited to product identity and ingredient text. OFF data is community-maintained and may not match the package.",
+  "license": "Open Food Facts database: Open Database License (ODbL); https://world.openfoodfacts.org/terms-of-use",
+  "records": [
+    {
+      "barcode": "065633132832",
+      "sample_name": "Cheerios Multi Grain Cereal, 342 g",
+      "category": "Cereal",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/065633132832?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:16.292119+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0065633132832",
+        "errors": [],
+        "product": {
+          "brands": "General Mills",
+          "code": "0065633132832",
+          "ingredients_text": "AVOINE ENTIÈRE, MAÏS ENTIER, SUCRE ET (OU) SUCRE DORÉ, AMIDON DE MAÏS, FARINE DE RIZ BRUN, SON DE MAÏS, FARINE DE MILLET ENTIER, FARINE DE SORGHO ENTIER, SIROP DORE, SEL, CARBONATE DE CALCIUM, PHOSPHATE TRISODIQUE, MONOGLYCERIDES, COLORANT CARAMEL ET ROCOU, TOCOPHEROLS.\r\nVITAMINES ET MINERAUX: FER, NIACINAMIDE (VITAMINE B3), PANTOTHENATE DE CALCIUM (VITAMINE B5), CHLORHYDRATE DE PYRIDOXINE (VITAMINE B6), FOLATE.\r\nCONTIENT DES INGRÉDIENTS DE L'AVOINE.",
+          "ingredients_text_en": "Whole grain oats, Whole grain corn, Sugars (sugar and/or golden sugar, golden syrup), Corn starch, Brown rice flour, Salt, Calcium carbonate, Trisodium phosphate, Monoglycerides, Caramel and annatto (for colour), Tocopherols (for freshness), Iron, Niacinamide (vitamin B3), Calcium pantothenate (vitamin B5), Pyridoxine hydrochloride (vitamin B6), Folate.",
+          "ingredients_text_fr": "AVOINE ENTIÈRE, MAÏS ENTIER, SUCRE ET (OU) SUCRE DORÉ, AMIDON DE MAÏS, FARINE DE RIZ BRUN, SON DE MAÏS, FARINE DE MILLET ENTIER, FARINE DE SORGHO ENTIER, SIROP DORE, SEL, CARBONATE DE CALCIUM, PHOSPHATE TRISODIQUE, MONOGLYCERIDES, COLORANT CARAMEL ET ROCOU, TOCOPHEROLS.\r\nVITAMINES ET MINERAUX: FER, NIACINAMIDE (VITAMINE B3), PANTOTHENATE DE CALCIUM (VITAMINE B5), CHLORHYDRATE DE PYRIDOXINE (VITAMINE B6), FOLATE.\r\nCONTIENT DES INGRÉDIENTS DE L'AVOINE.",
+          "last_modified_t": 1786549394,
+          "product_name": "Multi-Grain Cheerios",
+          "product_name_en": "Multi Grain Cheerios",
+          "product_name_fr": "Multi-Grain Cheerios"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0065633132832"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059724101869",
+      "sample_name": "Kellogg's Froot Loops, 320 g",
+      "category": "Cereal",
+      "sample_notes": "No ingredients in any language",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059724101869?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:22.402823+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059724101869",
+        "errors": [],
+        "product": {
+          "brands": "Kellogg's",
+          "code": "0059724101869",
+          "ingredients_text": "",
+          "ingredients_text_en": "",
+          "ingredients_text_fr": "",
+          "last_modified_t": 1789093398,
+          "product_name": "",
+          "product_name_en": "Froot Loops",
+          "product_name_fr": ""
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059724101869"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "055577105405",
+      "sample_name": "Quaker Harvest Crunch Honey Almond Granola, 475 g",
+      "category": "Cereal",
+      "sample_notes": "OFF name says Original, Metro lists Honey Almond; brand misspelled 'QUIRKER'",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/055577105405?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:28.514791+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0055577105405",
+        "errors": [],
+        "product": {
+          "brands": "QUIRKER",
+          "code": "0055577105405",
+          "ingredients_text": "Whole grain rolled oats, Rolled whole wheat, Sugars (brown sugar, honey blend), Dried coconut, Modified milk ingredients, Coconut oil, Vegetable oil, Almonds, Natural flavour",
+          "ingredients_text_en": "Whole grain rolled oats, Rolled whole wheat, Sugars (brown sugar, honey blend), Dried coconut, Modified milk ingredients, Coconut oil, Vegetable oil, Almonds, Natural flavour",
+          "ingredients_text_fr": "FLOCONS D'AVOINE À GRAINS ENTIERS, BLE ENTIER ROULÉ, CASSONADE, SUBSTANCES LAITIÈRES MODIFIÉES, NOIX DE COCO SÈCHE, HUILE DE COCO, AMANDES, MÉLANGE DE MIEL, ARÓME NATUREL. CONTIENT DES INGRÉDIENTS DE L'AVOINE, DU BLÉ, DU LAIT ET DE L'AMANDE.",
+          "last_modified_t": 1781392871,
+          "product_name": "HARVEST CRUNCH ORIGINAL",
+          "product_name_en": "HARVEST CRUNCH ORIGINAL",
+          "product_name_fr": "Croque nature recette originale"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0055577105405"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749982689",
+      "sample_name": "Selection FruityOs Cereal, 580 g",
+      "category": "Cereal",
+      "sample_notes": "No ingredients; nutrition basis recorded as per 100 ml for a dry cereal",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749982689?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:34.622776+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749982689",
+        "errors": [],
+        "product": {
+          "brands": "Selection",
+          "code": "0059749982689",
+          "last_modified_t": 1787944003,
+          "product_name": "Fruity",
+          "product_name_en": "Fruity O's",
+          "product_name_fr": "Fruity"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749982689"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "072400011597",
+      "sample_name": "Cream of Wheat Hot Cereal, 800 g",
+      "category": "Cereal",
+      "sample_notes": "Nutrition per 100 g only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/072400011597?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:40.737372+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0072400011597",
+        "errors": [],
+        "product": {
+          "brands": "Cream of Wheat",
+          "code": "0072400011597",
+          "ingredients_text": "farine de blé, germe de blé délipidé, phosphate disodique, orthophosphate ferrique (fer)",
+          "ingredients_text_en": "farine de blé, germe de blé délipidé, phosphate disodique, orthophosphate ferrique (fer)",
+          "ingredients_text_fr": "",
+          "last_modified_t": 1776518506,
+          "product_name": "Cream of Wheat Original",
+          "product_name_en": "Cream of Wheat Original",
+          "product_name_fr": "Original"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0072400011597"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "060410047019",
+      "sample_name": "Lay's Classic Chips, 235 g",
+      "category": "Chips",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/060410047019?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:46.850370+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0060410047019",
+        "errors": [],
+        "product": {
+          "brands": "Lay's",
+          "code": "0060410047019",
+          "ingredients_text": "SPECIALLY SELECTED POTATOES, VEGETABLE OIL, SALT. GLUTEN-FREE. INGRÉDIENTS : POMMES DE TERRE SPÉCIALEMENT SÉLECTIONNÉES, HUILE VÉGÉTALE, SEL. SANS GLUTEN.",
+          "ingredients_text_en": "SPECIALLY SELECTED POTATOES, VEGETABLE OIL, SALT. GLUTEN-FREE. INGRÉDIENTS : POMMES DE TERRE SPÉCIALEMENT SÉLECTIONNÉES, HUILE VÉGÉTALE, SEL. SANS GLUTEN.",
+          "last_modified_t": 1779540014,
+          "product_name": "Classic",
+          "product_name_en": "Classic",
+          "product_name_fr": "Chips Classique"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0060410047019"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "060410087251",
+      "sample_name": "Ruffles Regular Chips, 200 g",
+      "category": "Chips",
+      "sample_notes": "No nutrition values at all",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/060410087251?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:52.966059+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0060410087251",
+        "errors": [],
+        "product": {
+          "brands": "Ruffles",
+          "code": "0060410087251",
+          "ingredients_text": "Specially selected potatoes, Vegetable oil, Salt.",
+          "ingredients_text_en": "Specially selected potatoes, Vegetable oil, Salt.",
+          "last_modified_t": 1789798240,
+          "product_name": "Regular Potato Chips",
+          "product_name_en": "Regular Potato Chips"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0060410087251"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "673513001507",
+      "sample_name": "Hardbite All Natural Chips, 150 g",
+      "category": "Chips",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/673513001507?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:10:59.081839+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0673513001507",
+        "errors": [],
+        "product": {
+          "brands": "Hardbite",
+          "code": "0673513001507",
+          "ingredients_text": "Potatoes, non-hydrogenated sunflower oil and/or non-hydrogenated canola oil, sea salt.",
+          "ingredients_text_en": "Potatoes, non-hydrogenated sunflower oil and/or non-hydrogenated canola oil, sea salt.",
+          "last_modified_t": 1775196442,
+          "product_name": "Potato Chips All Natural",
+          "product_name_en": "Potato Chips All Natural"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0673513001507"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749878753",
+      "sample_name": "Selection Rippled Regular Chips, 200 g",
+      "category": "Chips",
+      "sample_notes": "Ingredients in French only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749878753?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:05.198586+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749878753",
+        "errors": [],
+        "product": {
+          "brands": "Selection, Metro",
+          "code": "0059749878753",
+          "ingredients_text": "Patates, huile de canola, Sel.",
+          "ingredients_text_fr": "Patates, huile de canola, Sel.",
+          "last_modified_t": 1775041989,
+          "product_name": "Salty 3-Ingredient Potato Chips",
+          "product_name_en": "Ripples Classic",
+          "product_name_fr": "Salty 3-Ingredient Potato Chips"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749878753"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749871143",
+      "sample_name": "Irresistible Sea Salt Old-Fashioned Chips, 150 g",
+      "category": "Chips",
+      "sample_notes": "No ingredients; name in French",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749871143?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:11.310927+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749871143",
+        "errors": [],
+        "product": {
+          "brands": "Irresistibles",
+          "code": "0059749871143",
+          "last_modified_t": 1790226748,
+          "product_name": "Irrésistible - Sel de mer",
+          "product_name_en": "Old Fashioned Original Sea Salt Potato Chips",
+          "product_name_fr": "Irrésistible - Sel de mer"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749871143"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "063211000115",
+      "sample_name": "Campbell's Condensed Tomato Soup, 284 mL",
+      "category": "Soup",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/063211000115?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:17.425544+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0063211000115",
+        "errors": [],
+        "product": {
+          "brands": "Campbell's",
+          "code": "0063211000115",
+          "ingredients_text": "Water, Tomato paste, Sugars (glucose-fructose), Modified corn starch, Wheat flour, Salt, Vegetable oil (corn, canola and/or soybean), Citric acid, Ascorbic acid, Flavour (contains celery, garlic), Spice extracts",
+          "ingredients_text_en": "Water, Tomato paste, Sugars (glucose-fructose), Modified corn starch, Wheat flour, Salt, Vegetable oil (corn, canola and/or soybean), Citric acid, Ascorbic acid, Flavour (contains celery, garlic), Spice extracts",
+          "last_modified_t": 1779999764,
+          "product_name": "Tomato",
+          "product_name_en": "Tomato",
+          "product_name_fr": "Soupe tomate"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0063211000115"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "063211311051",
+      "sample_name": "Habitant Pea Soup with Smoked Ham, 796 mL",
+      "category": "Soup",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/063211311051?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:23.542364+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0063211311051",
+        "errors": [],
+        "product": {
+          "brands": "Habitant",
+          "code": "0063211311051",
+          "ingredients_text": "Water, Yellow peas, Ham, Pork lard, Modified corn starch, Salt, Onion powder, Hydrolyzed corn protein, Spice, Smoke flavour.",
+          "ingredients_text_en": "Water, Yellow peas, Ham, Pork lard, Modified corn starch, Salt, Onion powder, Hydrolyzed corn protein, Spice, Smoke flavour.",
+          "ingredients_text_fr": "EAU, POIS JAUNES, JAMBON FUMÉ, SAINDOUX, SEL, PROTÉINES DE MAİS HYDROLYSÉES, POUDRE D'OIGNON, ÉPICE.",
+          "last_modified_t": 1779749963,
+          "product_name": "Pea Soup with Smoked Ham",
+          "product_name_en": "Pea Soup with Smoked Ham",
+          "product_name_fr": "Pea Soup with Smoked Ham"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0063211311051"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "068400014294",
+      "sample_name": "Lipton Chicken Noodle Soup Mix, 4 un",
+      "category": "Soup",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/068400014294?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:29.654130+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0068400014294",
+        "errors": [],
+        "product": {
+          "brands": "Lipton",
+          "code": "0068400014294",
+          "ingredients_text": "wheat noodles , salt, dry extracts of corn syrup, soy protein hydrolyséee, fat chicken, corn starch, palm oil, modified, monosodium glutamate, onion powder, cooked chicken mechanically separated and dehydrated, spice, natural flavor, guanylate disodium, inosinate disodium salt, yeast extract, persil,dried,",
+          "ingredients_text_en": "wheat noodles , salt, dry extracts of corn syrup, soy protein hydrolyséee, fat chicken, corn starch, palm oil, modified, monosodium glutamate, onion powder, cooked chicken mechanically separated and dehydrated, spice, natural flavor, guanylate disodium, inosinate disodium salt, yeast extract, persil,dried,",
+          "ingredients_text_fr": "Nouilles de _blé_, sel, extraits secs de sirop de mais, protéine de _soja_ hydrolyséee, gras de poulet, amidon de maïs, huile de palme modifiée, glutamate monosodique, poudre d'oignon, poulet cuit séparé mécaniquement et déshydraté, épice, arôme naturel, guanylate disodique, inosinate disodique, extrait de levure, persil séché,",
+          "last_modified_t": 1778280907,
+          "product_name": "Chicken Noodle",
+          "product_name_en": "Chicken Noodle",
+          "product_name_fr": "Mélange à Soupe Poulet et Nouilles"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0068400014294"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749886086",
+      "sample_name": "Selection Chicken and Rice Condensed Soup, 284 mL",
+      "category": "Soup",
+      "sample_notes": "Nutrition per 100 g only; name is mixed English/French; brand recorded as Metro",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749886086?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:35.769086+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749886086",
+        "errors": [],
+        "product": {
+          "brands": "Metro",
+          "code": "0059749886086",
+          "ingredients_text": "o 100% olew ba 1519 ral flavour, carotene. wedients: water, rice, chicken, carrots, celery, salt, potassium chine sodium glutamate, chicken fat, onion powder, chicken broth, s redients: eau, riz, poulet, carottes, céleri, sel, chlorure de pot assaisonnements, arôme naturel, carotène. mate monosodique, gras de poulet, poudre d'oignon, bouillon de t you need to know: refrigerate any unused portions nag rastic container. top 1. combine contents of can with 1 can of water in saucon gat over medium-low heat, stirring occasionally, until biling sidelines only. ted through appliances vary in power, these instructions are le en sliced oul faut savoir réfrigérer toute portion inutilisée dans un contenant en verre ou en plastique. re1.verser le contenu dans une casserole et ajouter une d'eau 2. chauffer à feu moyen-doux, en remuant de temp jusqu'à ébullition. la puissance des areils menagers varie. ces instructions donnees à titre indicatif seulement. made in canada from domestic and mported ingredients/fabriqué au canada a partir d'ingredients canadiens et importés pared for/prepare pour manreal (quebec) hic 1v6 mlands/les marques metro conto (ontario) m98 189 ul 5974988608",
+          "ingredients_text_en": "o 100% olew ba 1519 ral flavour, carotene. wedients: water, rice, chicken, carrots, celery, salt, potassium chine sodium glutamate, chicken fat, onion powder, chicken broth, s redients: eau, riz, poulet, carottes, céleri, sel, chlorure de pot assaisonnements, arôme naturel, carotène. mate monosodique, gras de poulet, poudre d'oignon, bouillon de t you need to know: refrigerate any unused portions nag rastic container. top 1. combine contents of can with 1 can of water in saucon gat over medium-low heat, stirring occasionally, until biling sidelines only. ted through appliances vary in power, these instructions are le en sliced oul faut savoir réfrigérer toute portion inutilisée dans un contenant en verre ou en plastique. re1.verser le contenu dans une casserole et ajouter une d'eau 2. chauffer à feu moyen-doux, en remuant de temp jusqu'à ébullition. la puissance des areils menagers varie. ces instructions donnees à titre indicatif seulement. made in canada from domestic and mported ingredients/fabriqué au canada a partir d'ingredients canadiens et importés pared for/prepare pour manreal (quebec) hic 1v6 mlands/les marques metro conto (ontario) m98 189 ul 5974988608",
+          "last_modified_t": 1775034785,
+          "product_name": "Chicken poulet et riz",
+          "product_name_en": "Chicken poulet et riz",
+          "product_name_fr": "Chicken poulet et riz"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749886086"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "057000013677",
+      "sample_name": "Heinz Rich Mushroom Soup, 380 mL",
+      "category": "Soup",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/057000013677?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:41.879973+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0057000013677",
+        "errors": [],
+        "product": {
+          "brands": "Heinz",
+          "code": "0057000013677",
+          "ingredients_text": "Mushroom broth (water, seasoning, salt, yeast extract, natural flavour), mushrooms, onions, cream (milk), modified corn starch, tomato paste, corn starch, salt, white wine, garlic, chives, spices, herbs",
+          "ingredients_text_en": "Mushroom broth (water, seasoning, salt, yeast extract, natural flavour), mushrooms, onions, cream (milk), modified corn starch, tomato paste, corn starch, salt, white wine, garlic, chives, spices, herbs",
+          "last_modified_t": 1791137996,
+          "product_name": "Rich Mushroom Soup",
+          "product_name_en": "Rich Mushroom Soup"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0057000013677"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "076808011128",
+      "sample_name": "Barilla Farfalle Pasta, 410 g",
+      "category": "Pasta",
+      "sample_notes": "Ingredients in French only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/076808011128?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:47.995418+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0076808011128",
+        "errors": [],
+        "product": {
+          "brands": "Barilla",
+          "code": "0076808011128",
+          "ingredients_text": "Ingrédients Semoule (blé), Farine de blé dur, Niacine (vitamine B3), Sulfate ferreux (fer), Mononitrate de thiamine (vitamine B1), Riboflavine (vitamine B2), Acide folique. Contient : Blé.",
+          "ingredients_text_fr": "Ingrédients Semoule (blé), Farine de blé dur, Niacine (vitamine B3), Sulfate ferreux (fer), Mononitrate de thiamine (vitamine B1), Riboflavine (vitamine B2), Acide folique. Contient : Blé.",
+          "last_modified_t": 1780273857,
+          "product_name": "Farfalle",
+          "product_name_en": "Farfalle"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0076808011128"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "055900001022",
+      "sample_name": "Primo Spaghetti Pasta, 900 g",
+      "category": "Pasta",
+      "sample_notes": "Quantity says 500 g, Metro lists 900 g; no ingredients; nutrition per 100 g only; not tagged as sold in Canada",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/055900001022?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:11:54.104002+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0055900001022",
+        "errors": [],
+        "product": {
+          "brands": "PRIMO",
+          "code": "0055900001022",
+          "last_modified_t": 1774563848,
+          "product_name": "Spaghetti",
+          "product_name_en": "Spaghetti",
+          "product_name_fr": "Spaghetti"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0055900001022"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "779921000283",
+      "sample_name": "La Molisana Fusilli Pasta, 450 g",
+      "category": "Pasta",
+      "sample_notes": "No ingredients; name doesn't say fusilli",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/779921000283?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:00.220283+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0779921000283",
+        "errors": [],
+        "product": {
+          "brands": "La Molisana",
+          "code": "0779921000283",
+          "last_modified_t": 1775046426,
+          "product_name": "Pasta - Trafilata Al Bronzo",
+          "product_name_en": "Pasta - Trafilata Al Bronzo"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0779921000283"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749893138",
+      "sample_name": "Selection Rotini Pasta, 900 g",
+      "category": "Pasta",
+      "sample_notes": "No ingredients; nutrition per 100 g only; name doesn't match (French, 'Torino')",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749893138?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:06.331297+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749893138",
+        "errors": [],
+        "product": {
+          "brands": "Selection",
+          "code": "0059749893138",
+          "last_modified_t": 1775042503,
+          "product_name": "Torino sélection",
+          "product_name_fr": "Torino sélection"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749893138"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "024094000364",
+      "sample_name": "De Cecco Spaghetti Pasta, 454 g",
+      "category": "Pasta",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/024094000364?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:12.442337+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0024094000364",
+        "errors": [],
+        "product": {
+          "brands": "De Cecco",
+          "code": "0024094000364",
+          "ingredients_text": "Durum wheat semolina",
+          "ingredients_text_en": "Durum wheat semolina",
+          "last_modified_t": 1776123612,
+          "product_name": "Spaghetti no. 12",
+          "product_name_en": "Spaghetti no. 12",
+          "product_name_fr": "Spaghetti no. 12"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0024094000364"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "056800430318",
+      "sample_name": "Activia 2.2% Probiotic Yogurt Variety Pack, 12x100 g",
+      "category": "Yogurt",
+      "sample_notes": "Nutrition per 100 g only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/056800430318?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:18.554362+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0056800430318",
+        "errors": [],
+        "product": {
+          "brands": "Activia",
+          "code": "0056800430318",
+          "ingredients_text": "dans ces délicieux petits pots d'activia fruits, nous avons soigneusement sélectionné nos ingrédients : 1 billion active probiotics delicious fruits 5 ferments 5 3 ye! po 1 milliard de probiotiques actifs 12x 100 5 ferments 3 strawberry fraises de délicieux fruits 2x 2.9% e probiotic yogurt it's our way to support your gut health daily. activia, it starts inside. afin de contribuer à votre santé digestive au quotidien. activia, ça commence à l'intérieur. og ogourt probloniaue what's inside each pot / ce qu'on retrouve dans chaque pot al ingredients: skim milk, ultrafiltered milk, sugars [sugar, grape juice concentrate (for colour)], cream, water, fruits (strawberries, blueberries, raspberry puree, peaches), modified corn starch, gelatin, natural flavour, active probiotic culture (bifidobacterium lactis cncm i-2494) and active bacterial cultures, black carrot juice (for colour), pectin, carrageenan, malic acid, sodium citrate, vitamin d3, calcium lactate, annatto (for colour). made with vitamin d fortified skim milk. ingrédients: lait écrémé, lait ultrafiltré, sucres [sucre, jus de raisin concentré (pour la couleur)], crème, eau, fruits (fraises, bleuets, purée de framboises, pêches), amidon de maïs modifié, gélatine, arôme naturel, culture probiotique active (bifidobacterium lactis cncm i-2494) et cultures bactériennes actives, jus de carotte noire (pour la couleur), pectine, carraghénine, acide malique, citrate de sodium, vitamine d3, lactate de calcium, rocou (pour la couleur). fait de lait écrémé enrichi de vitamine d. active probiotic that contributes to healthy gut flora / probiotique contribuant à la santé de la flore intestinale more than 10° cfu per portion / plus de 10° ufc par portion danone ic., boucherville (québec) j4b 1e6 danone certified canadian digestive health foundation cdhf fondation canadienne de la santé digestive certifié keep refrigerated garder au réfrigérateur peach péches 3 peach pêches 3 raspberry framboises 3 blueberry bleuets 3 strawberry fraises 500",
+          "ingredients_text_en": "dans ces délicieux petits pots d'activia fruits, nous avons soigneusement sélectionné nos ingrédients : 1 billion active probiotics delicious fruits 5 ferments 5 3 ye! po 1 milliard de probiotiques actifs 12x 100 5 ferments 3 strawberry fraises de délicieux fruits 2x 2.9% e probiotic yogurt it's our way to support your gut health daily. activia, it starts inside. afin de contribuer à votre santé digestive au quotidien. activia, ça commence à l'intérieur. og ogourt probloniaue what's inside each pot / ce qu'on retrouve dans chaque pot al ingredients: skim milk, ultrafiltered milk, sugars [sugar, grape juice concentrate (for colour)], cream, water, fruits (strawberries, blueberries, raspberry puree, peaches), modified corn starch, gelatin, natural flavour, active probiotic culture (bifidobacterium lactis cncm i-2494) and active bacterial cultures, black carrot juice (for colour), pectin, carrageenan, malic acid, sodium citrate, vitamin d3, calcium lactate, annatto (for colour). made with vitamin d fortified skim milk. ingrédients: lait écrémé, lait ultrafiltré, sucres [sucre, jus de raisin concentré (pour la couleur)], crème, eau, fruits (fraises, bleuets, purée de framboises, pêches), amidon de maïs modifié, gélatine, arôme naturel, culture probiotique active (bifidobacterium lactis cncm i-2494) et cultures bactériennes actives, jus de carotte noire (pour la couleur), pectine, carraghénine, acide malique, citrate de sodium, vitamine d3, lactate de calcium, rocou (pour la couleur). fait de lait écrémé enrichi de vitamine d. active probiotic that contributes to healthy gut flora / probiotique contribuant à la santé de la flore intestinale more than 10° cfu per portion / plus de 10° ufc par portion danone ic., boucherville (québec) j4b 1e6 danone certified canadian digestive health foundation cdhf fondation canadienne de la santé digestive certifié keep refrigerated garder au réfrigérateur peach péches 3 peach pêches 3 raspberry framboises 3 blueberry bleuets 3 strawberry fraises 500",
+          "last_modified_t": 1788824793,
+          "product_name": "Activia Yogurt",
+          "product_name_en": "Activia Yogurt"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0056800430318"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "056800737899",
+      "sample_name": "Oikos 2% Vanilla Greek Yogurt, 4x100 g",
+      "category": "Yogurt",
+      "sample_notes": "Quantity says 100 g, pack is 4x100 g",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/056800737899?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:24.665302+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0056800737899",
+        "errors": [],
+        "product": {
+          "brands": "Oikos",
+          "code": "0056800737899",
+          "ingredients_text": "aredients: yogurt (skim milk, cream, active pane sugar, corn starch, natural vanilla flavour ingrédients: yogourt (lait écrémé, crème, cultures bactériennes actives), préparation à la vanille (eau, sucre de canne, amidon de mais. arôme naturel de vanille, gomme de caroube, jus de citron concentré).",
+          "ingredients_text_en": "aredients: yogurt (skim milk, cream, active pane sugar, corn starch, natural vanilla flavour ingrédients: yogourt (lait écrémé, crème, cultures bactériennes actives), préparation à la vanille (eau, sucre de canne, amidon de mais. arôme naturel de vanille, gomme de caroube, jus de citron concentré).",
+          "last_modified_t": 1778160653,
+          "product_name": "Greek Yogourt",
+          "product_name_en": "Greek Yogourt",
+          "product_name_fr": "Yogourt Grec Vanille"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0056800737899"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "068200750156",
+      "sample_name": "Astro 6% Plain Balkan-Style Yogurt, 750 g",
+      "category": "Yogurt",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/068200750156?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:30.782305+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0068200750156",
+        "errors": [],
+        "product": {
+          "brands": "Astro",
+          "code": "0068200750156",
+          "ingredients_text": "skim milk, cream active bacterial cultures",
+          "ingredients_text_en": "skim milk, cream active bacterial cultures",
+          "ingredients_text_fr": "Lait écrémé, Crème, Cultures bactériennes actives. \r\n_Contient : Lait._",
+          "last_modified_t": 1777894773,
+          "product_name": "Original Balkan Yogurt Natural Yogurt",
+          "product_name_en": "Original Balkan Yogurt Natural Yogurt",
+          "product_name_fr": "Yogourt"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0068200750156"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749984225",
+      "sample_name": "Irresistible 0% Plain Greek Yogurt, 750 g",
+      "category": "Yogurt",
+      "sample_notes": "No ingredients",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749984225?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:36.898282+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749984225",
+        "errors": [],
+        "product": {
+          "brands": "Irrésistible",
+          "code": "0059749984225",
+          "last_modified_t": 1788400080,
+          "product_name": "Greek Yogurt",
+          "product_name_en": "GREC NATURE",
+          "product_name_fr": "Greek Yogurt"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749984225"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "629025410009",
+      "sample_name": "iOGO 1% Yogurt Variety Pack, 16x100 g",
+      "category": "Yogurt",
+      "sample_notes": "Quantity is '16' with no unit, counted as N; nutrition per 100 g only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/629025410009?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:43.012583+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0629025410009",
+        "errors": [],
+        "product": {
+          "brands": "iögo",
+          "code": "0629025410009",
+          "ingredients_text": "FRAISE: LAIT ÉCRÉMÉ, SUCRE DE CANNE, FRAISE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, PECTINE, ARÔMES ET COLORANTS NATURELS, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. FRAMBOISE: LAIT ÉCRÉMÉ, SUCRE, FRAMBOISE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, PECTINE, ARÔMES ET COLORANTS NATURELS, JUS DE CITRON CONCENTRÉ, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. BLEUET: LAIT ÉCRÉMÉ, SUCRE DE CANNE, BLEUET, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS MODIFIÉ, CULTURE BACTÉRIENNE ACTIVE, PECTINE, COLORANTS ET ARÔMES NATURELS, JUS DE CITRON CONCENTRÉ, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. VANILLE: LAIT ÉCRÉMÉ, SUCRE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, ARÔMES NATURELS, JUS DE CITRON CONCENTRÉ, GOMME DE CAROUBE, PECTINE, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D.",
+          "ingredients_text_en": "Skim milk, Cane sugar, Blueberries, Water, Cream, Modified corn starch, Whey protein concentrate, Concentrated grape juice (for colour), Active bacterial culture, Concentrated lemon juice, Pectin, Natural flavour, Vitamin D3. Contains: Milk. Made with vitamin D fortified skim milk., Skim milk, Cane sugar, Raspberries, Cream, Water, Modified corn starch, Whey protein concentrate, Active bacterial culture, Concentrated grape juice (for colour), Concentrated lemon juice, Pectin, Natural flavour, Anthocyanins, Vitamin D3. Contains: Milk. Made with vitamin D fortified skim milk., Skim milk, Cane sugar, Strawberries, Cream, Modified corn starch, Whey protein concentrate, Water, Active bacterial culture, Concentrated lemon juice, Pectin, Natural flavour, Anthocyanins, Paprika, Vitamin D3. Contains: Milk. Made with vitamin D fortified skim milk., Skim milk, Cane sugar, Water, Cream, Modified corn starch, Whey protein concentrate, Active bacterial culture, Concentrated lemon juice, Pectin, Natural flavour, Locust bean gum, Vitamin D3. Contains: Milk. Made with vitamin D fortified skim milk.",
+          "ingredients_text_fr": "FRAISE: LAIT ÉCRÉMÉ, SUCRE DE CANNE, FRAISE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, PECTINE, ARÔMES ET COLORANTS NATURELS, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. FRAMBOISE: LAIT ÉCRÉMÉ, SUCRE, FRAMBOISE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, PECTINE, ARÔMES ET COLORANTS NATURELS, JUS DE CITRON CONCENTRÉ, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. BLEUET: LAIT ÉCRÉMÉ, SUCRE DE CANNE, BLEUET, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS MODIFIÉ, CULTURE BACTÉRIENNE ACTIVE, PECTINE, COLORANTS ET ARÔMES NATURELS, JUS DE CITRON CONCENTRÉ, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D. VANILLE: LAIT ÉCRÉMÉ, SUCRE, CRÈME, PROTÉINES DE LAIT ET DE LACTOSÉRUM, AMIDONS DE MAÏS ET DE RIZ MODIFIÉS, CULTURE BACTÉRIENNE ACTIVE, ARÔMES NATURELS, JUS DE CITRON CONCENTRÉ, GOMME DE CAROUBE, PECTINE, VITAMINE D3. SANS GÉLATINE. SANS AGENT DE CONSERVATION. FAIT À PARTIR DE LAIT ENRICHI EN VITAMINE D.",
+          "last_modified_t": 1776802691,
+          "product_name": "Iogo",
+          "product_name_en": "creamy yogurt",
+          "product_name_fr": "Iogo"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0629025410009"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "067311037330",
+      "sample_name": "Oasis Exotic Mango Fruit Juice, 960 mL",
+      "category": "Juice",
+      "sample_notes": "Nutrition per 100 g only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/067311037330?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:49.125714+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0067311037330",
+        "errors": [],
+        "product": {
+          "brands": "Oasis",
+          "code": "0067311037330",
+          "ingredients_text": "Fruit juice from concentrate (water, concentrated (grape [sulfites] and/or apple, orange and lemon) juices and mango purée), Vitamin C, Natural flavour.",
+          "ingredients_text_en": "Fruit juice from concentrate (water, concentrated (grape [sulfites] and/or apple, orange and lemon) juices and mango purée), Vitamin C, Natural flavour.",
+          "ingredients_text_fr": "Per 250 mL Amount Calories 100 Fat O g Saturated 0 g + Trans 0 g Cholesterol 0 mg Sodium 20 mg Carbohydrate 26 g Fibre 0 g Sugars 24 g Protein 0.2 g Vitamin A Vitamin C Calcium Iron • OV Value",
+          "last_modified_t": 1787855752,
+          "product_name": "EXOTIC MANGO Juice",
+          "product_name_en": "EXOTIC MANGO Juice",
+          "product_name_fr": "Jus Mangue Exotique"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0067311037330"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "056412503011",
+      "sample_name": "Allen's 100% Pure Apple Juice, 1 L",
+      "category": "Juice",
+      "sample_notes": "",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/056412503011?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:12:55.241654+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0056412503011",
+        "errors": [],
+        "product": {
+          "brands": "Allen's",
+          "code": "0056412503011",
+          "ingredients_text": "A CANADIAN FAVOURITE ALLEN'S Apple Juice from concentrate WITH VITAMIN C ADDED 100% PURE LOW ACID NO SUGAR ADDED CANADA CHOICE 1L",
+          "ingredients_text_en": "A CANADIAN FAVOURITE ALLEN'S Apple Juice from concentrate WITH VITAMIN C ADDED 100% PURE LOW ACID NO SUGAR ADDED CANADA CHOICE 1L",
+          "ingredients_text_fr": "",
+          "last_modified_t": 1775035362,
+          "product_name": "Apple juice",
+          "product_name_en": "Apple Juice from concentrate",
+          "product_name_fr": "Apple juice"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0056412503011"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059600010865",
+      "sample_name": "Minute Maid Orange Juice, 355 mL",
+      "category": "Juice",
+      "sample_notes": "No ingredients; nutrition partial (4 of 5 core nutrients), per 100 g only",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059600010865?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:13:01.349102+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059600010865",
+        "errors": [],
+        "product": {
+          "brands": "Minute Maid",
+          "code": "0059600010865",
+          "last_modified_t": 1775064171,
+          "product_name": "Minute maid Orange juice",
+          "product_name_fr": "Minute maid Orange juice"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059600010865"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "059749998130",
+      "sample_name": "Selection Orange Burst Juice Blend, 2.5 L",
+      "category": "Juice",
+      "sample_notes": "Not tagged as sold in Canada",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/059749998130?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:13:07.470074+00:00",
+      "http_status": 200,
+      "response": {
+        "code": "0059749998130",
+        "errors": [],
+        "product": {
+          "brands": "Selection",
+          "code": "0059749998130",
+          "ingredients_text": "Water, Concentrated orange juice, Concentrated apple juice, and/or concentrated grape juice (contains sulphites), Concentrated lemon juice, Ascorbic acid (vitamin C).",
+          "ingredients_text_en": "Water, Concentrated orange juice, Concentrated apple juice, and/or concentrated grape juice (contains sulphites), Concentrated lemon juice, Ascorbic acid (vitamin C).",
+          "last_modified_t": 1769889512,
+          "product_name": "Orange Burst",
+          "product_name_en": "Orange Burst",
+          "product_name_fr": "Jus D'orange"
+        },
+        "result": {
+          "id": "product_found",
+          "lc_name": "Product found",
+          "name": "Product found"
+        },
+        "status": "success_with_warnings",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0059749998130"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "barcode": "048500000328",
+      "sample_name": "Tropicana Grape Juice, 325 mL",
+      "category": "Juice",
+      "sample_notes": "Not found as 12 digits or with a leading 0 (HTTP 404)",
+      "source_url": "https://world.openfoodfacts.org/api/v3/product/048500000328?fields=code%2Cproduct_name%2Cproduct_name_en%2Cproduct_name_fr%2Cbrands%2Cingredients_text%2Cingredients_text_en%2Cingredients_text_fr%2Clast_modified_t",
+      "retrieved_at": "2026-10-13T23:13:13.591135+00:00",
+      "http_status": 404,
+      "response": {
+        "code": "0048500000328",
+        "errors": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0048500000328"
+            },
+            "impact": {
+              "id": "failure",
+              "lc_name": "Failure",
+              "name": "Failure"
+            },
+            "message": {
+              "id": "product_not_found",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ],
+        "result": {
+          "id": "product_not_found",
+          "lc_name": "Product not found",
+          "name": "Product not found"
+        },
+        "status": "failure",
+        "warnings": [
+          {
+            "field": {
+              "id": "code",
+              "value": "0048500000328"
+            },
+            "impact": {
+              "id": "none",
+              "lc_name": "None",
+              "name": "None"
+            },
+            "message": {
+              "id": "different_normalized_product_code",
+              "lc_name": "",
+              "name": ""
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

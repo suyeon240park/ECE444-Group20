@@ -1,0 +1,97 @@
+{
+  "method": "Agent-authored targeted assertions from the frozen original ingredient strings after triaging the 500-record run. These are selected checks, not complete product annotations, a blind holdout, or package-verified human ground truth. Required ingredients must survive segmentation; exact identity is asserted only against existing synthetic aliases. Do not weaken expectations to match parser output.",
+  "cases": [
+    {
+      "barcode": "0677210091472",
+      "category": "gluten_free_ingredient_dropped",
+      "required_candidates": ["Gluten free oats", "Corn meal", "Pumpkin seeds", "Amaranth flour", "Vanilla extract", "Sea salt"]
+    },
+    {
+      "barcode": "0626027811025",
+      "category": "gluten_free_ingredient_dropped",
+      "required_candidates": ["gluten-free oats"]
+    },
+    {
+      "barcode": "0626027814026",
+      "category": "gluten_free_ingredient_dropped",
+      "required_candidates": ["gluten-free oats"]
+    },
+    {
+      "barcode": "0626027841022",
+      "category": "gluten_free_ingredient_dropped",
+      "required_candidates": ["gluten-free oat flour"]
+    },
+    {
+      "barcode": "0686207006153",
+      "category": "gluten_free_ingredient_dropped",
+      "required_candidates": ["gluten-free oats", "natural flavours", "sunflower oil", "rosemary extract"]
+    },
+    {
+      "barcode": "0190646640019",
+      "category": "minor_quantity_ingredients_dropped",
+      "required_candidates": ["dipotassium phosphate", "calcium carbonate", "tricalcium phosphate", "sea salt", "dicalcium phosphate", "riboflavin", "vitamin A acetate", "vitamin D2", "vitamin B12"],
+      "expected_total": 13
+    },
+    {
+      "barcode": "0030100784586",
+      "category": "minor_quantity_ingredients_dropped",
+      "required_candidates": ["yeast", "whey", "soy lecithin"],
+      "required_matched_ids": ["soy_lecithin"]
+    },
+    {
+      "barcode": "0073491510006",
+      "category": "minor_quantity_ingredients_dropped",
+      "required_candidates": ["eggs", "salt", "natural flavor"],
+      "required_matched_ids": ["salt"],
+      "expected_total": 6
+    },
+    {
+      "barcode": "0888849006656",
+      "category": "leading_conjunction",
+      "required_candidates": ["soybean oil", "soy lecithin"],
+      "forbidden_candidates": ["and", "or soybean oil", "or soy lecithin"],
+      "required_matched_ids": ["soybean_oil", "soy_lecithin"]
+    },
+    {
+      "barcode": "0196633965301",
+      "category": "leading_conjunction",
+      "required_candidates": ["mackerel"],
+      "forbidden_candidates": ["and", "or mackerel"]
+    },
+    {
+      "barcode": "0057000002992",
+      "category": "tomato_description_regression",
+      "required_candidates": ["Tomato paste", "Sugar", "Vinegar", "Salt", "Spices"],
+      "forbidden_candidates": ["from fresh", "ripe tomatoes"],
+      "expected_total": 5
+    },
+    {
+      "barcode": "0057000012861",
+      "category": "tomato_description_regression",
+      "required_candidates": ["Tomato paste", "Sugar", "Vinegar", "Salt", "Spices"],
+      "forbidden_candidates": ["from fresh", "ripe tomatoes"],
+      "expected_total": 5
+    },
+    {
+      "barcode": "0057000013165",
+      "category": "tomato_description_regression",
+      "required_candidates": ["Tomato paste", "Liquid sugar", "White vinegar", "Salt", "Onion powder", "Spices"],
+      "forbidden_candidates": ["made from fresh ripe tomatoes", "fresh ripe tomatoes"],
+      "expected_total": 6
+    },
+    {
+      "barcode": "0056200926466",
+      "category": "tomato_description_regression",
+      "required_candidates": ["Tomato paste", "Liquid sugar", "White vinegar", "Salt", "Seasoning"],
+      "forbidden_candidates": ["made from fresh ripe tomatoes", "fresh ripe tomatoes"],
+      "expected_total": 5
+    },
+    {
+      "barcode": "0057000243760",
+      "category": "tomato_description_regression",
+      "required_candidates": ["Tomato paste", "Liquid sugar", "White vinegar", "Salt", "Onion powder", "Spices"],
+      "forbidden_candidates": ["made from fresh ripe tomatoes", "fresh ripe tomatoes"],
+      "expected_total": 6
+    }
+  ]
+}

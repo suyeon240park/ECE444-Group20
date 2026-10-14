@@ -87,7 +87,19 @@ Detection uses `zxing-cpp`. A UPC-A is returned as its 12 printed digits with `f
 
 ## Database
 
-PostgreSQL is planned for the product cache and the ingredient knowledge base; for now product lookups are cached in memory. A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet.
+PostgreSQL remains available for future persistence; product lookups are cached in memory. A local instance is available with `docker compose up db` from the repository root; `DATABASE_URL` in `.env.example` already points at it. No code reads the database yet. The ingredient knowledge base (#33) uses reviewed JSON files loaded into memory and does not require PostgreSQL.
+
+## Ingredient knowledge base (#33)
+
+The reusable ingredient service parses database ingredient text, matches reviewed
+names/aliases/identifiers exactly, and returns deduplicated coverage, unknowns,
+evidence, and flags. #43 will wire it into the analysis endpoint; #40 owns the UI.
+The production collection starts empty; #34/#35 provide reviewed content.
+
+Validate offline with `python -m scripts.validate_ingredients` from `backend/`.
+See the [content authoring guide](content/ingredients/README.md) and
+[service/API contract](../docs/api/ingredient-analysis.md). Deploy `content/` with
+the backend code. There are no new environment variables or runtime dependencies.
 
 ## Product data model
 

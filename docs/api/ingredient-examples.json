@@ -1,0 +1,997 @@
+{
+  "unavailable": {
+    "ingredients_text": null,
+    "result": {
+      "status": "unavailable",
+      "checked_count": 0,
+      "total_count": 0,
+      "flagged_count": 0,
+      "matched": [],
+      "unmatched": [],
+      "flagged_ids": [],
+      "warnings": [],
+      "message": "Ingredient information not available",
+      "coverage_text": null
+    }
+  },
+  "no_candidates": {
+    "ingredients_text": "Contains: milk. May contain: peanuts.",
+    "result": {
+      "status": "no_matches",
+      "checked_count": 0,
+      "total_count": 0,
+      "flagged_count": 0,
+      "matched": [],
+      "unmatched": [],
+      "flagged_ids": [],
+      "warnings": [
+        {
+          "code": "no_ingredient_candidates",
+          "text": "No ingredient names could be parsed from the supplied text."
+        }
+      ],
+      "message": "No verified ingredient analysis available.",
+      "coverage_text": null
+    }
+  },
+  "no_matches": {
+    "ingredients_text": "Carnauba wax, water",
+    "result": {
+      "status": "no_matches",
+      "checked_count": 0,
+      "total_count": 2,
+      "flagged_count": 0,
+      "matched": [],
+      "unmatched": [
+        {
+          "text": "Carnauba wax",
+          "occurrences": [
+            {
+              "text": "Carnauba wax",
+              "path": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "text": "water",
+          "occurrences": [
+            {
+              "text": "water",
+              "path": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "flagged_ids": [],
+      "warnings": [],
+      "message": "No verified ingredient analysis available.",
+      "coverage_text": "Checked 0 of 2 ingredients against our reviewed ingredient database."
+    }
+  },
+  "no_flags": {
+    "ingredients_text": "Sugar, sucre, salt",
+    "result": {
+      "status": "analyzed",
+      "checked_count": 2,
+      "total_count": 2,
+      "flagged_count": 0,
+      "matched": [
+        {
+          "ingredient": {
+            "id": "sugar",
+            "name": "Sugar",
+            "aliases": [
+              "sucre",
+              "cane sugar"
+            ],
+            "e_numbers": [],
+            "ins_numbers": [],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [],
+            "flag": null
+          },
+          "occurrences": [
+            {
+              "text": "Sugar",
+              "path": [
+                0,
+                0
+              ]
+            },
+            {
+              "text": "sucre",
+              "path": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "salt",
+            "name": "Salt",
+            "aliases": [
+              "sel"
+            ],
+            "e_numbers": [],
+            "ins_numbers": [],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [],
+            "flag": null
+          },
+          "occurrences": [
+            {
+              "text": "salt",
+              "path": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "unmatched": [],
+      "flagged_ids": [],
+      "warnings": [],
+      "message": "No flagged ingredients found among the ingredients checked.",
+      "coverage_text": "Checked 2 of 2 ingredients against our reviewed ingredient database."
+    }
+  },
+  "partial_coverage": {
+    "ingredients_text": "Sugar, corn syrup, modified corn starch, colour (titanium dioxide), carnauba wax",
+    "result": {
+      "status": "analyzed",
+      "checked_count": 4,
+      "total_count": 5,
+      "flagged_count": 1,
+      "matched": [
+        {
+          "ingredient": {
+            "id": "sugar",
+            "name": "Sugar",
+            "aliases": [
+              "sucre",
+              "cane sugar"
+            ],
+            "e_numbers": [],
+            "ins_numbers": [],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [],
+            "flag": null
+          },
+          "occurrences": [
+            {
+              "text": "Sugar",
+              "path": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "corn_syrup",
+            "name": "Corn syrup",
+            "aliases": [
+              "sirop de maïs"
+            ],
+            "e_numbers": [],
+            "ins_numbers": [],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [],
+            "flag": null
+          },
+          "occurrences": [
+            {
+              "text": "corn syrup",
+              "path": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "modified_corn_starch",
+            "name": "Modified corn starch",
+            "aliases": [
+              "amidon de maïs modifié"
+            ],
+            "e_numbers": [],
+            "ins_numbers": [],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [],
+            "flag": null
+          },
+          "occurrences": [
+            {
+              "text": "modified corn starch",
+              "path": [
+                0,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "titanium_dioxide",
+            "name": "Titanium dioxide",
+            "aliases": [
+              "dioxyde de titane",
+              "TiO2"
+            ],
+            "e_numbers": [
+              "E171"
+            ],
+            "ins_numbers": [
+              "INS 171"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              },
+              {
+                "id": "efsa",
+                "publisher": "EFSA (synthetic fixture)",
+                "title": "Synthetic opposing reference",
+                "url": "https://www.efsa.europa.eu/en",
+                "published_on": "2000-01-01",
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              },
+              {
+                "id": "efsa_position",
+                "authority": "efsa",
+                "statement": "Synthetic differing assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "efsa"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic disagreement example; not food guidance.",
+              "category": "conflicting_assessments",
+              "source_ids": [
+                "hc",
+                "efsa"
+              ],
+              "position_ids": [
+                "hc_position",
+                "efsa_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "titanium dioxide",
+              "path": [
+                0,
+                3,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "unmatched": [
+        {
+          "text": "carnauba wax",
+          "occurrences": [
+            {
+              "text": "carnauba wax",
+              "path": [
+                0,
+                4
+              ]
+            }
+          ]
+        }
+      ],
+      "flagged_ids": [
+        "titanium_dioxide"
+      ],
+      "warnings": [],
+      "message": null,
+      "coverage_text": "Checked 4 of 5 ingredients against our reviewed ingredient database."
+    }
+  },
+  "authority_disagreement": {
+    "ingredients_text": "Titanium dioxide, E171, INS 171",
+    "result": {
+      "status": "analyzed",
+      "checked_count": 1,
+      "total_count": 1,
+      "flagged_count": 1,
+      "matched": [
+        {
+          "ingredient": {
+            "id": "titanium_dioxide",
+            "name": "Titanium dioxide",
+            "aliases": [
+              "dioxyde de titane",
+              "TiO2"
+            ],
+            "e_numbers": [
+              "E171"
+            ],
+            "ins_numbers": [
+              "INS 171"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              },
+              {
+                "id": "efsa",
+                "publisher": "EFSA (synthetic fixture)",
+                "title": "Synthetic opposing reference",
+                "url": "https://www.efsa.europa.eu/en",
+                "published_on": "2000-01-01",
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              },
+              {
+                "id": "efsa_position",
+                "authority": "efsa",
+                "statement": "Synthetic differing assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "efsa"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic disagreement example; not food guidance.",
+              "category": "conflicting_assessments",
+              "source_ids": [
+                "hc",
+                "efsa"
+              ],
+              "position_ids": [
+                "hc_position",
+                "efsa_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "Titanium dioxide",
+              "path": [
+                0,
+                0
+              ]
+            },
+            {
+              "text": "E171",
+              "path": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "INS 171",
+              "path": [
+                0,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "unmatched": [],
+      "flagged_ids": [
+        "titanium_dioxide"
+      ],
+      "warnings": [],
+      "message": null,
+      "coverage_text": "Checked 1 of 1 ingredients against our reviewed ingredient database."
+    }
+  },
+  "multiple_flags": {
+    "ingredients_text": "Titanium dioxide, ascorbic acid, sodium benzoate, erythrosine",
+    "result": {
+      "status": "analyzed",
+      "checked_count": 4,
+      "total_count": 4,
+      "flagged_count": 4,
+      "matched": [
+        {
+          "ingredient": {
+            "id": "titanium_dioxide",
+            "name": "Titanium dioxide",
+            "aliases": [
+              "dioxyde de titane",
+              "TiO2"
+            ],
+            "e_numbers": [
+              "E171"
+            ],
+            "ins_numbers": [
+              "INS 171"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              },
+              {
+                "id": "efsa",
+                "publisher": "EFSA (synthetic fixture)",
+                "title": "Synthetic opposing reference",
+                "url": "https://www.efsa.europa.eu/en",
+                "published_on": "2000-01-01",
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              },
+              {
+                "id": "efsa_position",
+                "authority": "efsa",
+                "statement": "Synthetic differing assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "efsa"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic disagreement example; not food guidance.",
+              "category": "conflicting_assessments",
+              "source_ids": [
+                "hc",
+                "efsa"
+              ],
+              "position_ids": [
+                "hc_position",
+                "efsa_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "Titanium dioxide",
+              "path": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "ascorbic_acid",
+            "name": "Ascorbic acid",
+            "aliases": [
+              "vitamin C",
+              "acide ascorbique"
+            ],
+            "e_numbers": [
+              "E300"
+            ],
+            "ins_numbers": [
+              "INS 300"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic authority-action example; not food guidance.",
+              "category": "authority_action",
+              "source_ids": [
+                "hc"
+              ],
+              "position_ids": [
+                "hc_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "ascorbic acid",
+              "path": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "sodium_benzoate",
+            "name": "Sodium benzoate",
+            "aliases": [
+              "benzoate de sodium"
+            ],
+            "e_numbers": [
+              "E211"
+            ],
+            "ins_numbers": [
+              "INS 211"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic authority-action example; not food guidance.",
+              "category": "authority_action",
+              "source_ids": [
+                "hc"
+              ],
+              "position_ids": [
+                "hc_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "sodium benzoate",
+              "path": [
+                0,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "ingredient": {
+            "id": "erythrosine",
+            "name": "Erythrosine",
+            "aliases": [
+              "FD&C Red No. 3"
+            ],
+            "e_numbers": [
+              "E127"
+            ],
+            "ins_numbers": [
+              "INS 127"
+            ],
+            "what_it_is": {
+              "text": "Synthetic identity text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "why_used": {
+              "text": "Synthetic function text for automated tests only.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "explanation": {
+              "text": "Synthetic explanation; not reviewed food guidance.",
+              "source_ids": [
+                "hc"
+              ]
+            },
+            "sources": [
+              {
+                "id": "hc",
+                "publisher": "Health Canada (synthetic fixture)",
+                "title": "Synthetic source reference",
+                "url": "https://www.canada.ca/en/health-canada.html",
+                "published_on": null,
+                "accessed_on": "2000-01-01"
+              }
+            ],
+            "last_reviewed": "2000-01-01",
+            "authority_positions": [
+              {
+                "id": "hc_position",
+                "authority": "health_canada",
+                "statement": "Synthetic first assessment.",
+                "scope": "Synthetic food-use scope.",
+                "source_ids": [
+                  "hc"
+                ],
+                "assessed_on": "2000-01-01",
+                "effective_on": null
+              }
+            ],
+            "flag": {
+              "flag_reason": "Synthetic authority-action example; not food guidance.",
+              "category": "authority_action",
+              "source_ids": [
+                "hc"
+              ],
+              "position_ids": [
+                "hc_position"
+              ]
+            }
+          },
+          "occurrences": [
+            {
+              "text": "erythrosine",
+              "path": [
+                0,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "unmatched": [],
+      "flagged_ids": [
+        "titanium_dioxide",
+        "ascorbic_acid",
+        "sodium_benzoate",
+        "erythrosine"
+      ],
+      "warnings": [],
+      "message": null,
+      "coverage_text": "Checked 4 of 4 ingredients against our reviewed ingredient database."
+    }
+  },
+  "malformed": {
+    "ingredients_text": "Salt (sugar",
+    "result": {
+      "status": "no_matches",
+      "checked_count": 0,
+      "total_count": 1,
+      "flagged_count": 0,
+      "matched": [],
+      "unmatched": [
+        {
+          "text": "Salt (sugar",
+          "occurrences": [
+            {
+              "text": "Salt (sugar",
+              "path": [
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "flagged_ids": [],
+      "warnings": [
+        {
+          "code": "unbalanced_brackets",
+          "text": "Salt (sugar"
+        }
+      ],
+      "message": "No verified ingredient analysis available.",
+      "coverage_text": "Checked 0 of 1 ingredients against our reviewed ingredient database."
+    }
+  }
+}

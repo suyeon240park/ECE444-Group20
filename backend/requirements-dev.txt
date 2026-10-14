@@ -5,3 +5,4 @@ pyyaml>=6.0,<7
 responses>=0.25,<1
 ruff>=0.5,<1
 python-barcode>=0.15,<1
+jsonschema>=4.23,<5
