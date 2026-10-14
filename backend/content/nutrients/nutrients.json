@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "reviewed_on": null,
+  "reviewed_by": null,
+  "glossary": {
+    "daily_value_percent": {
+      "term": "% Daily Value (%DV)",
+      "text": "%DV is a quick way to tell whether one serving of a food has a little or a lot of a nutrient. It compares the amount in one serving with a daily reference amount set by Health Canada. 5% DV or less is a little, and 15% DV or more is a lot.",
+      "source_ids": ["nutrition_facts_table", "daily_values_table"]
+    }
+  },
+  "sources": [
+    {
+      "id": "nutrition_facts_table",
+      "publisher": "Health Canada",
+      "title": "Nutrition labelling: Nutrition facts table",
+      "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "daily_values_table",
+      "publisher": "Health Canada",
+      "title": "Table of Daily Values",
+      "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html",
+      "published_on": "2022-10-20",
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "fats",
+      "publisher": "Health Canada",
+      "title": "Fats: Fats and your health",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "fats_food_labels",
+      "publisher": "Health Canada",
+      "title": "Fats: Using the food labels",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats/using-food-labels.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "sodium",
+      "publisher": "Health Canada",
+      "title": "Sodium: Sodium and your health",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/sodium.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "sugars",
+      "publisher": "Health Canada",
+      "title": "Sugars: Sugars and your health",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/sugars.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "carbohydrates",
+      "publisher": "Health Canada",
+      "title": "Carbohydrates",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/carbohydrates.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "fibre",
+      "publisher": "Health Canada",
+      "title": "Fibre",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/fibre.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    },
+    {
+      "id": "protein",
+      "publisher": "Health Canada",
+      "title": "Protein",
+      "url": "https://www.canada.ca/en/health-canada/services/nutrients/protein.html",
+      "published_on": null,
+      "accessed_on": "2026-10-14"
+    }
+  ],
+  "nutrients": [
+    {
+      "id": "calories",
+      "name": "Calories",
+      "guidance": "neutral",
+      "what_it_is": {
+        "text": "Calories show how much energy one serving of the food gives you. Carbohydrate, fat and protein all provide energy.",
+        "source_ids": ["nutrition_facts_table", "carbohydrates", "fats", "protein"]
+      },
+      "how_to_read": {
+        "text": "The number is for the serving size at the top of the table. The serving size is not a recommendation of how much to eat, so the calories you get change with the amount you eat. Calories have no %DV.",
+        "source_ids": ["nutrition_facts_table", "daily_values_table"]
+      }
+    },
+    {
+      "id": "total_fat",
+      "name": "Fat",
+      "guidance": "neutral",
+      "what_it_is": {
+        "text": "Fat is a nutrient your body needs. It gives energy, supports growth and development, and helps the body absorb vitamins A, D, E and K. Choosing mostly unsaturated fats instead of saturated and trans fats can lower the risk of heart disease.",
+        "source_ids": ["fats"]
+      },
+      "how_to_read": {
+        "text": "The %DV compares the fat in one serving with a Daily Value of 75 g. 5% DV or less is a little, and 15% DV or more is a lot.",
+        "source_ids": ["daily_values_table", "nutrition_facts_table"]
+      }
+    },
+    {
+      "id": "saturated_fat",
+      "name": "Saturated fat",
+      "guidance": "limit",
+      "what_it_is": {
+        "text": "Saturated fat is found in foods such as meat, butter, cheese, whole milk, lard, shortening, and palm and coconut oils. Health Canada lists it as a nutrient you may want to limit. Choosing unsaturated fats instead can lower the risk of heart disease.",
+        "source_ids": ["fats", "nutrition_facts_table"]
+      },
+      "how_to_read": {
+        "text": "Saturated and trans fat share one %DV on the label, based on a combined Daily Value of 20 g. For a nutrient you want to limit, 5% DV or less is a little, and 15% DV or more is a lot.",
+        "source_ids": ["fats_food_labels", "daily_values_table", "nutrition_facts_table"]
+      }
+    },
+    {
+      "id": "trans_fat",
+      "name": "Trans fat",
+      "guidance": "limit",
+      "what_it_is": {
+        "text": "Small amounts of trans fat occur naturally in beef, lamb and dairy foods. Partially hydrogenated oils, once the main source of industrially produced trans fat, are banned from foods sold in Canada. Choosing unsaturated fats instead of trans and saturated fats can lower the risk of heart disease.",
+        "source_ids": ["fats"]
+      },
+      "how_to_read": {
+        "text": "Trans fat is listed under saturated fat and has no %DV of its own. It is counted in the combined saturated and trans fat %DV.",
+        "source_ids": ["fats_food_labels", "daily_values_table"]
+      }
+    },
+    {
+      "id": "cholesterol",
+      "name": "Cholesterol",
+      "guidance": "neutral",
+      "what_it_is": null,
+      "how_to_read": null
+    },
+    {
+      "id": "sodium",
+      "name": "Sodium",
+      "guidance": "limit",
+      "what_it_is": {
+        "text": "Sodium is a mineral found in food and table salt. The body needs some sodium, but too much may lead to high blood pressure, a major risk factor for stroke and heart disease. Most people in Canada eat too much sodium, and most of it is added during food processing.",
+        "source_ids": ["sodium"]
+      },
+      "how_to_read": {
+        "text": "The %DV compares the sodium in one serving with a Daily Value of 2300 mg. Sodium is a nutrient you may want to limit: 5% DV or less is a little, and 15% DV or more is a lot.",
+        "source_ids": ["daily_values_table", "nutrition_facts_table"]
+      }
+    },
+    {
+      "id": "carbohydrate",
+      "name": "Carbohydrate",
+      "guidance": "neutral",
+      "what_it_is": {
+        "text": "Carbohydrates are the body's main source of energy. The carbohydrate total on the label includes fibre, starch and sugars.",
+        "source_ids": ["carbohydrates"]
+      },
+      "how_to_read": {
+        "text": "Carbohydrate is shown in grams and has no %DV. Fibre and sugars are listed underneath it.",
+        "source_ids": ["carbohydrates", "daily_values_table"]
+      }
+    },
+    {
+      "id": "fibre",
+      "name": "Fibre",
+      "guidance": "get_more",
+      "what_it_is": {
+        "text": "Fibre is a carbohydrate in plant foods that the body does not digest. It may support regular bowel movements, help lower blood cholesterol and help you feel full for longer. Most people in Canada get about half the fibre they need.",
+        "source_ids": ["fibre"]
+      },
+      "how_to_read": {
+        "text": "The %DV compares the fibre in one serving with a Daily Value of 28 g. Fibre is a nutrient you may want more of: 15% DV or more is a lot, and 5% DV or less is a little.",
+        "source_ids": ["daily_values_table", "nutrition_facts_table"]
+      }
+    },
+    {
+      "id": "sugars",
+      "name": "Sugars",
+      "guidance": "limit",
+      "what_it_is": {
+        "text": "Sugars are a type of carbohydrate that gives the body energy. They occur naturally in fruit, vegetables and unsweetened milk products, and are also added to many foods. Eating too many added sugars has been linked to tooth decay in children and to taking in extra calories.",
+        "source_ids": ["sugars"]
+      },
+      "how_to_read": {
+        "text": "The %DV compares the sugars in one serving with a Daily Value of 100 g. Sugars are a nutrient you may want to limit: 5% DV or less is a little, and 15% DV or more is a lot.",
+        "source_ids": ["daily_values_table", "nutrition_facts_table"]
+      }
+    },
+    {
+      "id": "protein",
+      "name": "Protein",
+      "guidance": "neutral",
+      "what_it_is": {
+        "text": "Protein helps build and repair body tissues and, like carbohydrate and fat, provides energy. Most people in Canada who eat a mixed diet get enough protein.",
+        "source_ids": ["protein"]
+      },
+      "how_to_read": {
+        "text": "Protein is shown in grams and has no %DV.",
+        "source_ids": ["protein"]
+      }
+    }
+  ]
+}
