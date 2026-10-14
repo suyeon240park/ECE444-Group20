@@ -1,113 +1,65 @@
 # Issue #33: exploratory check on 30 real product records
 
-On 2026-10-13, the current ingredient engine was exercised against all 30
-barcodes from [the issue #28 retailer-selected sample](https://github.com/suyeon240park/ECE444-Group20/issues/28#issuecomment-6090889655).
-The six categories are cereal, chips, soup, pasta, yogurt and juice. The sample
-was selected before this parser evaluation, not chosen to produce passing cases.
+This independently selected sample comes from
+[issue #28](https://github.com/suyeon240park/ECE444-Group20/issues/28#issuecomment-6090889655)
+and covers cereal, chips, soup, pasta, yogurt and juice. Live OFF responses were
+frozen on 2026-10-13 between 23:10:16 and 23:13:13 UTC, including missing data.
+The [snapshot](../../backend/tests/fixtures/ingredients/off_sample_issue28.json)
+retains URLs, retrieval times, original names and OFF attribution/licensing.
 
-**Result: real data exposes additional problems. The small regression suite and
-high code coverage do not establish reliable ingredient counts on this sample.**
+The real normalizer and service use the unchanged synthetic KB and, separately,
+the empty production KB. Expected checks for 18 records were authored from raw
+text before the first run; they await teammate verification against packages.
+They are partial checks, not an accuracy benchmark. A display/lookup distinction
+in the Orange Burst expectation was corrected after the initial run; the actual
+conjunction defect remained failing until the parser fix.
 
-## Method and limits
-
-- Fetched the live Open Food Facts v3 records, six seconds apart, between
-  23:10:16 and 23:13:13 UTC on 2026-10-13. Kept all records, including missing data
-  and the 404 response. The API request restricted fields to identity and
-  ingredients; this was not a repeat nutrition-completeness evaluation.
-- Passed found records through the actual `normalize_off_product` and
-  `IngredientAnalysisService`, including English/default/French fallback.
-- Used the existing synthetic fixture KB for matcher diagnostics and the actual
-  empty production KB separately. No content entries or aliases were added to
-  improve the score. Synthetic flags were not evaluated as real health claims.
-- Authored expectations from the raw text before the first parser run on this
-  sample. Eighteen records have selected checks; some check names and counts,
-  others only warning presence. These are agent-authored expectations, awaiting
-  teammate review, not package-verified human ground truth. One expectation's
-  display/lookup distinction for ascorbic acid was corrected after the run;
-  the affected record still fails on the independently identified conjunction bug.
-- OFF text is community-maintained. Correct parsing cannot prove correspondence
-  to a current physical package. For example, the Quaker sample is labelled Honey
-  Almond by the retailer but Original in OFF. Missing commas and marketing copy
-  in ingredient fields are source-data problems, not evidence of real ingredients.
-
-Frozen [API records](../../backend/tests/fixtures/ingredients/off_sample_issue28.json),
-[expectations](../../backend/tests/fixtures/ingredients/off_sample_expectations.json),
-and [complete machine-readable results](issue33-off-results.json) preserve the
-inputs, selected checks, failures, actual candidates and warnings. OFF data is
-attributed to Open Food Facts under the ODbL, as recorded in the snapshot.
-
-## Results
+## Updated results
 
 | Measure | Result |
 |---|---:|
 | Barcodes attempted | 30 |
 | Products found | 29 |
-| Found products with nonblank ingredient text | 21 |
-| Found products with no ingredient text | 8 |
-| Products not found | 1 |
-| Records with selected expectations | 18 |
-| Records satisfying all their selected checks | 12 |
-| Records failing at least one selected check | 6 |
-| Records with explicit expected canonical-match lists | 13 |
-| Canonical-match list mismatches on those 13 records | 0 |
-| Count/coverage serialization invariant failures | 0 |
-| Production KB entries | 0 |
+| Nonblank ingredient text | 21 |
+| Found records missing ingredient text | 8 |
+| Selected audits | 18 |
+| Audits passing before / after fixes | 12 / 14 |
+| Audits failing before / after fixes | 6 / 4 |
+| Explicit canonical-match lists checked | 13 |
+| Canonical-match mismatches | 0 |
+| Count/serialization invariant failures | 0 |
+| Production entries | 0 |
 
-**12/18 is not a parsing accuracy rate.** Four of the twelve records only passed
-a warning-presence check, and unscored records can still have bad segmentation.
-The 13 matching-list checks test a limited synthetic vocabulary, not production
-coverage or clinical/scientific correctness. No production coverage target is
-claimed: the empty production KB matches no ingredients.
+All eight missing-list records correctly return unavailable with null coverage.
+No analysis exceptions occurred. Warning-only checks do not validate ingredient
+segmentation, and 14/18 is not an accuracy estimate.
 
-All eight missing-list records correctly return `unavailable` and null coverage
-text. The missing product never enters ingredient analysis. No runtime exceptions
-occurred in the 29 found-record analyses.
+## Fixed and remaining cases
 
-## Failures and what they mean
+- **Fixed: Selection Orange Burst, `059749998130`.** Leading `and/or` no longer
+  creates fake connector names. The documented seven-candidate expectation passes.
+- **Fixed: iOGO variety pack, `629025410009`.** The parser now recognizes the
+  sentence boundary in `Made with vitamin D fortified skim milk.,` and retains
+  later flavours. The total is 18 rather than 13. A normal pytest regression
+  checks the count and the previously missing raspberries, strawberries,
+  anthocyanins, paprika and locust bean gum.
+- **Remaining: Cheerios, `065633132832`.** Returns 22 rather than the semantic
+  expectation of 19; nutrient parentheticals name the same nutrients twice.
+- **Remaining: Cream of Wheat, `072400011597`.** Returns five rather than four;
+  `(fer)` describes the nutrient supplied by the preceding iron compound.
+- **Remaining: Lay's Classic, `060410047019`.** Four unknown/matched candidates
+  rather than three physical ingredients; English and French potato descriptions
+  lack a reviewed alias. Unknown translations are not inferred.
+- **Remaining: Allen's apple juice, `056412503011`.** Marketing text is treated
+  as one unknown without a warning. Reliable classification of contaminated
+  source text is not established by the current parser.
 
-| Product / barcode | Observed result | Expected or concern | Classification |
-|---|---|---|---|
-| Selection Orange Burst / `059749998130` | 8 candidates, including `and` and `or concentrated grape juice` | 7 under the documented counting rule; leading `and/or` continues the ingredient alternatives | Concrete parser defect for #33 |
-| iOGO variety pack / `629025410009` | 13 unique candidates; only the first flavour's list survives | 18 named ingredients across the four lists; raspberries, strawberries, anthocyanins, paprika and locust bean gum disappear | Concrete parser defect for #33 |
-| Cheerios Multi Grain / `065633132832` | 22 unique candidates | 19 under a semantic interpretation; vitamin B3/B5/B6 parentheticals repeat preceding nutrient descriptions | Annotation/equivalence policy and content-dependent counting limitation |
-| Cream of Wheat / `072400011597` | 5 candidates | 4 under a semantic interpretation; `orthophosphate ferrique (fer)` is split into two | Nutrient-description policy limitation; do not equate all iron compounds as aliases |
-| Lay's Classic / `060410047019` | 4 unique candidates | Three ingredients repeated in English and French; the two potato names lack stored aliases | Known bilingual-content dependency; reviewed aliases belong in #34/#35 |
-| Allen's apple juice / `056412503011` | `Checked 0 of 1`, one long unknown and no warning | Input is marketing copy, not a trustworthy ingredient list | Source-quality detection/presentation limitation |
-
-The iOGO failure comes from the advisory boundary: after `Made with vitamin D
-fortified skim milk.,` the remaining flavour text is treated as part of the
-advisory and discarded. A regression should preserve later ingredient sequences
-without promoting the milk advisory itself into an ingredient.
-
-For Orange Burst, the slash in leading `and/or` is processed as a delimiter.
-Handle conjunction prefixes at a list-item boundary without breaking real
-chemical names, slash-separated alternatives, or the existing embedded oil rule.
-
-Source contamination can remain even when a warning exists. Selection chicken
-and rice soup returns 43 candidates, including cooking instructions and address
-fragments, with two `ambiguous_group` warnings. Activia returns 59 candidates
-including marketing text, with one such warning. Their minimal warning checks
-pass; **their ingredient totals are not validated**. Lipton's source has broken
-comma boundaries; Astro's source appears to omit a comma. Those records were
-exercised but have no complete segmentation expectation in this study. Barilla
-also contains nutrient-description parentheticals and was not separately scored.
-
-## Scope and next steps
-
-Testing on real records, retaining failures, fixing structural parser defects,
-and documenting ambiguous input are within #33's parsing/matching/result scope.
-The Orange Burst and iOGO defects should get focused regression tests and fixes
-before claiming this parser handles those real lists correctly.
-
-Decide how nutrient-description parentheses and untrustworthy ingredient fields
-affect the displayed denominator. Do not fix those by deleting every vitamin or
-guessing ingredient identities. Human review of the expectations and counting
-policy is still needed. Adding reviewed production explanations, sources, flags
-and bilingual aliases remains #34/#35; UI/pipeline behavior remains #40/#43.
-
-This study has not changed runtime parsing or loaded production content. It
-records failures rather than changing expectations to make the current parser
-pass. It does not replace the future representative, package-verified benchmark.
+Other source problems remain: Selection soup and Activia contain cooking,
+address or marketing prose even when warnings are emitted. Lipton has broken
+comma boundaries, Astro appears to omit a comma, and Barilla has nutrient
+parentheticals. These rows have no complete validated segmentation. The Quaker
+retailer name also differs from the OFF product name. Correct parsing alone
+cannot verify the physical product.
 
 ## Reproduce offline
 
@@ -117,8 +69,11 @@ From `backend/`:
 .venv/Scripts/python.exe -m scripts.check_ingredient_dataset --output .label-results/ingredient-field-check/results.json
 ```
 
-The command reads the frozen records, runs normalization and both knowledge-base
-configurations, writes detailed results, and exits **1** when selected checks
-fail. The current frozen evaluation intentionally fails on six records. It is a
-separate exploratory command, not a claim that the ordinary pytest suite covers
-these failures. No network access is required to reproduce it.
+The generated report contains selected expectations, actual names, counts and
+warnings. It is kept outside Git. The command still exits 1 on four unchanged
+semantic/source-quality expectations; they were not weakened to make it pass.
+The two confirmed structural defects are repaired, and their regressions are
+covered by normal pytest. Reviewed aliases and content remain #34/#35. These
+exploratory inputs do not replace the representative, human-verified benchmark.
+
+See also the [500-record evaluation](issue33-off-500-field-check.md).

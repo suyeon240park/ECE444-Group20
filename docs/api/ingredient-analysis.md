@@ -64,7 +64,7 @@ scope, source, and dates. Do not infer a universal safe/unsafe verdict.
   For example, `Shortening (vegetable oil, modified palm oil)` counts three
   candidates. A later repeated `vegetable oil` does not add a fourth. This is
   the existing #33 counting policy, not a count of only top-level label items;
-  reviewers should explicitly confirm it alongside the F4 clarification.
+  reviewers should explicitly confirm this implementation counting policy.
 - For `Sugar, corn syrup, modified corn starch, colour (titanium dioxide), carnauba
   wax`, a database containing the first four produces 4 of 5, not 4 of 6.
 - Preserve warnings alongside coverage: on malformed input, Y describes the

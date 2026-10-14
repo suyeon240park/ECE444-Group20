@@ -63,7 +63,8 @@ including deliberately failing semantic-count and input-quality checks. It is
 not a package-verified human benchmark. Do not update these expectations from
 parser output to make them pass. See the
 [field-check report](../../../../docs/validation/issue33-off-field-check.md)
-for the six failing records, limited warning-only checks, and scope decisions.
+for the two repaired structural defects, four remaining semantic/source-quality
+failures, limited warning-only checks, and scope decisions.
 
 Run `python -m scripts.check_ingredient_dataset --output PATH` from `backend/`
 to replay the frozen sample offline. The exploratory command exits 1 on selected
@@ -78,13 +79,15 @@ ingredient text. Selection follows API page order, independent of parser output;
 tags and source text have not been checked against physical packages.
 
 `off_canada_500_audit.json` contains 15 targeted source-text checks authored after
-triage, not complete human annotations or a blind accuracy benchmark. Ten fail
-on dropped ingredients or malformed conjunctions; five ketchup checks pass.
+triage, not complete human annotations or a blind accuracy benchmark. All 15
+now pass after fixing dropped ingredients and malformed conjunctions. These
+same assertions run in normal pytest and CI via `test_ingredient_corpus_regressions.py`.
 The offline harness also runs behavioral transformations on all eligible records
 and an independent reference restricted to simple comma-only lists.
 
 Run `python -m scripts.validate_ingredient_corpus --output PATH` from `backend/`.
-It currently exits 1 on the unresolved failures. See the
+It still exits 1 on two transformed contaminated-input cases; the confirmed
+structural regressions pass. See the
 [500-record report](../../../../docs/validation/issue33-off-500-field-check.md)
 for results, limitations and exact reproduction steps. No synthetic explanations,
 flags or new aliases were promoted into production content.

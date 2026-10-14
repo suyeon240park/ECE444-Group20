@@ -16,11 +16,7 @@ FIELDS = ",".join(
     [
         "code",
         "product_name",
-        "product_name_en",
-        "product_name_fr",
-        "brands",
         "countries_tags",
-        "categories_tags",
         "lang",
         "ingredients_text",
         "ingredients_text_en",
@@ -29,6 +25,24 @@ FIELDS = ",".join(
         "last_modified_t",
     ]
 )
+
+
+def compact_product(product):
+    """Retain replay fields and OFF tree text, excluding derived numeric metadata."""
+
+    def tree(nodes):
+        return [
+            {
+                **({"text": node["text"]} if "text" in node else {}),
+                **({"ingredients": tree(node["ingredients"])} if "ingredients" in node else {}),
+            }
+            for node in nodes
+        ]
+
+    result = {k: v for k, v in product.items() if k in FIELDS.split(",")}
+    if "ingredients" in result:
+        result["ingredients"] = tree(result["ingredients"])
+    return result
 
 
 def selected_text(product):
@@ -107,7 +121,9 @@ def main():
             if reason:
                 excluded.append({"code": code, "reason": reason})
                 continue
-            records.append({"retrieved_at": envelope["retrieved_at"], "product": product})
+            records.append(
+                {"retrieved_at": envelope["retrieved_at"], "product": compact_product(product)}
+            )
             if len(records) == args.count:
                 break
         print(
@@ -122,6 +138,10 @@ def main():
         "source": "Open Food Facts",
         "source_url": "https://world.openfoodfacts.org",
         "license": "ODbL; https://world.openfoodfacts.org/terms-of-use",
+        "retained_fields": (
+            "Product identity, country/language metadata and original ingredient text fields; "
+            "OFF's computed ingredient tree retains text and children only."
+        ),
         "selection": (
             "First eligible distinct Canada-tagged products in API page order; "
             "sort_by=code was requested but returned records are not lexically ordered. "
