@@ -627,7 +627,8 @@ components:
         `backend/app/services/package_nutrition.py`. See package-nutrition.md.
         Not returned by an endpoint yet; #43 wires it into the analysis pipeline.
       required: [status, per_serving_label, whole_package_label, servings, display_servings,
-        method, approximate, approximate_label, reason, message, pending_confirmation, rows]
+        method, approximate, approximate_label, daily_value_label, reason, message,
+        pending_confirmation, rows]
       properties:
         status:
           type: string
@@ -654,6 +655,12 @@ components:
         approximate_label:
           type: [string, "null"]
           enum: [Approximate, null]
+        daily_value_label:
+          type: [string, "null"]
+          enum: [Calculated for whole package, null]
+          description: |
+            Shown once with the whole-package column when any row has a whole-package
+            %DV (F2). `null` when no row has one.
         reason:
           type: [string, "null"]
           enum: [no_per_serving_nutrition, no_package_information, no_serving_quantity,
@@ -694,8 +701,7 @@ components:
     WholePackageAmount:
       type: object
       additionalProperties: false
-      required: [amount, unit, display_amount, daily_value_percent, display_daily_value_percent,
-        daily_value_label]
+      required: [amount, unit, display_amount, daily_value_percent, display_daily_value_percent]
       properties:
         amount:
           type: number
@@ -716,9 +722,6 @@ components:
         display_daily_value_percent:
           type: [integer, "null"]
           minimum: 0
-        daily_value_label:
-          type: [string, "null"]
-          enum: [Calculated for whole package, null]
 
     Error:
       type: object
