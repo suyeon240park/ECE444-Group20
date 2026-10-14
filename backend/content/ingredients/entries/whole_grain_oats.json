@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "whole_grain_oats",
+    "name": "Whole-grain oats",
+    "aliases": [
+      "whole grain oats",
+      "avoine à grains entiers"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Oats that retain all parts of the grain.",
+      "source_ids": [
+        "grains"
+      ]
+    },
+    "why_used": {
+      "text": "They are used as a grain ingredient in foods such as oatmeal.",
+      "source_ids": [
+        "grains"
+      ]
+    },
+    "explanation": {
+      "text": "Whole-grain oats provide fibre.",
+      "source_ids": [
+        "grains"
+      ]
+    },
+    "sources": [
+      {
+        "id": "grains",
+        "publisher": "Health Canada",
+        "title": "Eat whole grain foods",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/eat-whole-grains.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "grains_fr",
+        "publisher": "Santé Canada",
+        "title": "Mangez des aliments à grains entiers",
+        "url": "https://www.canada.ca/fr/sante-canada/services/guide-alimentaire/explorez/recommandations-matiere-alimentation-saine/savourez-variete/mangez-grains-entiers.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

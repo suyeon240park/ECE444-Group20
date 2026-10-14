@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "potatoes",
+    "name": "Potatoes",
+    "aliases": [
+      "potato",
+      "pommes de terre",
+      "pomme de terre",
+      "specially selected potatoes",
+      "pommes de terre spécialement sélectionnées"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Potatoes are edible plant tubers.",
+      "source_ids": [
+        "potato"
+      ]
+    },
+    "why_used": {
+      "text": "They form the base of foods such as chips or mashed potato toppings.",
+      "source_ids": [
+        "potato",
+        "pie"
+      ]
+    },
+    "explanation": {
+      "text": "Potatoes can be cooked and mashed to make a pie topping.",
+      "source_ids": [
+        "pie"
+      ]
+    },
+    "sources": [
+      {
+        "id": "potato",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "The Biology of Solanum tuberosum (L.) (Potatoes)",
+        "url": "https://inspection.canada.ca/en/plant-health/plant-varieties/novel-traits/applicants/directive-94-08/biology-documents/solanum-tuberosum",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "pie",
+        "publisher": "Health Canada",
+        "title": "Turkey and lentil shepherd's pie",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/turkey-lentil-shepherds-pie.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

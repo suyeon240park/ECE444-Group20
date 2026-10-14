@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "soy_lecithin",
+    "name": "Soy lecithin",
+    "aliases": [
+      "soya lecithin",
+      "soybean lecithin",
+      "lécithine de soja",
+      "lécithine de soya"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Lecithin from soybeans, used as an emulsifier.",
+      "source_ids": [
+        "labels",
+        "fda_types"
+      ]
+    },
+    "why_used": {
+      "text": "It helps ingredients mix and resist separation.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "Soy lecithin helps keep mixtures uniform.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "sources": [
+      {
+        "id": "labels",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "List of ingredients and allergens on food labels",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/list-ingredients-and-allergens",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "labels_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Liste d'ingrédients et allergènes sur les étiquettes des aliments",
+        "url": "https://inspection.canada.ca/fr/etiquetage-aliment/etiquetage/industrie/liste-dingredients-allergenes",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

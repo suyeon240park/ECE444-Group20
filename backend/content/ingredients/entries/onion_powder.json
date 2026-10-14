@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "onion_powder",
+    "name": "Onion powder",
+    "aliases": [
+      "poudre d'oignon",
+      "poudre d’oignon"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "A powdered onion seasoning.",
+      "source_ids": [
+        "seasonings"
+      ]
+    },
+    "why_used": {
+      "text": "It adds flavour to seasoning blends and sauces.",
+      "source_ids": [
+        "seasonings",
+        "enchiladas"
+      ]
+    },
+    "explanation": {
+      "text": "Onion powder can be included in a sauce's seasoning mixture.",
+      "source_ids": [
+        "enchiladas"
+      ]
+    },
+    "sources": [
+      {
+        "id": "seasonings",
+        "publisher": "FDA",
+        "title": "CPG Sec 525.650 Labeling of Seasonings",
+        "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-525650-labeling-seasonings",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "enchiladas",
+        "publisher": "Health Canada",
+        "title": "Black bean enchiladas",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/black-bean-enchiladas.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "enchiladas_fr",
+        "publisher": "Santé Canada",
+        "title": "Enchiladas aux haricots noirs",
+        "url": "https://www.canada.ca/fr/sante-canada/services/guide-alimentaire/manger-favoriser/cuisine/recettes/enchiladas-haricots-noirs.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "corn_starch",
+    "name": "Corn starch",
+    "aliases": [
+      "cornstarch",
+      "maize starch",
+      "amidon de maïs",
+      "amidon de mais"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Starch made from corn.",
+      "source_ids": [
+        "starch"
+      ]
+    },
+    "why_used": {
+      "text": "It can thicken sauces.",
+      "source_ids": [
+        "mapo"
+      ]
+    },
+    "explanation": {
+      "text": "Corn starch mixed with water can thicken a sauce when simmered.",
+      "source_ids": [
+        "mapo"
+      ]
+    },
+    "sources": [
+      {
+        "id": "starch",
+        "publisher": "FDA",
+        "title": "CPG Sec 578.100 Starches - Common or Usual Names",
+        "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-578100-starches-common-or-usual-names",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "mapo",
+        "publisher": "Health Canada",
+        "title": "Mapo tofu with chicken",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/mapo-tofu-chicken.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "labels_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Liste d'ingrédients et allergènes sur les étiquettes des aliments",
+        "url": "https://inspection.canada.ca/fr/etiquetage-aliment/etiquetage/industrie/liste-dingredients-allergenes",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}
