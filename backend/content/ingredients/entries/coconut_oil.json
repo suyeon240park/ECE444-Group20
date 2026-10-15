@@ -18,14 +18,12 @@
     "why_used": {
       "text": "It supplies fat when preparing foods.",
       "source_ids": [
-        "fats",
         "standards"
       ]
     },
     "explanation": {
       "text": "A plant-derived fat used in food preparation.",
       "source_ids": [
-        "fats",
         "standards"
       ]
     },
@@ -35,22 +33,6 @@
         "publisher": "Canadian Food Inspection Agency",
         "title": "Canadian Food Compositional Standards",
         "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
-        "published_on": null,
-        "accessed_on": "2026-10-14"
-      },
-      {
-        "id": "fats",
-        "publisher": "Health Canada",
-        "title": "Choose foods with healthy fats",
-        "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/choosing-healthy-fats.html",
-        "published_on": null,
-        "accessed_on": "2026-10-14"
-      },
-      {
-        "id": "fats_fr",
-        "publisher": "Santé Canada",
-        "title": "Choisissez des aliments contenant de bons gras",
-        "url": "https://www.canada.ca/fr/sante-canada/services/guide-alimentaire/explorez/recommandations-matiere-alimentation-saine/savourez-variete/choisir-bons-gras.html",
         "published_on": null,
         "accessed_on": "2026-10-14"
       }
