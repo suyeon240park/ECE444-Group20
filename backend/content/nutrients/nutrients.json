@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "reviewed_on": null,
-  "reviewed_by": null,
+  "reviewed_on": "2026-10-15",
+  "reviewed_by": "Frank-The-Coder",
   "glossary": {
     "daily_value_percent": {
       "term": "% Daily Value (%DV)",
@@ -115,7 +115,7 @@
       "name": "Saturated fat",
       "guidance": "limit",
       "what_it_is": {
-        "text": "Saturated fat is found in foods such as meat, butter, cheese, whole milk, lard, shortening, and palm and coconut oils. Health Canada lists it as a nutrient you may want to limit. Choosing unsaturated fats instead can lower the risk of heart disease.",
+        "text": "Saturated fat is found in foods such as meat, butter, cheese, whole milk, lard, shortening, and tropical oils such as palm and coconut oil. Health Canada lists it as a nutrient you may want to limit. Choosing unsaturated fats instead can lower the risk of heart disease.",
         "source_ids": ["fats", "nutrition_facts_table"]
       },
       "how_to_read": {
@@ -141,7 +141,10 @@
       "name": "Cholesterol",
       "guidance": "neutral",
       "what_it_is": null,
-      "how_to_read": null
+      "how_to_read": {
+        "text": "Cholesterol is shown in milligrams. The label shows no %DV for it.",
+        "source_ids": ["fats_food_labels"]
+      }
     },
     {
       "id": "sodium",
@@ -165,8 +168,8 @@
         "source_ids": ["carbohydrates"]
       },
       "how_to_read": {
-        "text": "Carbohydrate is shown in grams and has no %DV. Fibre and sugars are listed underneath it.",
-        "source_ids": ["carbohydrates", "daily_values_table"]
+        "text": "Carbohydrate is shown in grams and has no %DV.",
+        "source_ids": ["daily_values_table", "nutrition_facts_table"]
       }
     },
     {

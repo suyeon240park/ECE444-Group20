@@ -89,24 +89,32 @@ def test_daily_values_in_texts_match_the_table():
 
 
 def test_nutrients_without_a_dv_say_so():
-    for name in ("calories", "carbohydrate", "protein", "trans_fat"):
+    for name in ("calories", "carbohydrate", "protein", "trans_fat", "cholesterol"):
         assert "no %DV" in CONTENT.nutrients[name].how_to_read.text
 
 
 def test_cholesterol_has_no_unsourced_text():
     cholesterol = CONTENT.nutrients["cholesterol"]
+    # No approved page explains dietary cholesterol; only the label reading is sourced.
     assert cholesterol.what_it_is is None
-    assert cholesterol.how_to_read is None
+    assert cholesterol.how_to_read.source_ids == ("fats_food_labels",)
 
 
-def test_content_is_not_marked_reviewed_before_review():
-    assert CONTENT.reviewed_on is None
-    assert not CONTENT.is_reviewed
+def test_carbohydrate_no_dv_does_not_cite_the_outdated_page():
+    # The Carbohydrates page still quotes a 300 g Daily Value the current table dropped.
+    how_to_read = CONTENT.nutrients["carbohydrate"].how_to_read
+    assert "carbohydrates" not in how_to_read.source_ids
 
 
-def test_reviewed_content_loads():
-    raw = mutated(lambda r: r.update(reviewed_on="2026-10-16", reviewed_by="Frank-The-Coder"))
-    assert parse(raw).is_reviewed
+def test_content_is_reviewed():
+    assert CONTENT.reviewed_on == "2026-10-15"
+    assert CONTENT.reviewed_by == "Frank-The-Coder"
+    assert CONTENT.is_reviewed
+
+
+def test_unreviewed_content_loads():
+    raw = mutated(lambda r: r.update(reviewed_on=None, reviewed_by=None))
+    assert not parse(raw).is_reviewed
 
 
 @pytest.mark.parametrize(
@@ -122,7 +130,7 @@ def test_reviewed_content_loads():
         (lambda r: r["sources"][0].update(url="http://www.canada.ca/x"), "HTTPS"),
         (lambda r: r["sources"][0].update(url="https://example.com/x"), "approved"),
         (lambda r: r["sources"].append(copy.deepcopy(r["sources"][0])), "duplicate id"),
-        (lambda r: r.update(reviewed_on="2026-10-16"), "go together"),
+        (lambda r: r.update(reviewed_by=None), "go together"),
         (lambda r: r.update(reviewed_on="16/10/2026", reviewed_by="x"), "date"),
         (lambda r: r.update(schema_version=2), "schema version"),
         (lambda r: r["glossary"].clear(), "%DV"),

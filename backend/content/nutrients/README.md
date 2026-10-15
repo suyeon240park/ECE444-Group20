@@ -33,8 +33,11 @@ A text is `null` when no approved source supports it yet. #37 then shows "No ver
 - No good/bad verdicts and no overall score. Say "a nutrient you may want to limit" or "more of", as Health Canada does.
 - Daily Values quoted in `how_to_read` must match Health Canada's Table of Daily Values (2022-10-20). `tests/test_nutrient_content.py` checks them.
 
-## Open points for review
+## Review notes
 
-- **Cholesterol has no text.** None of the approved pages checked explains dietary cholesterol. Health Canada's fats pages don't mention it, and the label example shows it without a %DV. It needs an approved source before a text is written.
+Reviewed by @Frank-The-Coder on 2026-10-15 (PR 50).
+
+- **Cholesterol has no `what_it_is`.** None of the approved pages checked explains dietary cholesterol, so it needs an approved source before one is written. Its `how_to_read` cites Health Canada's "Fats: Using the food labels", whose label example shows cholesterol in mg without a %DV. The Table of Daily Values does list 300 mg for cholesterol, so it is not cited for "no %DV".
 - **The fibre page and the Daily Values table disagree.** Health Canada's Fibre page (2025-07-11) says the fibre %DV uses a reference of 25 g. The Table of Daily Values (2022-10-20) gives 28 g. The text follows the table, which is the reference F3 requires.
+- **The carbohydrates page is out of date on %DV.** Health Canada's Carbohydrates page (2025-07-11) still says the carbohydrate Daily Value is 300 g, but the current Table of Daily Values has no carbohydrate row. Carbohydrate's `how_to_read` ("no %DV") therefore cites only the table and the Nutrition facts table page; `what_it_is` still cites the Carbohydrates page.
 - **Health Canada's list of nutrients to limit** names sodium, sugars and saturated fat. Trans fat is marked `limit` because the fats page advises choosing unsaturated fats instead of saturated and trans fats.
