@@ -74,9 +74,6 @@ class WholePackageAmount:
             "display_amount": self.display_amount,
             "daily_value_percent": self.daily_value_percent,
             "display_daily_value_percent": self.display_daily_value_percent,
-            "daily_value_label": (
-                WHOLE_PACKAGE_DAILY_VALUE_LABEL if self.daily_value_percent is not None else None
-            ),
         }
 
 
@@ -119,6 +116,15 @@ class PackageNutritionResult:
             raise ValueError("a reason is required exactly when nothing was calculated")
 
     @property
+    def daily_value_label(self) -> str | None:
+        """F2's "Calculated for whole package", once for the column rather than on every row."""
+        has_dv = any(
+            row.whole_package is not None and row.whole_package.daily_value_percent is not None
+            for row in self.rows
+        )
+        return WHOLE_PACKAGE_DAILY_VALUE_LABEL if has_dv else None
+
+    @property
     def approximate(self) -> bool:
         return self.method is MultiplierMethod.PACKAGE_QUANTITY
 
@@ -133,6 +139,7 @@ class PackageNutritionResult:
             "method": self.method.value if self.method else None,
             "approximate": self.approximate,
             "approximate_label": APPROXIMATE_LABEL if self.approximate else None,
+            "daily_value_label": self.daily_value_label,
             "reason": self.reason.value if self.reason else None,
             "message": None if calculated else NOT_CALCULATED_MESSAGE,
             "pending_confirmation": list(self.pending_confirmation),
