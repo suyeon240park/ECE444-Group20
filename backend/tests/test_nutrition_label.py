@@ -25,10 +25,12 @@ from app.services.label_extraction import (
     normalize_reply,
 )
 from app.services.label_reading import (
+    DEFAULT_FALLBACK_MODELS,
     MAX_EDGE_PIXELS,
     LabelReader,
     LabelReadingError,
     extract_without_waiting,
+    parse_models,
     prepare_photo,
     to_contract,
 )
@@ -66,18 +68,27 @@ PHOTO = encode(Image.new("RGB", (60, 40), "white"))
 
 
 class FakeExtractor:
-    """Records each call and returns a fixed reply, or raises a fixed error."""
+    """Records each call and returns a fixed reply, or raises a fixed error.
 
-    def __init__(self, reply=REPLY, error=None):
+    ``errors`` maps a model name to the error that model raises.
+    """
+
+    def __init__(self, reply=REPLY, error=None, errors=None):
         self.reply = reply
         self.error = error
+        self.errors = errors or {}
         self.calls = []
 
     def __call__(self, image, mime_type, config):
         self.calls.append((image, mime_type, config))
-        if self.error is not None:
-            raise self.error
+        error = self.errors.get(config.model, self.error)
+        if error is not None:
+            raise error
         return Extraction(normalize_reply(self.reply), config.model, 1.0, 10, 10)
+
+    @property
+    def models(self):
+        return [config.model for _, _, config in self.calls]
 
 
 def client_with(reader):
@@ -138,7 +149,7 @@ def test_label_photo_returns_a_nutrition_only_result():
     assert len(extractor.calls) == 1
     _, mime_type, config = extractor.calls[0]
     assert mime_type == "image/jpeg"
-    assert config is CONFIG
+    assert config == CONFIG
 
 
 def test_unconfirmed_serving_is_reported_missing_until_the_user_confirms_it():
@@ -358,3 +369,96 @@ def test_reads_a_model_reply_end_to_end():
     extraction = extract_without_waiting(PHOTO, "image/png", CONFIG)
 
     assert extraction.result["nutrition"]["nutrients"]["sodium"]["amount"] == 230
+
+
+@responses.activate
+def test_overloaded_model_falls_back_to_the_next_one():
+    overloaded = f"{CONFIG.base_url}/models/{CONFIG.model}:generateContent"
+    fallback = f"{CONFIG.base_url}/models/backup-model:generateContent"
+    responses.post(overloaded, status=503, body="high demand")
+    reply = {"candidates": [{"content": {"parts": [{"text": json.dumps(REPLY)}]}}]}
+    responses.post(fallback, json=reply)
+
+    response = post_photo(client_with(LabelReader(CONFIG, fallback_models=["backup-model"])))
+
+    assert response.status_code == 200
+    assert response.get_json()["product"]["nutrition"]["nutrients"]["sodium"]["amount"] == 230
+    assert [call.request.url for call in responses.calls] == [overloaded, fallback]
+
+
+# --- Fallback models -------------------------------------------------------------------
+
+
+def test_fallback_model_is_used_when_the_primary_fails():
+    extractor = FakeExtractor(errors={"test-model": LabelExtractionError("HTTP 404")})
+    reader = LabelReader(CONFIG, extract=extractor, fallback_models=["backup-a", "backup-b"])
+
+    response = post_photo(client_with(reader))
+
+    assert response.status_code == 200
+    assert extractor.models == ["test-model", "backup-a"]
+    assert all(config.api_key == CONFIG.api_key for _, _, config in extractor.calls)
+
+
+def test_every_model_failing_is_502():
+    extractor = FakeExtractor(error=LabelExtractionError("HTTP 503"))
+    reader = LabelReader(CONFIG, extract=extractor, fallback_models=["backup-a", "backup-b"])
+
+    assert_error(post_photo(client_with(reader)), 502, "upstream_unavailable")
+    assert extractor.models == ["test-model", "backup-a", "backup-b"]
+
+
+def test_timeout_is_not_retried_on_another_model():
+    """The user has already waited the full timeout; a second one would double it."""
+    extractor = FakeExtractor(errors={"test-model": LabelExtractionTimeout("slow")})
+    reader = LabelReader(CONFIG, extract=extractor, fallback_models=["backup-a"])
+
+    assert_error(post_photo(client_with(reader)), 504, "upstream_timeout")
+    assert extractor.models == ["test-model"]
+
+
+def test_table_not_found_is_not_retried_on_another_model():
+    extractor = FakeExtractor({"table_found": False})
+    reader = LabelReader(CONFIG, extract=extractor, fallback_models=["backup-a"])
+
+    assert_error(post_photo(client_with(reader)), 422, "nutrition_table_not_found")
+    assert extractor.models == ["test-model"]
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("b, a ,b,,c", ("b", "c")),
+        ("", ()),
+        (" , ", ()),
+    ],
+)
+def test_parse_models(value, expected):
+    assert parse_models(value, primary="a") == expected
+
+
+def test_app_reads_fallback_models_from_the_environment(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("VISION_MODEL", "main")
+    monkeypatch.setenv("VISION_FALLBACK_MODELS", "backup, main")
+
+    reader = create_app({"TESTING": True}).extensions["label_reader"]
+
+    assert reader._fallback_models == ("backup",)
+
+
+def test_app_has_default_fallback_models(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.delenv("VISION_FALLBACK_MODELS", raising=False)
+
+    reader = create_app({"TESTING": True}).extensions["label_reader"]
+
+    assert reader._fallback_models == parse_models(DEFAULT_FALLBACK_MODELS, reader._config.model)
+    assert reader._fallback_models  # not empty
+
+
+def test_empty_setting_disables_fallback(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setenv("VISION_FALLBACK_MODELS", "")
+
+    assert create_app({"TESTING": True}).extensions["label_reader"]._fallback_models == ()

@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import io
 import logging
-from collections.abc import Callable
-from dataclasses import dataclass
+from collections.abc import Callable, Sequence
+from dataclasses import dataclass, replace
 from typing import Any
 
 from app.models.product import (
@@ -46,8 +46,23 @@ JPEG_QUALITY = 85
 # them, so they are refused by name instead of failing as a generic invalid image.
 HEIF_BRANDS = {b"heic", b"heix", b"hevc", b"hevx", b"heim", b"heis", b"mif1", b"msf1"}
 
+# Tried in order when VISION_MODEL is overloaded (503), rate limited (429) or retired
+# (404). Both read fixture photos 005, 007 and 008 correctly on Oct 14, while
+# gemini-3.5-flash was answering 503 "high demand" to image requests.
+DEFAULT_FALLBACK_MODELS = "gemini-3-flash-preview,gemini-3.5-flash-lite"
+
 PHOTO = Source.NUTRITION_LABEL_PHOTO
 UNCONFIRMED = Certainty.UNCERTAIN
+
+
+def parse_models(value: str, primary: str) -> tuple[str, ...]:
+    """``"a, b,a"`` → ``("a", "b")``, without blanks, repeats or the primary model."""
+    models: list[str] = []
+    for name in value.split(","):
+        name = name.strip()
+        if name and name != primary and name not in models:
+            models.append(name)
+    return tuple(models)
 
 
 def _give_up(_seconds: float) -> None:
@@ -145,15 +160,22 @@ def to_contract(result: dict[str, Any]) -> LabelReading:
 
 
 class LabelReader:
-    """Reads label photos with the vision model; ``config`` is None without an API key."""
+    """Reads label photos with the vision model; ``config`` is None without an API key.
+
+    If ``config.model`` fails, each of ``fallback_models`` is tried in turn with the
+    same key. A timeout is not retried on another model: the user has already waited
+    ``timeout_seconds``.
+    """
 
     def __init__(
         self,
         config: VisionConfig | None,
         extract: Callable[[bytes, str, VisionConfig], Extraction] = extract_without_waiting,
+        fallback_models: Sequence[str] = (),
     ) -> None:
         self._config = config
         self._extract = extract
+        self._fallback_models = tuple(fallback_models)
 
     def read(self, data: bytes) -> LabelReading:
         if self._config is None:
@@ -163,19 +185,7 @@ class LabelReader:
                 503,
             )
         photo = prepare_photo(data)
-        try:
-            extraction = self._extract(photo, "image/jpeg", self._config)
-        except LabelExtractionTimeout:
-            raise LabelReadingError(
-                "upstream_timeout", "The label-reading service did not respond in time.", 504
-            ) from None
-        except LabelExtractionError as error:
-            logger.warning("Label photo extraction failed: %s", error)
-            raise LabelReadingError(
-                "upstream_unavailable",
-                "The label-reading service is unavailable. Try again shortly.",
-                502,
-            ) from None
+        extraction = self._extract_with_fallback(photo, self._config)
 
         if extraction.result.get("status") == "not_found":
             raise LabelReadingError(
@@ -191,3 +201,24 @@ class LabelReader:
                 extraction.result.get("rejected_fields"),
             )
         return to_contract(extraction.result)
+
+    def _extract_with_fallback(self, photo: bytes, config: VisionConfig) -> Extraction:
+        for model in (config.model, *self._fallback_models):
+            try:
+                extraction = self._extract(photo, "image/jpeg", replace(config, model=model))
+            except LabelExtractionTimeout:
+                logger.warning("Label photo extraction timed out on %s", model)
+                raise LabelReadingError(
+                    "upstream_timeout", "The label-reading service did not respond in time.", 504
+                ) from None
+            except LabelExtractionError as error:
+                logger.warning("Label photo extraction failed on %s: %s", model, error)
+                continue
+            if model != config.model:
+                logger.info("Label photo read by fallback model %s", model)
+            return extraction
+        raise LabelReadingError(
+            "upstream_unavailable",
+            "The label-reading service is unavailable. Try again shortly.",
+            502,
+        )

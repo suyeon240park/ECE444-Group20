@@ -105,9 +105,11 @@ Every value comes back `uncertain` because the model gives no per-value confiden
 | Situation | HTTP | `error.code` |
 |---|---|---|
 | No Nutrition Facts table found, or too blurred | 422 | `nutrition_table_not_found` |
-| Vision model failed or replied with something unusable | 502 | `upstream_unavailable` |
+| Vision model and every fallback model failed or replied with something unusable | 502 | `upstream_unavailable` |
 | `GEMINI_API_KEY` not set | 503 | `photo_reading_unavailable` |
 | Vision model did not answer within `VISION_TIMEOUT_SECONDS` | 504 | `upstream_timeout` |
+
+When `VISION_MODEL` fails (overloaded, rate limited, retired), the models in `VISION_FALLBACK_MODELS` are tried in order, with no 30 s rate-limit wait. A timeout is not retried on another model.
 
 Tests replace the reader with a fake extractor, so CI makes no API calls.
 

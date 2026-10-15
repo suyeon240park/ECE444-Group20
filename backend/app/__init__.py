@@ -13,7 +13,7 @@ from app.routes.nutrition_label import nutrition_label_bp
 from app.routes.products import products_bp
 from app.services.cache import TTLCache
 from app.services.label_extraction import LabelExtractionError, VisionConfig
-from app.services.label_reading import LabelReader
+from app.services.label_reading import DEFAULT_FALLBACK_MODELS, LabelReader, parse_models
 from app.services.open_food_facts import OpenFoodFactsClient
 from app.services.product_lookup import ProductLookupService
 
@@ -58,13 +58,16 @@ def build_label_reader() -> LabelReader:
     """Wire the vision model from GEMINI_API_KEY / VISION_MODEL (#42).
 
     Without a key the reader answers 503, so the rest of the app still runs.
-    Stored in ``app.extensions["label_reader"]``, which tests replace with a fake.
+    VISION_FALLBACK_MODELS (comma-separated; empty disables) are tried when
+    VISION_MODEL fails. Stored in ``app.extensions["label_reader"]``, which tests
+    replace with a fake.
     """
     try:
         config = VisionConfig.from_env()
     except LabelExtractionError:
-        config = None
-    return LabelReader(config)
+        return LabelReader(None)
+    fallbacks = os.getenv("VISION_FALLBACK_MODELS", DEFAULT_FALLBACK_MODELS)
+    return LabelReader(config, fallback_models=parse_models(fallbacks, config.model))
 
 
 def build_product_lookup(config) -> ProductLookupService:
