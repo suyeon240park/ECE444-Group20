@@ -42,6 +42,10 @@ logger = logging.getLogger(__name__)
 MAX_EDGE_PIXELS = 2000
 JPEG_QUALITY = 85
 
+# ISO base media "ftyp" brands used by iPhone HEIC/HEIF photos. Pillow cannot open
+# them, so they are refused by name instead of failing as a generic invalid image.
+HEIF_BRANDS = {b"heic", b"heix", b"hevc", b"hevx", b"heim", b"heis", b"mif1", b"msf1"}
+
 PHOTO = Source.NUTRITION_LABEL_PHOTO
 UNCONFIRMED = Certainty.UNCERTAIN
 
@@ -80,6 +84,12 @@ class LabelReading:
 
 def prepare_photo(data: bytes) -> bytes:
     """Validate the upload and return an upright JPEG no larger than ``MAX_EDGE_PIXELS``."""
+    if is_heif(data):
+        raise LabelReadingError(
+            "unsupported_media_type",
+            "HEIC/HEIF photos are not supported. Upload a JPEG, PNG or WEBP.",
+            415,
+        )
     try:
         image = load_image(data)
     except BarcodeError as error:
@@ -90,6 +100,10 @@ def prepare_photo(data: bytes) -> bytes:
     buffer = io.BytesIO()
     image.save(buffer, "JPEG", quality=JPEG_QUALITY)
     return buffer.getvalue()
+
+
+def is_heif(data: bytes) -> bool:
+    return data[4:8] == b"ftyp" and data[8:12] in HEIF_BRANDS
 
 
 def to_contract(result: dict[str, Any]) -> LabelReading:

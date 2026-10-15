@@ -100,7 +100,7 @@ services/label_reading.py      load_image (#13) -> shrink to 2000 px JPEG -> vis
 services/fallback_routing.py   build_nutrition_only (#15)
 ```
 
-Every value comes back `uncertain` because the model gives no per-value confidence (Q1); the client asks the user to confirm values. Upload errors are the same as `/api/barcode` above. The others:
+Every value comes back `uncertain` because the model gives no per-value confidence (Q1); the client asks the user to confirm values. Upload errors are the same as `/api/barcode` above, and a HEIC/HEIF photo is refused with 415 `unsupported_media_type` (the app converts iPhone photos to JPEG before upload). The others:
 
 | Situation | HTTP | `error.code` |
 |---|---|---|

@@ -241,6 +241,23 @@ def test_unsupported_image_type():
     assert_error(response, 415, "unsupported_media_type")
 
 
+@pytest.mark.parametrize("brand", [b"heic", b"mif1"])
+def test_heic_photo_is_refused_by_name(brand):
+    heic = b"\x00\x00\x00\x18ftyp" + brand + b"\x00" * 20
+    extractor = FakeExtractor()
+
+    response = post_photo(
+        client_with(LabelReader(CONFIG, extract=extractor)),
+        data=heic,
+        filename="IMG_0001.HEIC",
+        content_type="image/heic",
+    )
+
+    assert_error(response, 415, "unsupported_media_type")
+    assert "HEIC" in response.get_json()["error"]["message"]
+    assert extractor.calls == []
+
+
 def test_upload_over_size_limit():
     app = create_app({"TESTING": True, "MAX_CONTENT_LENGTH": 64})
     app.extensions["label_reader"] = LabelReader(CONFIG, extract=FakeExtractor())
