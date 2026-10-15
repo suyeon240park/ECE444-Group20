@@ -258,7 +258,14 @@ def test_dv_definition_is_included_once_reviewed():
 
 def test_no_overall_score_or_verdict():
     body = explain_nutrients(product(), REVIEWED).to_dict()
-    assert set(body) == {"basis", "daily_values_reference", "daily_value_definition", "rows"}
+    assert set(body) == {
+        "basis",
+        "basis_label",
+        "basis_note",
+        "daily_values_reference",
+        "daily_value_definition",
+        "rows",
+    }
 
 
 # --- contract ---------------------------------------------------------------------------
@@ -285,3 +292,28 @@ def test_output_satisfies_openapi_schema(content, item):
     }
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema).validate(explain_nutrients(item, content).to_dict())
+
+
+# --- basis ------------------------------------------------------------------------------
+
+
+def test_per_serving_amounts_are_labelled():
+    body = explain_nutrients(product(), REVIEWED).to_dict()
+    assert body["basis_label"] == "per serving"
+    assert body["basis_note"] is None
+
+
+@pytest.mark.parametrize(
+    ("basis", "label"),
+    [(NutritionBasis.PER_100G, "per 100 g"), (NutritionBasis.PER_100ML, "per 100 mL")],
+)
+def test_per_100_amounts_are_labelled_and_explained(basis, label):
+    body = explain_nutrients(product(basis=basis), REVIEWED).to_dict()
+    assert body["basis_label"] == label
+    assert body["basis_note"].startswith(f"These amounts are {label}, not per serving.")
+
+
+def test_no_basis_without_nutrition():
+    body = explain_nutrients(product({}, basis=None), REVIEWED).to_dict()
+    assert body["basis_label"] is None
+    assert body["basis_note"] is None

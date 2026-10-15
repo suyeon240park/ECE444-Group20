@@ -730,11 +730,21 @@ components:
         Per-serving %DV, Health Canada's 5% / 15% reading and plain-language
         explanations (#37, F3), from `backend/app/services/nutrient_explanations.py`.
         See nutrient-explanations.md. Not returned by an endpoint yet (#43).
-      required: [basis, daily_values_reference, daily_value_definition, rows]
+      required: [basis, basis_label, basis_note, daily_values_reference, daily_value_definition,
+        rows]
       properties:
         basis:
           type: [string, "null"]
           enum: [serving, 100g, 100ml, null]
+        basis_label:
+          type: [string, "null"]
+          enum: [per serving, per 100 g, per 100 mL, null]
+          description: Shown with every amount, so the basis is never ambiguous.
+        basis_note:
+          type: [string, "null"]
+          description: |
+            For per-100 g / 100 mL data only: explains that the amounts are not per
+            serving and that no %DV is shown. `null` for per-serving data.
         daily_values_reference:
           type: object
           additionalProperties: false

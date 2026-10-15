@@ -37,6 +37,10 @@ export type NutrientExplanationRow = {
 
 export type NutrientExplanationResult = {
   basis: 'serving' | '100g' | '100ml' | null;
+  /** Shown with every amount: "per serving", "per 100 g" or "per 100 mL". */
+  basis_label: 'per serving' | 'per 100 g' | 'per 100 mL' | null;
+  /** Per-100 g / 100 mL data only: why the amounts are not per serving and have no %DV. */
+  basis_note: string | null;
   daily_values_reference: { title: string; url: string; version: string };
   daily_value_definition: (ExplanationText & { term: string }) | null;
   rows: NutrientExplanationRow[];

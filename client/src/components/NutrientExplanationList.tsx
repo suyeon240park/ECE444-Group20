@@ -17,6 +17,7 @@ export default function NutrientExplanationList({ result }: Props) {
   const definition = result.daily_value_definition;
   return (
     <View style={styles.container}>
+      {result.basis_note ? <Text style={styles.basisNote}>{result.basis_note}</Text> : null}
       {definition ? (
         <View style={styles.definition}>
           <Text style={styles.definitionTerm}>{definition.term}</Text>
@@ -25,21 +26,30 @@ export default function NutrientExplanationList({ result }: Props) {
         </View>
       ) : null}
       {result.rows.map((row) => (
-        <NutrientCard key={row.name} row={row} />
+        <NutrientCard key={row.name} row={row} basisLabel={result.basis_label} />
       ))}
     </View>
   );
 }
 
-function NutrientCard({ row }: { row: NutrientExplanationRow }) {
+function NutrientCard({
+  row,
+  basisLabel,
+}: {
+  row: NutrientExplanationRow;
+  basisLabel: string | null;
+}) {
   const dv = row.daily_value;
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
         <Text style={styles.name}>{row.display_name}</Text>
-        <Text style={styles.amount}>
-          {row.value ? formatAmount(row.value.amount, row.value.unit) : row.status_text}
-        </Text>
+        <View style={styles.amountBox}>
+          <Text style={styles.amount}>
+            {row.value ? formatAmount(row.value.amount, row.value.unit) : row.status_text}
+          </Text>
+          {row.value && basisLabel ? <Text style={styles.basis}>{basisLabel}</Text> : null}
+        </View>
       </View>
       {dv ? (
         <Text style={styles.dv}>
@@ -91,7 +101,16 @@ const styles = StyleSheet.create({
   card: { borderWidth: 1, borderColor: '#e2e5e2', borderRadius: 8, padding: 12, gap: 6 },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
   name: { fontWeight: '600', color: '#1a1a1a', flexShrink: 1 },
+  amountBox: { alignItems: 'flex-end' },
   amount: { color: '#1a1a1a', fontWeight: '600' },
+  basis: { color: '#555', fontSize: 12 },
+  basisNote: {
+    color: '#7a4b00',
+    backgroundColor: '#fff6e5',
+    borderRadius: 8,
+    padding: 12,
+    lineHeight: 20,
+  },
   dv: { color: '#1a1a1a' },
   warning: { color: '#7a4b00' },
   explanation: { gap: 2 },

@@ -40,6 +40,16 @@ NO_EXPLANATION_MESSAGE = "No verified explanation available yet."
 CALCULATED_LABEL = "Calculated"
 NEEDS_CONFIRMATION_MESSAGE = "Confirm this value from the photo before it is explained."
 
+# Shown with every amount, so a per-100 g value is never read as a per-serving one (F3).
+BASIS_LABELS = {
+    NutritionBasis.SERVING: "per serving",
+    NutritionBasis.PER_100G: "per 100 g",
+    NutritionBasis.PER_100ML: "per 100 mL",
+}
+PER_100_NOTE = (
+    "These amounts are {label}, not per serving. %DV is only given per serving, so none is shown."
+)
+
 A_LITTLE_MAX = 5
 A_LOT_MIN = 15
 
@@ -167,6 +177,12 @@ class NutrientExplanationResult:
         glossary = self.content.glossary["daily_value_percent"]
         return {
             "basis": self.basis.value if self.basis else None,
+            "basis_label": BASIS_LABELS[self.basis] if self.basis else None,
+            "basis_note": (
+                PER_100_NOTE.format(label=BASIS_LABELS[self.basis])
+                if self.basis not in (None, NutritionBasis.SERVING)
+                else None
+            ),
             "daily_values_reference": {
                 "title": DAILY_VALUES_TITLE,
                 "url": DAILY_VALUES_URL,

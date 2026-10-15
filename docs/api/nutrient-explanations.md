@@ -16,6 +16,12 @@ The JSON shape is `NutrientExplanationResult` in [OpenAPI](openapi.yaml). The cl
 types are in `client/src/nutrientExplanations.ts`, and
 `client/src/components/NutrientExplanationList.tsx` renders them.
 
+## Basis
+
+Every amount is shown with `basis_label` ("per serving", "per 100 g" or "per 100 mL"),
+so a per-100 g value is never read as a per-serving one. For per-100 g / 100 mL data,
+`basis_note` explains that the amounts are not per serving and that no %DV is shown.
+
 ## %DV
 
 - A %DV **printed on the label** (photo path) is used as printed (`origin: "label"`).
