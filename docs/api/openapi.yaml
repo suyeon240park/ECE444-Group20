@@ -619,6 +619,110 @@ components:
         - $ref: "#/components/schemas/Source"
         - type: "null"
 
+    PackageNutritionResult:
+      type: object
+      additionalProperties: false
+      description: |
+        Per-serving and whole-package nutrition (#36, F2), from
+        `backend/app/services/package_nutrition.py`. See package-nutrition.md.
+        Not returned by an endpoint yet; #43 wires it into the analysis pipeline.
+      required: [status, per_serving_label, whole_package_label, servings, display_servings,
+        method, approximate, approximate_label, daily_value_label, reason, message,
+        pending_confirmation, rows]
+      properties:
+        status:
+          type: string
+          enum: [calculated, not_calculated]
+        per_serving_label:
+          type: [string, "null"]
+          description: For example "Per serving (2 tbsp (30 g))". `null` without per-serving nutrition.
+        whole_package_label:
+          type: [string, "null"]
+          description: For example "Whole package (375 g)". `null` unless calculated.
+        servings:
+          type: [number, "null"]
+          exclusiveMinimum: 0
+          description: Unrounded servings in the package. `null` unless calculated.
+        display_servings:
+          type: [number, "null"]
+          description: "`servings` rounded to 0.1, for display."
+        method:
+          type: [string, "null"]
+          enum: [servings_per_package, package_quantity, null]
+        approximate:
+          type: boolean
+          description: True when `method` is `package_quantity`.
+        approximate_label:
+          type: [string, "null"]
+          enum: [Approximate, null]
+        daily_value_label:
+          type: [string, "null"]
+          enum: [Calculated for whole package, null]
+          description: |
+            Shown once with the whole-package column when any row has a whole-package
+            %DV (F2). `null` when no row has one.
+        reason:
+          type: [string, "null"]
+          enum: [no_per_serving_nutrition, no_package_information, no_serving_quantity,
+            incompatible_units, package_smaller_than_serving, unconfirmed_photo_values, null]
+          description: Why nothing was calculated. `null` exactly when calculated.
+        message:
+          type: [string, "null"]
+          description: F2's fixed message when not calculated, else `null`.
+        pending_confirmation:
+          type: array
+          items:
+            type: string
+          description: Label-photo values (dotted paths) that wait for the user's confirmation (#39).
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackageNutrientRow"
+
+    PackageNutrientRow:
+      type: object
+      additionalProperties: false
+      required: [name, per_serving, whole_package, whole_package_status]
+      properties:
+        name:
+          type: string
+          enum: [calories, total_fat, saturated_fat, sodium, carbohydrate, sugars, fibre,
+            protein, trans_fat, cholesterol]
+        per_serving:
+          $ref: "#/components/schemas/NutrientValueOrNull"
+        whole_package:
+          oneOf:
+            - $ref: "#/components/schemas/WholePackageAmount"
+            - type: "null"
+        whole_package_status:
+          type: string
+          enum: [calculated, not_available, needs_confirmation]
+
+    WholePackageAmount:
+      type: object
+      additionalProperties: false
+      required: [amount, unit, display_amount, daily_value_percent, display_daily_value_percent]
+      properties:
+        amount:
+          type: number
+          minimum: 0
+          description: Unrounded. Show `display_amount`.
+        unit:
+          type: string
+          enum: [kcal, g, mg]
+        display_amount:
+          type: number
+          minimum: 0
+        daily_value_percent:
+          type: [number, "null"]
+          minimum: 0
+          description: |
+            Calculated from the whole-package amount with Health Canada's Daily Values,
+            never scaled from a per-serving %DV. `null` where no Daily Value applies.
+        display_daily_value_percent:
+          type: [integer, "null"]
+          minimum: 0
+
     Error:
       type: object
       additionalProperties: false
