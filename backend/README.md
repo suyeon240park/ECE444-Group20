@@ -85,6 +85,17 @@ curl -F "image=@photo.jpg" http://127.0.0.1:5000/api/barcode
 
 Detection uses `zxing-cpp`. A UPC-A is returned as its 12 printed digits with `format: "UPCA"`. These error codes are not in `docs/api/openapi.yaml` yet.
 
+## Product analysis (#43)
+
+`GET /api/analysis/<barcode>` and `POST /api/analysis/label-photo` return everything the results page shows in one response: the product, `next_step`, `package_nutrition` (#36), `explanations` (#37; `null` until it is merged) and `ingredients` (#33). See [docs/api/analysis.md](../docs/api/analysis.md).
+
+```bash
+curl localhost:5000/api/analysis/0013000006408
+curl -F "image=@label.jpg" -F "barcode=0013000006408" localhost:5000/api/analysis/label-photo
+```
+
+`app/services/analysis.py` computes each section on its own: one that fails is logged and returned as `null`, and the rest still arrive. The ingredient knowledge base is loaded at startup from `content/ingredients/`; if it is invalid, only the `ingredients` section is missing.
+
 ## Nutrition Facts photo (#42)
 
 `POST /api/nutrition-label` takes a photo of a Nutrition Facts table as `multipart/form-data` in the `image` field and returns a `nutrition_only` product result ([docs/api/](../docs/api/README.md)). It needs `GEMINI_API_KEY` in `.env`; without it the endpoint answers 503 and the rest of the app still runs.

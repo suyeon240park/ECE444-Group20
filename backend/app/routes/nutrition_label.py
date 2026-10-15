@@ -54,19 +54,8 @@ def read_nutrition_label():
         502 ``upstream_unavailable``, 504 ``upstream_timeout``: the vision model failed
         503 ``photo_reading_unavailable``: no API key configured
     """
-    if request.mimetype != "multipart/form-data":
-        return _error(
-            "missing_image",
-            f"Send the photo as multipart/form-data in the '{UPLOAD_FIELD}' field.",
-            400,
-        )
-    upload = request.files.get(UPLOAD_FIELD)
-    if upload is None:
-        return _error("missing_image", f"No file was sent in the '{UPLOAD_FIELD}' field.", 400)
-
-    reader = current_app.extensions["label_reader"]
     try:
-        reading = reader.read(upload.read())
+        reading = current_app.extensions["label_reader"].read(uploaded_image())
     except LabelReadingError as error:
         return _error(error.code, error.message, error.status)
 
@@ -74,6 +63,22 @@ def read_nutrition_label():
         reading.serving, reading.nutrition, datetime.now(timezone.utc), reading.package
     )
     return jsonify(result.to_dict())
+
+
+def uploaded_image() -> bytes:
+    """The photo in the request's ``image`` field; also used by the #43 pipeline."""
+    if request.mimetype != "multipart/form-data":
+        raise LabelReadingError(
+            "missing_image",
+            f"Send the photo as multipart/form-data in the '{UPLOAD_FIELD}' field.",
+            400,
+        )
+    upload = request.files.get(UPLOAD_FIELD)
+    if upload is None:
+        raise LabelReadingError(
+            "missing_image", f"No file was sent in the '{UPLOAD_FIELD}' field.", 400
+        )
+    return upload.read()
 
 
 @nutrition_label_bp.errorhandler(RequestEntityTooLarge)
