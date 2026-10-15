@@ -103,6 +103,10 @@ class LabelExtractionError(Exception):
     """The API call failed or its reply could not be used."""
 
 
+class LabelExtractionTimeout(LabelExtractionError):
+    """The model API did not answer in time."""
+
+
 @dataclass(frozen=True)
 class VisionConfig:
     api_key: str
@@ -177,7 +181,7 @@ def extract_label(
         try:
             response = post(url, headers=headers, json=body, timeout=config.timeout_seconds)
         except requests.Timeout:
-            raise LabelExtractionError(f"no reply within {config.timeout_seconds:g} s") from None
+            raise LabelExtractionTimeout(f"no reply within {config.timeout_seconds:g} s") from None
         except requests.RequestException as exc:
             raise LabelExtractionError(f"request failed: {exc}") from None
         latency = time.perf_counter() - started

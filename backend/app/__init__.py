@@ -9,8 +9,11 @@ from flask_cors import CORS
 
 from app.routes.barcode import barcode_bp
 from app.routes.health import health_bp
+from app.routes.nutrition_label import nutrition_label_bp
 from app.routes.products import products_bp
 from app.services.cache import TTLCache
+from app.services.label_extraction import LabelExtractionError, VisionConfig
+from app.services.label_reading import LabelReader
 from app.services.open_food_facts import OpenFoodFactsClient
 from app.services.product_lookup import ProductLookupService
 
@@ -42,11 +45,26 @@ def create_app(test_config: dict | None = None) -> Flask:
     CORS(app, origins=parse_origins(app.config["CORS_ORIGINS"]))
 
     app.extensions["product_lookup"] = build_product_lookup(app.config)
+    app.extensions["label_reader"] = build_label_reader()
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(barcode_bp, url_prefix="/api")
     app.register_blueprint(products_bp, url_prefix="/api")
+    app.register_blueprint(nutrition_label_bp, url_prefix="/api")
     return app
+
+
+def build_label_reader() -> LabelReader:
+    """Wire the vision model from GEMINI_API_KEY / VISION_MODEL (#42).
+
+    Without a key the reader answers 503, so the rest of the app still runs.
+    Stored in ``app.extensions["label_reader"]``, which tests replace with a fake.
+    """
+    try:
+        config = VisionConfig.from_env()
+    except LabelExtractionError:
+        config = None
+    return LabelReader(config)
 
 
 def build_product_lookup(config) -> ProductLookupService:

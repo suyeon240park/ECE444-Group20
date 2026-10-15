@@ -33,7 +33,7 @@ backend/
 ├── app/
 │   ├── __init__.py      create_app() factory; reads configuration from the environment
 │   ├── models/          data models; product.py is the code form of docs/api/ (#20)
-│   ├── routes/          one blueprint module per API area (health.py, barcode.py)
+│   ├── routes/          one blueprint module per API area (health.py, barcode.py, ...)
 │   └── services/        logic the routes call (barcode.py: image validation and detection)
 ├── tests/               pytest tests, one file per route or model module
 ├── wsgi.py              entry point for `flask run` and gunicorn
@@ -84,6 +84,32 @@ curl -F "image=@photo.jpg" http://127.0.0.1:5000/api/barcode
 | Valid image, no readable EAN-8, UPC-A, EAN-13 or GTIN-14 barcode | 422 | `no_barcode_found` |
 
 Detection uses `zxing-cpp`. A UPC-A is returned as its 12 printed digits with `format: "UPCA"`. These error codes are not in `docs/api/openapi.yaml` yet.
+
+## Nutrition Facts photo (#42)
+
+`POST /api/nutrition-label` takes a photo of a Nutrition Facts table as `multipart/form-data` in the `image` field and returns a `nutrition_only` product result ([docs/api/](../docs/api/README.md)). It needs `GEMINI_API_KEY` in `.env`; without it the endpoint answers 503 and the rest of the app still runs.
+
+```bash
+curl -F "image=@label.jpg" http://127.0.0.1:5000/api/nutrition-label
+```
+
+```
+routes/nutrition_label.py      upload checks, error responses
+services/label_reading.py      load_image (#13) -> shrink to 2000 px JPEG -> vision model (#16)
+                               -> Serving / Package / Nutrition, every value "uncertain"
+services/fallback_routing.py   build_nutrition_only (#15)
+```
+
+Every value comes back `uncertain` because the model gives no per-value confidence (Q1); the client asks the user to confirm values. Upload errors are the same as `/api/barcode` above. The others:
+
+| Situation | HTTP | `error.code` |
+|---|---|---|
+| No Nutrition Facts table found, or too blurred | 422 | `nutrition_table_not_found` |
+| Vision model failed or replied with something unusable | 502 | `upstream_unavailable` |
+| `GEMINI_API_KEY` not set | 503 | `photo_reading_unavailable` |
+| Vision model did not answer within `VISION_TIMEOUT_SECONDS` | 504 | `upstream_timeout` |
+
+Tests replace the reader with a fake extractor, so CI makes no API calls.
 
 ## Database
 
