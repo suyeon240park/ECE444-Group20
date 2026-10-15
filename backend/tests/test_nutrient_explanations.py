@@ -3,6 +3,7 @@
 import dataclasses
 from datetime import datetime, timezone
 from pathlib import Path
+from types import MappingProxyType
 
 import pytest
 import yaml
@@ -35,8 +36,8 @@ from app.services.nutrient_explanations import (
 
 OFF = Source.OPEN_FOOD_FACTS
 PHOTO = Source.NUTRITION_LABEL_PHOTO
-UNREVIEWED = load_nutrient_content()
-REVIEWED = dataclasses.replace(UNREVIEWED, reviewed_on="2026-10-16", reviewed_by="reviewer")
+REVIEWED = load_nutrient_content()
+UNREVIEWED = dataclasses.replace(REVIEWED, reviewed_on=None, reviewed_by=None)
 
 AMOUNTS = {
     "calories": 190,
@@ -227,8 +228,25 @@ def test_unreviewed_content_shows_no_explanation():
         assert row["explanation_message"] == NO_EXPLANATION_MESSAGE
 
 
-def test_nutrient_without_reviewed_text_says_so():
+def test_content_is_reviewed():
+    assert REVIEWED.is_reviewed
+
+
+def test_partial_explanation_shows_what_is_sourced():
+    # Cholesterol has a sourced how_to_read but no what_it_is (#38 review).
     cholesterol = body_rows(explain_nutrients(product(), REVIEWED))["cholesterol"]
+    assert cholesterol["what_it_is"] is None
+    assert cholesterol["how_to_read"]["text"].startswith("Cholesterol is shown in milligrams")
+    assert cholesterol["explanation_message"] is None
+
+
+def test_nutrient_without_any_reviewed_text_says_so():
+    nutrients = dict(REVIEWED.nutrients)
+    nutrients["cholesterol"] = dataclasses.replace(
+        nutrients["cholesterol"], what_it_is=None, how_to_read=None
+    )
+    content = dataclasses.replace(REVIEWED, nutrients=MappingProxyType(nutrients))
+    cholesterol = body_rows(explain_nutrients(product(), content))["cholesterol"]
     assert cholesterol["explanation_message"] == NO_EXPLANATION_MESSAGE
 
 

@@ -48,10 +48,13 @@ never applied to the whole-package amounts from #36.
 `what_it_is` and `how_to_read` each carry their text and source links. The row shows
 **"No verified explanation available yet."** (`explanation_message`) when:
 
-- the #38 content has not been reviewed (`reviewed_on` is `null`), which is the
-  case until its reviewer signs off; or
-- that nutrient has no reviewed text, which is currently cholesterol; or
+- the #38 content has not been reviewed (`reviewed_on` is `null`); or
+- that nutrient has neither text; or
 - the value is not verified.
+
+A nutrient may have only one of the two texts. Cholesterol currently has a
+`how_to_read` but no `what_it_is`, because no approved source explains dietary
+cholesterol; only the sourced text is shown.
 
 `guidance` (`limit`, `get_more`, `neutral`) says whether Health Canada suggests getting
 less or more of a nutrient. The result has no overall score or good/bad verdict.
