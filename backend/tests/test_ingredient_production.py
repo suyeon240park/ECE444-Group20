@@ -243,11 +243,24 @@ def test_flagged_additive_has_correct_category(service, entry_id, expected_categ
 
 
 UNFLAGGED_ADDITIVES = [
-    "caramel_colour", "annatto", "anthocyanins", "tocopherols",
-    "monoglycerides", "carrageenan", "calcium_carbonate",
-    "trisodium_phosphate", "gelatin", "malic_acid", "sodium_citrate",
-    "locust_bean_gum", "sodium_benzoate", "potassium_sorbate",
-    "xanthan_gum", "sucralose", "acesulfame_potassium", "sodium_nitrite",
+    "caramel_colour",
+    "annatto",
+    "anthocyanins",
+    "tocopherols",
+    "monoglycerides",
+    "carrageenan",
+    "calcium_carbonate",
+    "trisodium_phosphate",
+    "gelatin",
+    "malic_acid",
+    "sodium_citrate",
+    "locust_bean_gum",
+    "sodium_benzoate",
+    "potassium_sorbate",
+    "xanthan_gum",
+    "sucralose",
+    "acesulfame_potassium",
+    "sodium_nitrite",
 ]
 
 
