@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "glucose_fructose",
+    "name": "Glucose-fructose",
+    "aliases": [],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "A Canadian label name for glucose syrups or isomerized glucose syrups, alone or combined, with no more than 60% fructose on a dry basis.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "why_used": {
+      "text": "It is used as a sweetener.",
+      "source_ids": [
+        "fda_types",
+        "names"
+      ]
+    },
+    "explanation": {
+      "text": "This name alone does not identify the starch source or exact sugar proportions.",
+      "source_ids": [
+        "names"
+      ]
+    },
+    "sources": [
+      {
+        "id": "names",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Common Names for Ingredients and Components",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/common-names-ingredients-and-components",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "names_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Noms usuels d'ingrédients et de constituants",
+        "url": "https://inspection.canada.ca/fr/propos-lacia/lois-reglements/liste-lois-reglements/documents-incorpores-renvoi/noms-usuels-dingredients-constituants",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

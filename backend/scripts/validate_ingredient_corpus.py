@@ -22,6 +22,7 @@ from app.services.ingredient_knowledge import (
 from app.services.ingredient_names import normalize_name
 from app.services.ingredient_parser import MAX_TEXT_LENGTH, parse_ingredients
 from app.services.normalize import normalize_off_product
+from scripts.ingredient_production_report import production_row, production_summary
 
 FIXTURES = Path(__file__).resolve().parents[1] / "tests/fixtures/ingredients"
 
@@ -135,7 +136,9 @@ def evaluate(snapshot, audits):
             if raw["code"] in audits:
                 row["targeted_audit"] = audit_checks(row, audits[raw["code"]])
             row["off_computed_ingredient_texts"] = list(tree_texts(raw.get("ingredients", [])))
-            row["production_checked_count"] = production.analyze(product).checked_count
+            live_content = production.analyze(product)
+            row["production_checked_count"] = live_content.checked_count
+            row["production"] = production_row(live_content)
             row["invariants"] = {
                 "count_consistency": result["total_count"]
                 == len(result["matched"]) + len(result["unmatched"]),
@@ -232,6 +235,7 @@ def evaluate(snapshot, audits):
             ),
             "source_languages": dict(Counter(r["language"] for r in results)),
             "production_entries": len(production.knowledge.entries),
+            "production": production_summary(results),
             "analysis_ms_median": round(statistics.median(latencies), 3) if latencies else None,
             "analysis_ms_max": round(max(latencies), 3) if latencies else None,
         },
@@ -262,6 +266,7 @@ def main():
         bool(
             summary["exceptions"]
             or summary["invariant_failures"]
+            or summary["production"]["invariant_failures"]
             or summary["products_with_property_failure"]
             or summary["flat_reference"]["failed"]
             or summary["targeted_audits"]["failed"]

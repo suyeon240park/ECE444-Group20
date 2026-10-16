@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "vegetable_oil",
+    "name": "Vegetable oil",
+    "aliases": [
+      "huile végétale",
+      "huile vegetale"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Vegetable oil is oil from plant sources.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It supplies fat for cooking.",
+      "source_ids": [
+        "fats",
+        "chowder"
+      ]
+    },
+    "explanation": {
+      "text": "Vegetable oils are used to cook ingredients in dishes such as soups.",
+      "source_ids": [
+        "chowder"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fats",
+        "publisher": "Health Canada",
+        "title": "Choose foods with healthy fats",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/choosing-healthy-fats.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "chowder",
+        "publisher": "Health Canada",
+        "title": "Creamy clam chowder",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/creamy-clam-chowder.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "labels_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Liste d'ingrédients et allergènes sur les étiquettes des aliments",
+        "url": "https://inspection.canada.ca/fr/etiquetage-aliment/etiquetage/industrie/liste-dingredients-allergenes",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

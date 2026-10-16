@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "garlic",
+    "name": "Garlic",
+    "aliases": [
+      "ail"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Garlic is a plant ingredient used for seasoning.",
+      "source_ids": [
+        "labels"
+      ]
+    },
+    "why_used": {
+      "text": "It adds flavour to foods such as dressings.",
+      "source_ids": [
+        "fats"
+      ]
+    },
+    "explanation": {
+      "text": "Garlic can flavour a dressing along with herbs.",
+      "source_ids": [
+        "fats"
+      ]
+    },
+    "sources": [
+      {
+        "id": "labels",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "List of ingredients and allergens on food labels",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/list-ingredients-and-allergens",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fats",
+        "publisher": "Health Canada",
+        "title": "Choose foods with healthy fats",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/choosing-healthy-fats.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "chowder_fr",
+        "publisher": "Santé Canada",
+        "title": "Chaudrée de palourdes crémeuse",
+        "url": "https://www.canada.ca/fr/sante-canada/services/guide-alimentaire/manger-favoriser/cuisine/recettes/chaudree-palourdes-cremeuse.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -1,8 +1,12 @@
 # Reviewed ingredient content (F4)
 
-Issue #33 supplies the format, validation, and matching engine. The `entries/`
-directory is intentionally empty until reviewed content from #34 and #35 merges.
-An empty collection checks zero ingredients; it does not prove a product safe.
+Issue #33 supplies the format, validation, and matching engine. Issue #34 adds
+25 sourced common-ingredient entries to `entries/`. See the
+[evidence matrix](evidence-common.md) for selection, aliases, source sections,
+and review status. Alex's source and wording review is required before merge
+and remains pending; passing validation does not complete that review.
+An empty collection remains valid and checks zero ingredients, without proving
+a product safe. Authority assessments and flag-focused content belong to #35.
 
 ## Add an entry
 
@@ -31,6 +35,13 @@ The `ingredient` object has:
 Dates without evidence remain `null` where the schema allows it. Publication,
 assessment, review, and effective dates have different meanings. A future effective
 date must not be described as an already-effective prohibition.
+
+For #34, `last_reviewed` records the author's content/evidence check; it does not
+record Alex's approval. Source access and author review occurred on 2026-10-14.
+Publication dates are null unless explicitly supported by the source; they are
+not inferred from a page's modification date.
+An empty `authority_positions` array records no authority position and is not an
+affirmative safety assessment. `flag: null` carries no universal safety verdict.
 
 Keep explanations concise and neutral. What it is and why it is used should fit
 within three sentences together. Each substantive claim must be supported by the
