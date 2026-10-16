@@ -26,6 +26,8 @@ ruff format --check .
 
 CI runs the same three commands on every pull request. `pytest` also measures coverage of `app/` and fails below 80% (configured in `pyproject.toml`).
 
+`tests/test_end_to_end.py` (#44) runs whole flows through the real app (complete product, incomplete product plus a label photo, unknown barcode plus a label photo, and outages), with only Open Food Facts and Gemini replaced by recorded replies. A request with no recording fails the test, so CI never calls an external API.
+
 ## Layout
 
 ```
@@ -122,7 +124,7 @@ Every value comes back `uncertain` because the model gives no per-value confiden
 
 When `VISION_MODEL` fails (overloaded, rate limited, retired), the models in `VISION_FALLBACK_MODELS` are tried in order, with no 30 s rate-limit wait. A timeout is not retried on another model.
 
-Tests replace the reader with a fake extractor, so CI makes no API calls.
+Unit tests replace the reader with a fake extractor, and the end-to-end tests replay recorded Gemini replies (`tests/fixtures/e2e/`), so CI makes no API calls.
 
 ## Database
 

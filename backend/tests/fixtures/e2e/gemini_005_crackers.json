@@ -1,0 +1,39 @@
+{
+  "model": "gemini-3-flash-preview",
+  "reply": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"table_found\": true,\n  \"serving\": {\n    \"size_text\": \"6 crackers (20 g)\",\n    \"household\": \"6 crackers\",\n    \"quantity\": 20,\n    \"unit\": \"g\"\n  },\n  \"servings_per_package\": null,\n  \"nutrients\": {\n    \"calories\": {\n      \"amount\": 100,\n      \"unit\": \"kcal\",\n      \"daily_value_percent\": null\n    },\n    \"total_fat\": {\n      \"amount\": 5,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 7\n    },\n    \"saturated_fat\": {\n      \"amount\": 1.5,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 8\n    },\n    \"trans_fat\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": null\n    },\n    \"carbohydrate\": {\n      \"amount\": 12,\n      \"unit\": \"g\",\n      \"daily_value_percent\": null\n    },\n    \"fibre\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 0\n    },\n    \"sugars\": {\n      \"amount\": 2,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 2\n    },\n    \"protein\": {\n      \"amount\": 1,\n      \"unit\": \"g\",\n      \"daily_value_percent\": null\n    },\n    \"cholesterol\": {\n      \"amount\": 0,\n      \"unit\": \"mg\",\n      \"daily_value_percent\": 0\n    },\n    \"sodium\": {\n      \"amount\": 160,\n      \"unit\": \"mg\",\n      \"daily_value_percent\": 7\n    }\n  },\n  \"unreadable_fields\": []\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 1517,
+      "candidatesTokenCount": 467,
+      "totalTokenCount": 3047,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 453
+        },
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1064
+        }
+      ],
+      "thoughtsTokenCount": 1063,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3-flash-preview",
+    "responseId": "PWDSav2BBtWRytMPgJHtiQw"
+  }
+}
