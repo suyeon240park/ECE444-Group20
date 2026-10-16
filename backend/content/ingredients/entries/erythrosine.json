@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "erythrosine",
+    "name": "Erythrosine",
+    "aliases": [
+      "FD&C Red No. 3",
+      "Red No. 3",
+      "Red 3",
+      "érythrosine"
+    ],
+    "e_numbers": [
+      "E127"
+    ],
+    "ins_numbers": [
+      "INS 127"
+    ],
+    "what_it_is": {
+      "text": "A synthetic red food colour.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "why_used": {
+      "text": "It colours foods red.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "explanation": {
+      "text": "FDA revoked authorization for FD&C Red No. 3 in food in January 2025.",
+      "source_ids": [
+        "fda_phaseout"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_phaseout",
+        "publisher": "FDA",
+        "title": "HHS, FDA to Phase Out Petroleum-Based Synthetic Dyes in Nation's Food Supply",
+        "url": "https://www.fda.gov/news-events/press-announcements/hhs-fda-phase-out-petroleum-based-synthetic-dyes-nations-food-supply",
+        "published_on": "2025-04-22",
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "cfia_colours",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Food colours",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/food-additives/food-colours",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [
+      {
+        "id": "fda_revocation",
+        "authority": "fda",
+        "statement": "FDA revoked the authorization for FD&C Red No. 3 as a colour additive in food and ingested drugs, effective January 15, 2027 for compliance.",
+        "scope": "food colour use",
+        "source_ids": [
+          "fda_phaseout"
+        ],
+        "assessed_on": "2025-01-15",
+        "effective_on": "2027-01-15"
+      }
+    ],
+    "flag": {
+      "flag_reason": "FDA revoked authorization for FD&C Red No. 3 in food.",
+      "category": "authority_action",
+      "source_ids": [
+        "fda_phaseout"
+      ],
+      "position_ids": [
+        "fda_revocation"
+      ]
+    }
+  }
+}

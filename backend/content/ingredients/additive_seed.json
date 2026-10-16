@@ -1,0 +1,764 @@
+{
+  "shared_sources": {
+    "fda_colours": {
+      "id": "fda_colours",
+      "publisher": "FDA",
+      "title": "Color Additives in Foods",
+      "url": "https://www.fda.gov/food/color-additives-information-consumers/color-additives-foods",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "fda_types": {
+      "id": "fda_types",
+      "publisher": "FDA",
+      "title": "Types of Food Ingredients",
+      "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "fda_phaseout": {
+      "id": "fda_phaseout",
+      "publisher": "FDA",
+      "title": "HHS, FDA to Phase Out Petroleum-Based Synthetic Dyes in Nation's Food Supply",
+      "url": "https://www.fda.gov/news-events/press-announcements/hhs-fda-phase-out-petroleum-based-synthetic-dyes-nations-food-supply",
+      "published_on": "2025-04-22",
+      "accessed_on": "2026-10-16"
+    },
+    "fda_tio2": {
+      "id": "fda_tio2",
+      "publisher": "FDA",
+      "title": "Titanium Dioxide as a Color Additive in Foods",
+      "url": "https://www.fda.gov/industry/color-additives/titanium-dioxide-color-additive-foods",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "efsa_tio2": {
+      "id": "efsa_tio2",
+      "publisher": "European Food Safety Authority",
+      "title": "Titanium dioxide: E171 no longer considered safe when used as a food additive",
+      "url": "https://www.efsa.europa.eu/en/news/titanium-dioxide-e171-no-longer-considered-safe-when-used-food-additive",
+      "published_on": "2021-05-06",
+      "accessed_on": "2026-10-16"
+    },
+    "efsa_colours": {
+      "id": "efsa_colours",
+      "publisher": "European Food Safety Authority",
+      "title": "EFSA updates safety advice on six food colours",
+      "url": "https://www.efsa.europa.eu/en/press/news/091112",
+      "published_on": "2009-11-12",
+      "accessed_on": "2026-10-16"
+    },
+    "efsa_sweeteners": {
+      "id": "efsa_sweeteners",
+      "publisher": "European Food Safety Authority",
+      "title": "Sweeteners",
+      "url": "https://www.efsa.europa.eu/en/topics/topic/sweeteners",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "efsa_southampton": {
+      "id": "efsa_southampton",
+      "publisher": "European Food Safety Authority",
+      "title": "EFSA evaluates Southampton study on food additives and child behaviour",
+      "url": "https://www.efsa.europa.eu/en/news/efsa-evaluates-southampton-study-food-additives-and-child-behaviour",
+      "published_on": "2008-03-14",
+      "accessed_on": "2026-10-16"
+    },
+    "hc_tio2": {
+      "id": "hc_tio2",
+      "publisher": "Health Canada",
+      "title": "Titanium dioxide (TiO2) as a food additive: Current science report",
+      "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/reports-publications/titanium-dioxide-food-additive-science-report.html",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "hc_permitted": {
+      "id": "hc_permitted",
+      "publisher": "Health Canada",
+      "title": "Lists of Permitted Food Additives",
+      "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/food-safety/food-additives/lists-permitted.html",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "cfia_colours": {
+      "id": "cfia_colours",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Food colours",
+      "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/food-additives/food-colours",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "cfia_additives": {
+      "id": "cfia_additives",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Food additives",
+      "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/food-additives",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    },
+    "who_aspartame": {
+      "id": "who_aspartame",
+      "publisher": "World Health Organization",
+      "title": "Aspartame hazard and risk assessment results released",
+      "url": "https://www.who.int/news/item/14-07-2023-aspartame-hazard-and-risk-assessment-results-released",
+      "published_on": "2023-07-14",
+      "accessed_on": "2026-10-16"
+    },
+    "cfia_nitrites": {
+      "id": "cfia_nitrites",
+      "publisher": "Canadian Food Inspection Agency",
+      "title": "Preventive control recommendations on the use of nitrites in the curing of meat products",
+      "url": "https://inspection.canada.ca/en/preventive-controls/meat/nitrites",
+      "published_on": null,
+      "accessed_on": "2026-10-16"
+    }
+  },
+  "ingredients": [
+    {
+      "id": "titanium_dioxide",
+      "name": "Titanium dioxide",
+      "aliases": ["dioxyde de titane", "CI 77891"],
+      "e_numbers": ["E171"],
+      "ins_numbers": [],
+      "source_ids": ["efsa_tio2", "fda_tio2", "hc_tio2"],
+      "what_it_is": {
+        "text": "A synthetic white pigment used as a colour additive in food.",
+        "source_ids": ["fda_tio2"]
+      },
+      "why_used": {
+        "text": "It makes foods appear whiter or more opaque.",
+        "source_ids": ["fda_tio2"]
+      },
+      "explanation": {
+        "text": "Authorities disagree on whether titanium dioxide is safe as a food additive.",
+        "source_ids": ["efsa_tio2", "fda_tio2"]
+      },
+      "authority_positions": [
+        {
+          "id": "efsa_2021",
+          "authority": "efsa",
+          "statement": "EFSA concluded that E171 can no longer be considered safe when used as a food additive because a concern for genotoxicity could not be excluded.",
+          "scope": "food additive use",
+          "source_ids": ["efsa_tio2"],
+          "assessed_on": "2021-05-06",
+          "effective_on": null
+        },
+        {
+          "id": "fda_current",
+          "authority": "fda",
+          "statement": "FDA permits titanium dioxide as a colour additive in foods at no more than 1% by weight under 21 CFR 73.575 and did not identify genotoxicity concerns from the available data.",
+          "scope": "food additive use",
+          "source_ids": ["fda_tio2"],
+          "assessed_on": null,
+          "effective_on": null
+        },
+        {
+          "id": "hc_2022",
+          "authority": "health_canada",
+          "statement": "Health Canada found no conclusive scientific evidence that food-grade titanium dioxide is a concern for human health.",
+          "scope": "food additive use",
+          "source_ids": ["hc_tio2"],
+          "assessed_on": null,
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "EFSA concluded E171 is no longer safe as a food additive; the EU withdrew authorization in 2022. FDA and Health Canada still permit it.",
+        "category": "conflicting_assessments",
+        "source_ids": ["efsa_tio2", "fda_tio2"],
+        "position_ids": ["efsa_2021", "fda_current"]
+      }
+    },
+    {
+      "id": "aspartame",
+      "name": "Aspartame",
+      "aliases": ["aspartam", "equal", "nutrasweet"],
+      "e_numbers": ["E951"],
+      "ins_numbers": ["INS 951"],
+      "source_ids": ["who_aspartame", "efsa_sweeteners", "fda_types"],
+      "what_it_is": {
+        "text": "An artificial low-calorie sweetener.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It adds sweetness with fewer calories than sugar.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "IARC classified aspartame as possibly carcinogenic (Group 2B) while JECFA reaffirmed the acceptable daily intake of 0–40 mg/kg body weight.",
+        "source_ids": ["who_aspartame"]
+      },
+      "authority_positions": [
+        {
+          "id": "iarc_2023",
+          "authority": "who_jecfa",
+          "statement": "IARC classified aspartame as Group 2B, possibly carcinogenic to humans, based on limited evidence for hepatocellular carcinoma.",
+          "scope": "cancer hazard identification",
+          "source_ids": ["who_aspartame"],
+          "assessed_on": "2023-07-14",
+          "effective_on": null
+        },
+        {
+          "id": "jecfa_2023",
+          "authority": "who_jecfa",
+          "statement": "JECFA found no sufficient reason to change the acceptable daily intake of 0–40 mg/kg body weight and judged the evidence of an association with cancer in humans to be not convincing.",
+          "scope": "dietary risk assessment",
+          "source_ids": ["who_aspartame"],
+          "assessed_on": "2023-07-14",
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "IARC classified aspartame as possibly carcinogenic (Group 2B) while JECFA reaffirmed the existing acceptable daily intake as safe.",
+        "category": "conflicting_assessments",
+        "source_ids": ["who_aspartame"],
+        "position_ids": ["iarc_2023", "jecfa_2023"]
+      }
+    },
+    {
+      "id": "erythrosine",
+      "name": "Erythrosine",
+      "aliases": ["FD&C Red No. 3", "Red No. 3", "Red 3", "érythrosine"],
+      "e_numbers": ["E127"],
+      "ins_numbers": ["INS 127"],
+      "source_ids": ["fda_phaseout", "cfia_colours"],
+      "what_it_is": {
+        "text": "A synthetic red food colour.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods red.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "FDA revoked authorization for FD&C Red No. 3 in food in January 2025.",
+        "source_ids": ["fda_phaseout"]
+      },
+      "authority_positions": [
+        {
+          "id": "fda_revocation",
+          "authority": "fda",
+          "statement": "FDA revoked the authorization for FD&C Red No. 3 as a colour additive in food and ingested drugs, effective January 15, 2027 for compliance.",
+          "scope": "food colour use",
+          "source_ids": ["fda_phaseout"],
+          "assessed_on": "2025-01-15",
+          "effective_on": "2027-01-15"
+        }
+      ],
+      "flag": {
+        "flag_reason": "FDA revoked authorization for FD&C Red No. 3 in food.",
+        "category": "authority_action",
+        "source_ids": ["fda_phaseout"],
+        "position_ids": ["fda_revocation"]
+      }
+    },
+    {
+      "id": "allura_red",
+      "name": "Allura Red AC",
+      "aliases": ["FD&C Red No. 40", "Red 40", "CI 16035", "rouge allura"],
+      "e_numbers": ["E129"],
+      "ins_numbers": ["INS 129"],
+      "source_ids": ["fda_phaseout", "cfia_colours", "efsa_colours"],
+      "what_it_is": {
+        "text": "A synthetic red food colour.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods and beverages red.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "FDA announced a plan to phase out petroleum-based synthetic dyes including Red 40 from the food supply.",
+        "source_ids": ["fda_phaseout"]
+      },
+      "authority_positions": [
+        {
+          "id": "fda_phaseout_2025",
+          "authority": "fda",
+          "statement": "FDA announced it is working with industry to eliminate FD&C Red No. 40 from the food supply, citing concerns about children's health.",
+          "scope": "food colour use",
+          "source_ids": ["fda_phaseout"],
+          "assessed_on": "2025-04-22",
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "FDA announced a phase-out of petroleum-based synthetic food dyes including FD&C Red No. 40.",
+        "category": "authority_action",
+        "source_ids": ["fda_phaseout"],
+        "position_ids": ["fda_phaseout_2025"]
+      }
+    },
+    {
+      "id": "tartrazine",
+      "name": "Tartrazine",
+      "aliases": ["FD&C Yellow No. 5", "Yellow 5", "CI 19140"],
+      "e_numbers": ["E102"],
+      "ins_numbers": ["INS 102"],
+      "source_ids": ["fda_phaseout", "cfia_colours", "efsa_colours"],
+      "what_it_is": {
+        "text": "A synthetic yellow food colour.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods and beverages yellow.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "FDA announced a plan to phase out petroleum-based synthetic dyes including Yellow 5 from the food supply.",
+        "source_ids": ["fda_phaseout"]
+      },
+      "authority_positions": [
+        {
+          "id": "fda_phaseout_2025",
+          "authority": "fda",
+          "statement": "FDA announced it is working with industry to eliminate FD&C Yellow No. 5 from the food supply, citing concerns about children's health.",
+          "scope": "food colour use",
+          "source_ids": ["fda_phaseout"],
+          "assessed_on": "2025-04-22",
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "FDA announced a phase-out of petroleum-based synthetic food dyes including FD&C Yellow No. 5.",
+        "category": "authority_action",
+        "source_ids": ["fda_phaseout"],
+        "position_ids": ["fda_phaseout_2025"]
+      }
+    },
+    {
+      "id": "sunset_yellow",
+      "name": "Sunset Yellow FCF",
+      "aliases": ["FD&C Yellow No. 6", "Yellow 6", "CI 15985", "jaune soleil FCF"],
+      "e_numbers": ["E110"],
+      "ins_numbers": ["INS 110"],
+      "source_ids": ["fda_phaseout", "cfia_colours", "efsa_colours"],
+      "what_it_is": {
+        "text": "A synthetic orange-yellow food colour.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods and beverages orange-yellow.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "FDA announced a plan to phase out petroleum-based synthetic dyes including Yellow 6 from the food supply.",
+        "source_ids": ["fda_phaseout"]
+      },
+      "authority_positions": [
+        {
+          "id": "fda_phaseout_2025",
+          "authority": "fda",
+          "statement": "FDA announced it is working with industry to eliminate FD&C Yellow No. 6 from the food supply, citing concerns about children's health.",
+          "scope": "food colour use",
+          "source_ids": ["fda_phaseout"],
+          "assessed_on": "2025-04-22",
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "FDA announced a phase-out of petroleum-based synthetic food dyes including FD&C Yellow No. 6.",
+        "category": "authority_action",
+        "source_ids": ["fda_phaseout"],
+        "position_ids": ["fda_phaseout_2025"]
+      }
+    },
+    {
+      "id": "brilliant_blue",
+      "name": "Brilliant Blue FCF",
+      "aliases": ["FD&C Blue No. 1", "Blue 1", "CI 42090", "bleu brillant FCF"],
+      "e_numbers": ["E133"],
+      "ins_numbers": ["INS 133"],
+      "source_ids": ["fda_phaseout", "cfia_colours"],
+      "what_it_is": {
+        "text": "A synthetic blue food colour.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods and beverages blue.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "FDA announced a plan to phase out petroleum-based synthetic dyes including Blue 1 from the food supply.",
+        "source_ids": ["fda_phaseout"]
+      },
+      "authority_positions": [
+        {
+          "id": "fda_phaseout_2025",
+          "authority": "fda",
+          "statement": "FDA announced it is working with industry to eliminate FD&C Blue No. 1 from the food supply, citing concerns about children's health.",
+          "scope": "food colour use",
+          "source_ids": ["fda_phaseout"],
+          "assessed_on": "2025-04-22",
+          "effective_on": null
+        }
+      ],
+      "flag": {
+        "flag_reason": "FDA announced a phase-out of petroleum-based synthetic food dyes including FD&C Blue No. 1.",
+        "category": "authority_action",
+        "source_ids": ["fda_phaseout"],
+        "position_ids": ["fda_phaseout_2025"]
+      }
+    },
+    {
+      "id": "caramel_colour",
+      "name": "Caramel colour",
+      "aliases": ["caramel color", "colorant caramel", "plain caramel"],
+      "e_numbers": ["E150a"],
+      "ins_numbers": ["INS 150a"],
+      "source_ids": ["cfia_colours", "fda_types"],
+      "what_it_is": {
+        "text": "A brown colour made by heating sugars.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It colours foods and beverages brown.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "Caramel colour is one of the most widely used food colours.",
+        "source_ids": ["cfia_colours"]
+      }
+    },
+    {
+      "id": "annatto",
+      "name": "Annatto",
+      "aliases": ["annatto extract", "rocou", "bixin", "norbixin"],
+      "e_numbers": ["E160b"],
+      "ins_numbers": ["INS 160b"],
+      "source_ids": ["cfia_colours", "fda_colours"],
+      "what_it_is": {
+        "text": "A natural yellow-orange colour from annatto seeds.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "It colours foods yellow to orange.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "Annatto is a plant-derived colour commonly used in cheese and butter.",
+        "source_ids": ["cfia_colours"]
+      }
+    },
+    {
+      "id": "anthocyanins",
+      "name": "Anthocyanins",
+      "aliases": ["anthocyanin", "anthocyanines", "grape skin extract"],
+      "e_numbers": ["E163"],
+      "ins_numbers": ["INS 163"],
+      "source_ids": ["cfia_colours"],
+      "what_it_is": {
+        "text": "Natural pigments found in fruits and vegetables.",
+        "source_ids": ["cfia_colours"]
+      },
+      "why_used": {
+        "text": "They colour foods red to blue.",
+        "source_ids": ["cfia_colours"]
+      },
+      "explanation": {
+        "text": "Anthocyanins are plant pigments extracted from sources such as grape skins.",
+        "source_ids": ["cfia_colours"]
+      }
+    },
+    {
+      "id": "tocopherols",
+      "name": "Tocopherols",
+      "aliases": ["mixed tocopherols", "tocophérols", "vitamin E"],
+      "e_numbers": ["E306"],
+      "ins_numbers": ["INS 306"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "Naturally occurring compounds related to vitamin E.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "They slow oxidation and help preserve freshness.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Tocopherols are antioxidants that delay rancidity in fats and oils.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "monoglycerides",
+      "name": "Monoglycerides",
+      "aliases": ["mono- and diglycerides", "monoglécyrides", "mono- et diglycérides"],
+      "e_numbers": ["E471"],
+      "ins_numbers": ["INS 471"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "Emulsifiers derived from fats.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "They help ingredients mix and maintain a uniform texture.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Mono- and diglycerides are among the most common food emulsifiers.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "carrageenan",
+      "name": "Carrageenan",
+      "aliases": ["carraghénine", "carraghenane"],
+      "e_numbers": ["E407"],
+      "ins_numbers": ["INS 407"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A thickener extracted from red seaweed.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It thickens and stabilizes foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Carrageenan is a seaweed-derived additive used for texture in dairy products and beverages.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "calcium_carbonate",
+      "name": "Calcium carbonate",
+      "aliases": ["carbonate de calcium"],
+      "e_numbers": ["E170"],
+      "ins_numbers": ["INS 170"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A mineral compound used as a food additive.",
+        "source_ids": ["hc_permitted"]
+      },
+      "why_used": {
+        "text": "It can serve as a white colour, an acidity regulator, or a calcium supplement in foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Calcium carbonate is a common mineral additive with multiple functions in food.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "trisodium_phosphate",
+      "name": "Trisodium phosphate",
+      "aliases": ["phosphate trisodique", "sodium phosphate tribasic"],
+      "e_numbers": ["E339"],
+      "ins_numbers": ["INS 339"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A phosphate salt used as a food additive.",
+        "source_ids": ["hc_permitted"]
+      },
+      "why_used": {
+        "text": "It can regulate acidity and act as an emulsifier in processed foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Trisodium phosphate is a buffering and emulsifying agent found in cereals and processed cheese.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "gelatin",
+      "name": "Gelatin",
+      "aliases": ["gelatine", "gélatine"],
+      "e_numbers": [],
+      "ins_numbers": [],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A protein derived from animal collagen.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It thickens and gels foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Gelatin gives a gel-like texture to desserts, yogurts, and confections.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "malic_acid",
+      "name": "Malic acid",
+      "aliases": ["acide malique"],
+      "e_numbers": ["E296"],
+      "ins_numbers": ["INS 296"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "An organic acid naturally found in fruits.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It adds tartness and controls acidity.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Malic acid is an acidulant that gives a tart taste to candy and fruit-flavoured foods.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "sodium_citrate",
+      "name": "Sodium citrate",
+      "aliases": ["citrate de sodium", "trisodium citrate"],
+      "e_numbers": ["E331"],
+      "ins_numbers": ["INS 331"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "The sodium salt of citric acid.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It controls acidity and acts as an emulsifying salt.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Sodium citrate is a buffering agent used in dairy products and beverages.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "locust_bean_gum",
+      "name": "Locust bean gum",
+      "aliases": ["carob bean gum", "gomme de caroube"],
+      "e_numbers": ["E410"],
+      "ins_numbers": ["INS 410"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A natural thickener from carob tree seeds.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It thickens and stabilizes food texture.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Locust bean gum is a plant-derived thickener used in ice cream and dairy products.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "sodium_benzoate",
+      "name": "Sodium benzoate",
+      "aliases": ["benzoate de sodium"],
+      "e_numbers": ["E211"],
+      "ins_numbers": ["INS 211"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "The sodium salt of benzoic acid, used as a preservative.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It inhibits microbial growth in acidic foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Sodium benzoate is a preservative effective in acidic foods such as soft drinks and pickles.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "potassium_sorbate",
+      "name": "Potassium sorbate",
+      "aliases": ["sorbate de potassium"],
+      "e_numbers": ["E202"],
+      "ins_numbers": ["INS 202"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "The potassium salt of sorbic acid, used as a preservative.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It inhibits mold and yeast growth in foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Potassium sorbate is a preservative commonly used in cheese, baked goods, and beverages.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "xanthan_gum",
+      "name": "Xanthan gum",
+      "aliases": ["gomme xanthane", "gomme de xanthane"],
+      "e_numbers": ["E415"],
+      "ins_numbers": ["INS 415"],
+      "source_ids": ["fda_types", "hc_permitted"],
+      "what_it_is": {
+        "text": "A polysaccharide produced by bacterial fermentation.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It thickens and stabilizes foods.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Xanthan gum is a widely used thickener and stabilizer in sauces, dressings, and gluten-free baking.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "sucralose",
+      "name": "Sucralose",
+      "aliases": ["sucralose", "splenda"],
+      "e_numbers": ["E955"],
+      "ins_numbers": ["INS 955"],
+      "source_ids": ["fda_types", "efsa_sweeteners", "hc_permitted"],
+      "what_it_is": {
+        "text": "An artificial sweetener derived from sugar.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It adds sweetness without calories.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Sucralose is a high-intensity sweetener about 600 times sweeter than sugar.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "acesulfame_potassium",
+      "name": "Acesulfame potassium",
+      "aliases": ["acesulfame K", "acésulfame potassique", "ace-K"],
+      "e_numbers": ["E950"],
+      "ins_numbers": ["INS 950"],
+      "source_ids": ["fda_types", "efsa_sweeteners", "hc_permitted"],
+      "what_it_is": {
+        "text": "An artificial high-intensity sweetener.",
+        "source_ids": ["fda_types"]
+      },
+      "why_used": {
+        "text": "It adds sweetness without calories.",
+        "source_ids": ["fda_types"]
+      },
+      "explanation": {
+        "text": "Acesulfame potassium is often used in combination with other sweeteners.",
+        "source_ids": ["fda_types"]
+      }
+    },
+    {
+      "id": "sodium_nitrite",
+      "name": "Sodium nitrite",
+      "aliases": ["nitrite de sodium"],
+      "e_numbers": ["E250"],
+      "ins_numbers": ["INS 250"],
+      "source_ids": ["cfia_nitrites", "hc_permitted", "fda_types"],
+      "what_it_is": {
+        "text": "A salt used as a curing agent and preservative in meat products.",
+        "source_ids": ["cfia_nitrites"]
+      },
+      "why_used": {
+        "text": "It preserves colour and inhibits bacterial growth in cured meats.",
+        "source_ids": ["cfia_nitrites"]
+      },
+      "explanation": {
+        "text": "Sodium nitrite is a regulated preservative used in meat curing with maximum permitted levels.",
+        "source_ids": ["cfia_nitrites"]
+      }
+    }
+  ]
+}

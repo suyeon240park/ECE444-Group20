@@ -1,7 +1,6 @@
-"""Independent identity expectations for #34's sourced production content.
+"""Independent identity expectations for #34 and #35 sourced production content.
 
 These tests establish matching behavior, not scientific or teammate approval.
-Additional #35 entries may coexist without changing this roster's assertions.
 """
 
 import json
@@ -182,3 +181,94 @@ def test_report_separates_malformed_text_from_missing_data(service):
     assert summary["unavailable_products"] == 0
     assert summary["products_with_warnings"] == 1
     assert summary["products_by_warning_code"]["unbalanced_brackets"] == 1
+
+
+# ---------------------------------------------------------------------------
+# Issue #35 — flagged additive entries
+# ---------------------------------------------------------------------------
+
+ADDITIVE_IDENTITIES = [
+    ("titanium_dioxide", "Titanium dioxide", "E171"),
+    ("aspartame", "Aspartame", "E951"),
+    ("erythrosine", "Erythrosine", "E127"),
+    ("allura_red", "Allura Red AC", "E129"),
+    ("tartrazine", "Tartrazine", "E102"),
+    ("sunset_yellow", "Sunset Yellow FCF", "E110"),
+    ("brilliant_blue", "Brilliant Blue FCF", "E133"),
+    ("caramel_colour", "Caramel colour", "E150a"),
+    ("annatto", "Annatto", "E160b"),
+    ("anthocyanins", "Anthocyanins", "E163"),
+    ("tocopherols", "Tocopherols", "E306"),
+    ("monoglycerides", "Monoglycerides", "E471"),
+    ("carrageenan", "Carrageenan", "E407"),
+    ("calcium_carbonate", "Calcium carbonate", "E170"),
+    ("trisodium_phosphate", "Trisodium phosphate", "E339"),
+    ("gelatin", "Gelatin", None),
+    ("malic_acid", "Malic acid", "E296"),
+    ("sodium_citrate", "Sodium citrate", "E331"),
+    ("locust_bean_gum", "Locust bean gum", "E410"),
+    ("sodium_benzoate", "Sodium benzoate", "E211"),
+    ("potassium_sorbate", "Potassium sorbate", "E202"),
+    ("xanthan_gum", "Xanthan gum", "E415"),
+    ("sucralose", "Sucralose", "E955"),
+    ("acesulfame_potassium", "Acesulfame potassium", "E950"),
+    ("sodium_nitrite", "Sodium nitrite", "E250"),
+]
+
+
+@pytest.mark.parametrize(("expected_id", "name", "e_number"), ADDITIVE_IDENTITIES)
+def test_additive_name_and_e_number_resolution(service, expected_id, name, e_number):
+    assert service.knowledge.match(name).id == expected_id
+    if e_number:
+        assert service.knowledge.match(e_number).id == expected_id
+
+
+FLAGGED_ADDITIVES = [
+    ("titanium_dioxide", "conflicting_assessments"),
+    ("aspartame", "conflicting_assessments"),
+    ("erythrosine", "authority_action"),
+    ("allura_red", "authority_action"),
+    ("tartrazine", "authority_action"),
+    ("sunset_yellow", "authority_action"),
+    ("brilliant_blue", "authority_action"),
+]
+
+
+@pytest.mark.parametrize(("entry_id", "expected_category"), FLAGGED_ADDITIVES)
+def test_flagged_additive_has_correct_category(service, entry_id, expected_category):
+    entry = service.knowledge.entries[entry_id]
+    assert entry.flagged
+    assert entry.flag.category == expected_category
+    assert entry.flag.flag_reason
+
+
+UNFLAGGED_ADDITIVES = [
+    "caramel_colour", "annatto", "anthocyanins", "tocopherols",
+    "monoglycerides", "carrageenan", "calcium_carbonate",
+    "trisodium_phosphate", "gelatin", "malic_acid", "sodium_citrate",
+    "locust_bean_gum", "sodium_benzoate", "potassium_sorbate",
+    "xanthan_gum", "sucralose", "acesulfame_potassium", "sodium_nitrite",
+]
+
+
+@pytest.mark.parametrize("entry_id", UNFLAGGED_ADDITIVES)
+def test_unflagged_additive_is_not_flagged(service, entry_id):
+    entry = service.knowledge.entries[entry_id]
+    assert not entry.flagged
+
+
+def test_total_entry_count(service):
+    assert len(service.knowledge.entries) == 50
+
+
+def test_flagged_ids_in_analysis_result(service):
+    result = analyze(service, "Ingredients: Aspartame, sugar, titanium dioxide, salt")
+    assert set(result.flagged_ids) == {"aspartame", "titanium_dioxide"}
+    assert result.to_dict()["flagged_count"] == 2
+
+
+def test_e_number_does_not_conflate_additives(service):
+    assert service.knowledge.match("E171").id == "titanium_dioxide"
+    assert service.knowledge.match("E951").id == "aspartame"
+    assert service.knowledge.match("E129").id == "allura_red"
+    assert service.knowledge.match("E407").id == "carrageenan"
