@@ -18,6 +18,12 @@ GET /api/products/{barcode}
 
 `barcode` is 8 to 14 digits (EAN-8, UPC-A, EAN-13, GTIN-14). Implemented by #14.
 
+```
+POST /api/nutrition-label        multipart/form-data, photo in the "image" field
+```
+
+Reads a Nutrition Facts photo and returns a `nutrition_only` result in the same shape. Every value is `uncertain` until the user confirms it (see below). Errors use the same body with their own codes (`PhotoError` in `openapi.yaml`). Implemented by #42.
+
 ## Response states
 
 Each state is distinct, so the client never has to guess what happened.
@@ -81,10 +87,12 @@ Every value says where it came from, so the UI can label database values versus 
   - on the record as a whole (`product.source`).
 - `serving.source` and `package.source` are `null` exactly when every other value in that object is `null`.
 - `product.source.url` links to the public record for a "View source" link. `retrieved_at` and `last_modified_at` are UTC ISO-8601 (`2026-10-08T14:00:00Z`).
-- `certainty` is set per nutrient:
+- `certainty` is set per nutrient, on `serving` and on `package` (`null` when the object's `source` is `null`):
   - **`reported`**: from the product database. Database values are always `reported`.
   - **`confident`**: from a label photo, passing Q1's confidence rule.
-  - **`uncertain`**: from a label photo, failing Q1's rule. **Do not** explain it (F3) or use it in whole-package totals (F2). Offer "Retake photo".
+  - **`uncertain`**: from a label photo, failing Q1's rule. **Do not** explain it (F3) or use it in whole-package totals (F2). Offer "Retake photo" or ask the user to confirm it.
+  - **`user_confirmed`**: from a label photo, checked by the user. Usable like `reported`.
+- The vision model gives no per-value confidence, so `POST /api/nutrition-label` returns every value `uncertain`. Serving size and servings per package multiply every nutrient in F2, so an unconfirmed serving counts as missing too.
 
 ### Nutrition basis
 

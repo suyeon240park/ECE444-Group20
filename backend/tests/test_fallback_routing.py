@@ -58,7 +58,8 @@ def label_nutrition(basis=NutritionBasis.SERVING, **overrides):
 
 
 def label_serving(quantity=30, unit="g"):
-    return Serving(f"1 portion ({quantity} {unit})", quantity, unit, PHOTO)
+    # Confident, like the nutrient values these tests read from a photo.
+    return Serving(f"1 portion ({quantity} {unit})", quantity, unit, PHOTO, Certainty.CONFIDENT)
 
 
 def crackers_without(*names):

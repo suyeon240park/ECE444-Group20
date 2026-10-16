@@ -94,6 +94,87 @@ paths:
                 timeout:
                   $ref: "#/components/examples/errorUpstreamTimeout"
 
+  /api/nutrition-label:
+    post:
+      operationId: readNutritionLabel
+      summary: Read a Nutrition Facts photo
+      description: |
+        Reads the Nutrition Facts table in a photo with the vision model and returns
+        a `nutrition_only` result: serving, servings per package and nutrients, with
+        no name, brand or ingredients. Implemented by #42.
+
+        Every value comes back `uncertain`: the model gives no per-value confidence,
+        so by Q1's safe-use rule nothing is used until the user confirms it (the
+        client then marks it `user_confirmed`). An unconfirmed serving size is listed
+        in `missing_fields`, so a fresh reading is always `incomplete`.
+
+        The photo is validated like `/api/barcode` (JPEG, PNG or WEBP; 10 MB; pixel
+        limit), turned upright from EXIF, and shrunk to 2000 px on its long edge
+        before it is sent to the model.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Photo of the Nutrition Facts table.
+      responses:
+        "200":
+          description: The table was read. Values are `uncertain` until confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResult"
+        "400":
+          description: No `image` field (`missing_image`) or the file is not a readable image (`invalid_image`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "413":
+          description: The upload is over 10 MB (`file_too_large`) or has too many pixels (`image_too_large`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "415":
+          description: The file is an image type other than JPEG, PNG or WEBP.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "422":
+          description: |
+            No Nutrition Facts table was found, or it was too blurred to read. The
+            client should ask for a retake.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "502":
+          description: The vision model failed or returned an unusable reply. The client may retry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "503":
+          description: Photo reading is not configured on this server (no `GEMINI_API_KEY`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "504":
+          description: The vision model did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+
 components:
   schemas:
     IngredientStatus:
@@ -480,7 +561,7 @@ components:
     Serving:
       type: object
       additionalProperties: false
-      required: [size_text, quantity, unit, source]
+      required: [size_text, quantity, unit, source, certainty]
       properties:
         size_text:
           type: [string, "null"]
@@ -494,11 +575,19 @@ components:
           enum: [g, ml, null]
         source:
           $ref: "#/components/schemas/SourceOrNull"
+        certainty:
+          type: [string, "null"]
+          enum: [reported, confident, uncertain, user_confirmed, null]
+          description: |
+            Q1 critical field. `reported` for database values. A label-photo value is
+            `uncertain` until the user confirms it (`user_confirmed`); an uncertain
+            value must not be used in whole-package calculations (F2). `null` exactly
+            when `source` is `null`.
 
     Package:
       type: object
       additionalProperties: false
-      required: [quantity_text, quantity, unit, servings_per_package, source]
+      required: [quantity_text, quantity, unit, servings_per_package, source, certainty]
       properties:
         quantity_text:
           type: [string, "null"]
@@ -515,6 +604,14 @@ components:
           description: Only when a source states it. Never estimated by the backend.
         source:
           $ref: "#/components/schemas/SourceOrNull"
+        certainty:
+          type: [string, "null"]
+          enum: [reported, confident, uncertain, user_confirmed, null]
+          description: |
+            Q1 critical field. `reported` for database values. A label-photo value is
+            `uncertain` until the user confirms it (`user_confirmed`); an uncertain
+            value must not be used in whole-package calculations (F2). `null` exactly
+            when `source` is `null`.
 
     Nutrition:
       type: object
@@ -583,11 +680,13 @@ components:
           $ref: "#/components/schemas/Source"
         certainty:
           type: string
-          enum: [reported, confident, uncertain]
+          enum: [reported, confident, uncertain, user_confirmed]
           description: |
-            `reported` for database values. `confident` or `uncertain` for label-photo
-            values (Q1). Uncertain values must not be explained or used in
-            whole-package calculations.
+            `reported` for database values. `confident`, `uncertain` or
+            `user_confirmed` for label-photo values (Q1). Photo values start as
+            `uncertain` (the vision model gives no per-value confidence) and become
+            `user_confirmed` once the user checks them. Uncertain values must not be
+            explained or used in whole-package calculations.
 
     DataSource:
       type: object
@@ -740,6 +839,33 @@ components:
               type: string
               description: For logs and developers. The client shows its own wording.
 
+    PhotoError:
+      description: Error body of `/api/nutrition-label`. Same shape as `Error`, with its own codes.
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum:
+                - missing_image
+                - invalid_image
+                - file_too_large
+                - image_too_large
+                - unsupported_media_type
+                - nutrition_table_not_found
+                - upstream_unavailable
+                - photo_reading_unavailable
+                - upstream_timeout
+            message:
+              type: string
+              description: For logs and developers. The client shows its own wording.
+
   examples:
     productComplete:
       summary: Found with everything a full analysis needs (synthetic example)
@@ -757,12 +883,14 @@ components:
             quantity: 30
             unit: g
             source: open_food_facts
+            certainty: reported
           package:
             quantity_text: "300 g"
             quantity: 300
             unit: g
             servings_per_package: null
             source: open_food_facts
+            certainty: reported
           nutrition:
             basis: serving
             nutrients:
@@ -801,12 +929,14 @@ components:
             quantity: null
             unit: null
             source: null
+            certainty: null
           package:
             quantity_text: "400.0 g"
             quantity: 400
             unit: g
             servings_per_package: null
             source: open_food_facts
+            certainty: reported
           nutrition:
             basis: "100g"
             nutrients:
@@ -843,12 +973,14 @@ components:
             quantity: 250
             unit: ml
             source: nutrition_label_photo
+            certainty: user_confirmed
           package:
             quantity_text: null
             quantity: null
             unit: null
             servings_per_package: null
             source: null
+            certainty: null
           nutrition:
             basis: serving
             nutrients:

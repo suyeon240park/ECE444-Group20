@@ -26,6 +26,7 @@ from app.models.product import (
     ErrorCode,
     Nutrition,
     NutritionBasis,
+    Package,
     Product,
     ProductResult,
     ResultType,
@@ -188,17 +189,25 @@ def merge_label_nutrition(
 
 
 def build_nutrition_only(
-    label_serving: Serving, label_nutrition: Nutrition, read_at: datetime
+    label_serving: Serving,
+    label_nutrition: Nutrition,
+    read_at: datetime,
+    label_package: Package | None = None,
 ) -> ProductResult:
     """Build the result for a label photo read without an identified product (path 3).
 
     Barcode, name, brand and ingredients are left ``None``: the lookup did not
-    identify a product, so the result must not claim one (F1).
+    identify a product, so the result must not claim one (F1). ``label_package``
+    carries servings per package when the label prints it (#42).
     """
     _check_label_reading(label_serving, label_nutrition)
+    label_package = label_package or Package()
+    if label_package.source not in (None, Source.NUTRITION_LABEL_PHOTO):
+        raise ValueError("label package must have source 'nutrition_label_photo'")
     product = Product(
         source=DataSource(Source.NUTRITION_LABEL_PHOTO, read_at),
         serving=label_serving,
+        package=label_package,
         nutrition=label_nutrition,
     )
     return ProductResult(ResultType.NUTRITION_ONLY, product)
