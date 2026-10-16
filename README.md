@@ -71,7 +71,8 @@ Set up in sprint 1 (issue #19).
 |---|---|---|
 | Client (web and mobile) | React Native with Expo SDK 57 and TypeScript, built for web, iOS and Android from one codebase | One codebase covers the browser and phones; the camera and barcode scanner come built in |
 | Backend API | Python 3.10+ with Flask | The course labs use Flask, and Python has the strongest image and data tooling |
-| Database | PostgreSQL 16 (local instance via Docker Compose) | Product cache, ingredient knowledge base. Not used by any code yet |
+| Database | PostgreSQL 16 (local instance via Docker Compose) | Reserved for future persistence; not used by current code |
+| Ingredient content | Versioned JSON in `backend/content/ingredients/entries/` | Validated and loaded locally; 25 sourced common-ingredient entries from #34, with Alex's source/wording approval required before merge |
 | Product data | Open Food Facts API | Free, open, queried by barcode |
 | Nutrition Facts extraction | Vision-model API prototype (#16); decision at the end of sprint 1 | Must meet requirement Q1 |
 | Tests and CI | pytest and ruff for the backend, TypeScript and an Expo web build for the client, GitHub Actions | Runs on every pull request and on `main` |

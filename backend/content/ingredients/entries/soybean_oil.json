@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "soybean_oil",
+    "name": "Soybean oil",
+    "aliases": [
+      "soya oil",
+      "huile de soja",
+      "huile de soya"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Oil from soybeans.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It supplies fat when preparing foods.",
+      "source_ids": [
+        "fats",
+        "standards"
+      ]
+    },
+    "explanation": {
+      "text": "A plant-derived fat used in food preparation.",
+      "source_ids": [
+        "fats",
+        "standards"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fats",
+        "publisher": "Health Canada",
+        "title": "Choose foods with healthy fats",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/explore/healthy-eating-recommendations/eat-variety/choosing-healthy-fats.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Normes canadiennes de composition des aliments",
+        "url": "https://inspection.canada.ca/fr/propos-lacia/lois-reglements/liste-lois-reglements/documents-incorpores-renvoi/normes-canadiennes-composition-aliments-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

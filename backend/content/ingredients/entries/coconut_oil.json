@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "coconut_oil",
+    "name": "Coconut oil",
+    "aliases": [
+      "huile de coco",
+      "huile de noix de coco"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Oil from coconut.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It supplies fat when preparing foods.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "explanation": {
+      "text": "A plant-derived fat used in food preparation.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}
