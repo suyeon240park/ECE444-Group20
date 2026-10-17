@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "annatto",
+    "name": "Annatto",
+    "aliases": [
+      "annatto extract",
+      "rocou",
+      "bixin",
+      "norbixin"
+    ],
+    "e_numbers": [
+      "E160b"
+    ],
+    "ins_numbers": [
+      "INS 160b"
+    ],
+    "what_it_is": {
+      "text": "A natural yellow-orange colour from annatto seeds.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "why_used": {
+      "text": "It colours foods yellow to orange.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "explanation": {
+      "text": "Annatto is a plant-derived colour commonly used in cheese and butter.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "sources": [
+      {
+        "id": "cfia_colours",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Food colours",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/food-additives/food-colours",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "fda_colours",
+        "publisher": "FDA",
+        "title": "Color Additives in Foods",
+        "url": "https://www.fda.gov/food/color-additives-information-consumers/color-additives-foods",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "aspartame",
+    "name": "Aspartame",
+    "aliases": [
+      "aspartam"
+    ],
+    "e_numbers": [
+      "E951"
+    ],
+    "ins_numbers": [
+      "INS 951"
+    ],
+    "what_it_is": {
+      "text": "An artificial low-calorie sweetener.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "why_used": {
+      "text": "It adds sweetness with fewer calories than sugar.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "In 2023, IARC classified aspartame as possibly carcinogenic (Group 2B) while JECFA reaffirmed the acceptable daily intake of 0–40 mg/kg body weight.",
+      "source_ids": [
+        "who_aspartame"
+      ]
+    },
+    "sources": [
+      {
+        "id": "who_aspartame",
+        "publisher": "World Health Organization",
+        "title": "Aspartame hazard and risk assessment results released",
+        "url": "https://www.who.int/news/item/14-07-2023-aspartame-hazard-and-risk-assessment-results-released",
+        "published_on": "2023-07-14",
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "efsa_sweeteners",
+        "publisher": "European Food Safety Authority",
+        "title": "Sweeteners",
+        "url": "https://www.efsa.europa.eu/en/topics/topic/sweeteners",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [
+      {
+        "id": "jecfa_2023",
+        "authority": "who_jecfa",
+        "statement": "JECFA reaffirmed the acceptable daily intake of 0–40 mg/kg body weight and found no sufficient reason to change it based on available evidence.",
+        "scope": "dietary risk assessment",
+        "source_ids": [
+          "who_aspartame"
+        ],
+        "assessed_on": "2023-07-14",
+        "effective_on": null
+      }
+    ],
+    "flag": null
+  }
+}

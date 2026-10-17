@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "allura_red",
+    "name": "Allura Red AC",
+    "aliases": [
+      "FD&C Red No. 40",
+      "Red 40",
+      "CI 16035",
+      "rouge allura"
+    ],
+    "e_numbers": [
+      "E129"
+    ],
+    "ins_numbers": [
+      "INS 129"
+    ],
+    "what_it_is": {
+      "text": "A synthetic red food colour.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "why_used": {
+      "text": "It colours foods and beverages red.",
+      "source_ids": [
+        "cfia_colours"
+      ]
+    },
+    "explanation": {
+      "text": "FDA announced a plan to phase out petroleum-based food dyes including Red 40 from the food supply.",
+      "source_ids": [
+        "fda_phaseout"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_phaseout",
+        "publisher": "FDA",
+        "title": "HHS, FDA to Phase Out Petroleum-Based Synthetic Dyes in Nation's Food Supply",
+        "url": "https://www.fda.gov/news-events/press-announcements/hhs-fda-phase-out-petroleum-based-synthetic-dyes-nations-food-supply",
+        "published_on": "2025-04-22",
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "cfia_colours",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Food colours",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/food-additives/food-colours",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "efsa_colours",
+        "publisher": "European Food Safety Authority",
+        "title": "EFSA updates safety advice on six food colours",
+        "url": "https://www.efsa.europa.eu/en/press/news/091112",
+        "published_on": "2009-11-12",
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [
+      {
+        "id": "fda_phaseout_2025",
+        "authority": "fda",
+        "statement": "FDA announced it is working with industry to eliminate FD&C Red No. 40 from the food supply, citing concerns about children's health.",
+        "scope": "food colour use",
+        "source_ids": [
+          "fda_phaseout"
+        ],
+        "assessed_on": "2025-04-22",
+        "effective_on": null
+      }
+    ],
+    "flag": null
+  }
+}

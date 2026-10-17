@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "titanium_dioxide",
+    "name": "Titanium dioxide",
+    "aliases": [
+      "dioxyde de titane",
+      "CI 77891"
+    ],
+    "e_numbers": [
+      "E171"
+    ],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "A synthetic white pigment used as a colour additive in food.",
+      "source_ids": [
+        "fda_tio2"
+      ]
+    },
+    "why_used": {
+      "text": "It makes foods appear whiter or more opaque.",
+      "source_ids": [
+        "fda_tio2"
+      ]
+    },
+    "explanation": {
+      "text": "Authorities disagree on whether titanium dioxide is safe as a food additive.",
+      "source_ids": [
+        "efsa_tio2",
+        "fda_tio2"
+      ]
+    },
+    "sources": [
+      {
+        "id": "efsa_tio2",
+        "publisher": "European Food Safety Authority",
+        "title": "Titanium dioxide: E171 no longer considered safe when used as a food additive",
+        "url": "https://www.efsa.europa.eu/en/news/titanium-dioxide-e171-no-longer-considered-safe-when-used-food-additive",
+        "published_on": "2021-05-06",
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "fda_tio2",
+        "publisher": "FDA",
+        "title": "Titanium Dioxide as a Color Additive in Foods",
+        "url": "https://www.fda.gov/industry/color-additives/titanium-dioxide-color-additive-foods",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "hc_tio2",
+        "publisher": "Health Canada",
+        "title": "Titanium dioxide (TiO2) as a food additive: Current science report",
+        "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/reports-publications/titanium-dioxide-food-additive-science-report.html",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [
+      {
+        "id": "efsa_2021",
+        "authority": "efsa",
+        "statement": "EFSA concluded that E171 can no longer be considered safe when used as a food additive because a concern for genotoxicity could not be excluded.",
+        "scope": "food additive use",
+        "source_ids": [
+          "efsa_tio2"
+        ],
+        "assessed_on": "2021-05-06",
+        "effective_on": null
+      },
+      {
+        "id": "fda_current",
+        "authority": "fda",
+        "statement": "FDA permits titanium dioxide as a colour additive in foods at no more than 1% by weight under 21 CFR 73.575 and did not identify genotoxicity concerns from the available data.",
+        "scope": "food additive use",
+        "source_ids": [
+          "fda_tio2"
+        ],
+        "assessed_on": null,
+        "effective_on": null
+      },
+      {
+        "id": "hc_2022",
+        "authority": "health_canada",
+        "statement": "Health Canada found no conclusive scientific evidence that food-grade titanium dioxide is a concern for human health.",
+        "scope": "food additive use",
+        "source_ids": [
+          "hc_tio2"
+        ],
+        "assessed_on": null,
+        "effective_on": null
+      }
+    ],
+    "flag": {
+      "flag_reason": "EFSA concluded E171 can no longer be considered safe as a food additive. FDA and Health Canada still permit it.",
+      "category": "conflicting_assessments",
+      "source_ids": [
+        "efsa_tio2",
+        "fda_tio2"
+      ],
+      "position_ids": [
+        "efsa_2021",
+        "fda_current"
+      ]
+    }
+  }
+}
