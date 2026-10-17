@@ -19,7 +19,7 @@ Four sections follow:
 | `result`, `completeness`, `missing_fields`, `product` | The product (#20) | never |
 | `next_step` | What to do after a barcode lookup (#15) | the result came from a photo |
 | `package_nutrition` | Per-serving and whole-package nutrition (#36, F2). See [package-nutrition.md](package-nutrition.md) | the calculation failed |
-| `explanations` | %DV interpretation and nutrient explanations (#37, F3) | always, until #37 is merged |
+| `explanations` | Per-serving %DV, its 5% / 15% reading and nutrient explanations (#37, F3). See [nutrient-explanations.md](nutrient-explanations.md) | the nutrient content did not load or the section failed |
 | `ingredients` | Ingredient analysis (#33, F4). See [ingredient-analysis.md](ingredient-analysis.md) | the knowledge base did not load or the analysis failed |
 
 **Each section stands alone.** A product with no ingredient list still has its
@@ -59,14 +59,13 @@ scan barcode ── GET /api/analysis/{barcode}
 ## Photo values and confirmation (Q1)
 
 Every value read from a photo is `uncertain`. `package_nutrition` does not scale
-those values; it lists them in `pending_confirmation`. A value counts as confirmed
+those values; it lists them in `pending_confirmation`. `explanations` shows them as
+`needs_confirmation`, with no %DV reading or explanation. A value counts as confirmed
 when its `certainty` is `user_confirmed`. Confirming values on the client and
-sending them back is #39's work. The pipeline already scales `user_confirmed`
-values (`confirmed_paths` in `app/services/analysis.py`).
+sending them back is #39's work. The pipeline already scales and explains
+`user_confirmed` values (`confirmed_paths` in `app/services/analysis.py`).
 
 ## Not done yet
 
-- **`explanations` (#37).** The section will be filled when #37 is merged.
-  Its shape is agreed with #37's author then.
 - **Confirmation round trip (#39).** There is no endpoint yet that takes
   user-confirmed values back.

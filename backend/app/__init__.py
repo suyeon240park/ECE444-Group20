@@ -19,6 +19,7 @@ from app.services.ingredient_analysis import IngredientAnalysisService
 from app.services.ingredient_knowledge import load_ingredient_knowledge
 from app.services.label_extraction import LabelExtractionError, VisionConfig
 from app.services.label_reading import DEFAULT_FALLBACK_MODELS, LabelReader, parse_models
+from app.services.nutrient_content import NutrientContent, load_nutrient_content
 from app.services.open_food_facts import OpenFoodFactsClient
 from app.services.product_lookup import ProductLookupService
 
@@ -51,7 +52,9 @@ def create_app(test_config: dict | None = None) -> Flask:
 
     app.extensions["product_lookup"] = build_product_lookup(app.config)
     app.extensions["label_reader"] = build_label_reader()
-    app.extensions["analysis"] = AnalysisService(build_ingredient_analysis())
+    app.extensions["analysis"] = AnalysisService(
+        build_ingredient_analysis(), build_nutrient_content()
+    )
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(barcode_bp, url_prefix="/api")
@@ -71,6 +74,19 @@ def build_ingredient_analysis() -> IngredientAnalysisService | None:
         return IngredientAnalysisService(load_ingredient_knowledge())
     except Exception:
         logging.getLogger(__name__).exception("Ingredient knowledge base failed to load")
+        return None
+
+
+def build_nutrient_content() -> NutrientContent | None:
+    """Load the reviewed nutrient content (#38) that the explanations section (#37) shows.
+
+    As with the knowledge base, broken content is logged and only the
+    explanations section is left out.
+    """
+    try:
+        return load_nutrient_content()
+    except Exception:
+        logging.getLogger(__name__).exception("Nutrient content failed to load")
         return None
 
 

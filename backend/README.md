@@ -89,7 +89,7 @@ Detection uses `zxing-cpp`. A UPC-A is returned as its 12 printed digits with `f
 
 ## Product analysis (#43)
 
-`GET /api/analysis/<barcode>` and `POST /api/analysis/label-photo` return everything the results page shows in one response: the product, `next_step`, `package_nutrition` (#36), `explanations` (#37; `null` until it is merged) and `ingredients` (#33). See [docs/api/analysis.md](../docs/api/analysis.md).
+`GET /api/analysis/<barcode>` and `POST /api/analysis/label-photo` return everything the results page shows in one response: the product, `next_step`, `package_nutrition` (#36), `explanations` (#37) and `ingredients` (#33). See [docs/api/analysis.md](../docs/api/analysis.md).
 
 ```bash
 curl localhost:5000/api/analysis/0013000006408

@@ -15,7 +15,7 @@ import pytest
 import yaml
 from jsonschema import Draft202012Validator
 
-from app import build_ingredient_analysis, create_app
+from app import build_ingredient_analysis, build_nutrient_content, create_app
 from app.models.product import (
     ALL_NUTRIENTS,
     CANONICAL_UNITS,
@@ -39,6 +39,7 @@ from app.services.fallback_routing import NextAction, Reason, merge_label_nutrit
 from app.services.ingredient_analysis import IngredientAnalysisService
 from app.services.ingredient_knowledge import IngredientKnowledgeBase, load_source_policy
 from app.services.label_reading import LabelReader
+from app.services.nutrient_content import load_nutrient_content
 from tests.test_nutrition_label import CONFIG, PHOTO, FakeExtractor
 
 OFF = Source.OPEN_FOOD_FACTS
@@ -108,12 +109,15 @@ def knowledge():
     return IngredientKnowledgeBase(((e["id"], e) for e in ENTRIES), load_source_policy())
 
 
-def make_client(lookup=None, extractor=None, ingredients="default"):
+NUTRIENT_CONTENT = load_nutrient_content()
+
+
+def make_client(lookup=None, extractor=None, ingredients="default", content=NUTRIENT_CONTENT):
     app = create_app({"TESTING": True})
     app.extensions["product_lookup"] = lookup or FakeLookup()
     app.extensions["label_reader"] = LabelReader(CONFIG, extract=extractor or FakeExtractor())
     service = IngredientAnalysisService(knowledge()) if ingredients == "default" else ingredients
-    app.extensions["analysis"] = AnalysisService(service)
+    app.extensions["analysis"] = AnalysisService(service, content)
     return app.test_client()
 
 
@@ -134,6 +138,10 @@ def ok_body(response):
     body = response.get_json()
     VALIDATOR.validate(body)
     return body
+
+
+def explanation_row(body, name):
+    return next(row for row in body["explanations"]["rows"] if row["name"] == name)
 
 
 def assert_error(response, status, code):
@@ -161,7 +169,11 @@ def test_complete_product_has_every_section():
     }
     assert body["package_nutrition"]["status"] == "calculated"
     assert body["package_nutrition"]["servings"] == 10
-    assert body["explanations"] is None
+    sodium = explanation_row(body, "sodium")
+    assert sodium["status"] == "verified"
+    assert sodium["daily_value"]["origin"] == "calculated"
+    assert sodium["how_to_read"] is not None
+    assert sodium["explanation_message"] is None
     assert body["ingredients"]["status"] == "analyzed"
     assert body["ingredients"]["flagged_ids"] == ["titanium_dioxide"]
 
@@ -252,10 +264,40 @@ def test_knowledge_base_that_does_not_load_leaves_only_ingredients_out(monkeypat
     assert body["package_nutrition"]["status"] == "calculated"
 
 
-def test_app_loads_the_real_knowledge_base():
+def test_failing_explanations_do_not_hide_the_other_sections(monkeypatch):
+    def broken(*args, **kwargs):
+        raise KeyError("sodium")
+
+    monkeypatch.setattr(analysis_service, "explain_nutrients", broken)
+    client = make_client(FakeLookup({BARCODE: database_product()}))
+
+    body = ok_body(client.get(f"/api/analysis/{BARCODE}"))
+
+    assert body["explanations"] is None
+    assert body["package_nutrition"]["status"] == "calculated"
+    assert body["ingredients"]["status"] == "analyzed"
+
+
+def test_nutrient_content_that_does_not_load_leaves_only_explanations_out(monkeypatch):
+    def broken():
+        raise ValueError("unapproved source")
+
+    monkeypatch.setattr("app.load_nutrient_content", broken)
+    assert build_nutrient_content() is None
+
+    client = make_client(FakeLookup({BARCODE: database_product()}), content=None)
+    body = ok_body(client.get(f"/api/analysis/{BARCODE}"))
+
+    assert body["explanations"] is None
+    assert body["package_nutrition"]["status"] == "calculated"
+    assert body["ingredients"]["status"] == "analyzed"
+
+
+def test_app_loads_the_real_knowledge_base_and_nutrient_content():
     app = create_app({"TESTING": True})
 
     assert app.extensions["analysis"]._ingredients is not None
+    assert app.extensions["analysis"]._nutrient_content is not None
 
 
 # --- Photo path ------------------------------------------------------------------------
@@ -270,9 +312,13 @@ def test_photo_without_barcode_is_nutrition_only():
     assert product["source"]["provider"] == "nutrition_label_photo"
     assert body["next_step"] is None
     assert body["ingredients"]["status"] == "unavailable"
-    # Every photo value waits for the user, so nothing is scaled yet (Q1).
+    # Every photo value waits for the user, so nothing is scaled or explained yet (Q1).
     assert body["package_nutrition"]["status"] == "not_calculated"
     assert "package.servings_per_package" in body["package_nutrition"]["pending_confirmation"]
+    sodium = explanation_row(body, "sodium")
+    assert sodium["status"] == "needs_confirmation"
+    assert sodium["daily_value"] is None
+    assert sodium["explanation_message"] == "No verified explanation available yet."
 
 
 def test_photo_with_a_found_barcode_fills_that_products_nutrition():
@@ -364,15 +410,24 @@ def test_confirmed_paths_ignores_unconfirmed_and_database_values():
     assert confirmed_paths(database_product().product) == []
 
 
-def test_user_confirmed_photo_values_are_scaled_to_the_package():
-    service = AnalysisService(None)
+def test_user_confirmed_photo_values_are_scaled_to_the_package_and_explained():
+    service = AnalysisService(None, NUTRIENT_CONTENT)
 
-    confirmed = service.analyze(confirmed_photo_result(Certainty.USER_CONFIRMED))
-    unconfirmed = service.analyze(confirmed_photo_result(Certainty.UNCERTAIN))
+    confirmed = service.analyze(confirmed_photo_result(Certainty.USER_CONFIRMED)).to_dict()
+    unconfirmed = service.analyze(confirmed_photo_result(Certainty.UNCERTAIN)).to_dict()
 
-    assert confirmed.package_nutrition.to_dict()["status"] == "calculated"
-    assert confirmed.package_nutrition.servings == 7
-    assert unconfirmed.package_nutrition.to_dict()["status"] == "not_calculated"
+    assert confirmed["package_nutrition"]["status"] == "calculated"
+    assert confirmed["package_nutrition"]["servings"] == 7
+    assert explanation_row(confirmed, "sodium")["status"] == "verified"
+    assert unconfirmed["package_nutrition"]["status"] == "not_calculated"
+    assert explanation_row(unconfirmed, "sodium")["status"] == "needs_confirmation"
+
+
+def test_service_without_nutrient_content_has_no_explanations():
+    result = AnalysisService(None).analyze(database_product())
+
+    assert result.explanations is None
+    assert result.to_dict()["explanations"] is None
 
 
 # --- Label package merge (#15 path 2) --------------------------------------------------
