@@ -31,3 +31,13 @@ Known limits of the prototype:
 
 - Vision models give no per-field confidence. The model is told to return `null` for anything it cannot read with certainty and to list it in `unreadable_fields`; Q1's confidence rule is not implemented.
 - Free-tier requests may be used by Google to improve its models. The fixtures contain only package photos, so this is acceptable for the benchmark but must be revisited before user photos are sent.
+
+## Recording replies for the end-to-end tests (#44)
+
+`tests/test_end_to_end.py` replays real Gemini replies so CI makes no API calls. To record one (needs `GEMINI_API_KEY`):
+
+```
+python -m scripts.record_gemini_reply ../tests/fixtures/nutrition_labels/images/010_dark-sauce.jpg tests/fixtures/e2e/gemini_010_dark-sauce.json
+```
+
+The photo is prepared as the server prepares it, and `VISION_MODEL` then each fallback model is tried. Only the reply and the model that gave it are saved, never the request or the key. List new recordings in `tests/fixtures/e2e/README.md`.
