@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "wheat_flour",
+    "name": "Wheat flour",
+    "aliases": [
+      "farine de blé",
+      "farine de ble"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Flour made by milling wheat.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It can help thicken soups.",
+      "source_ids": [
+        "chowder"
+      ]
+    },
+    "explanation": {
+      "text": "Flour is added before liquids in some thickened soups.",
+      "source_ids": [
+        "chowder"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "chowder",
+        "publisher": "Health Canada",
+        "title": "Creamy clam chowder",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/creamy-clam-chowder.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Normes canadiennes de composition des aliments",
+        "url": "https://inspection.canada.ca/fr/propos-lacia/lois-reglements/liste-lois-reglements/documents-incorpores-renvoi/normes-canadiennes-composition-aliments-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

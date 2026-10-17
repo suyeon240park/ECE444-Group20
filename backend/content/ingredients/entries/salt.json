@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "salt",
+    "name": "Salt",
+    "aliases": [
+      "sel"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Salt is primarily sodium chloride.",
+      "source_ids": [
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It is used to season foods.",
+      "source_ids": [
+        "seasonings"
+      ]
+    },
+    "explanation": {
+      "text": "Salt contributes to the taste of seasoning mixtures.",
+      "source_ids": [
+        "seasonings"
+      ]
+    },
+    "sources": [
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "seasonings",
+        "publisher": "FDA",
+        "title": "CPG Sec 525.650 Labeling of Seasonings",
+        "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-525650-labeling-seasonings",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Normes canadiennes de composition des aliments",
+        "url": "https://inspection.canada.ca/fr/propos-lacia/lois-reglements/liste-lois-reglements/documents-incorpores-renvoi/normes-canadiennes-composition-aliments-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -128,7 +128,11 @@ multiple flags, and malformed text. They are generated from test-only entries,
 contain no reviewed health advice, and are never loaded in production. Contract
 tests compare their complete JSON to the service and validate against OpenAPI.
 
-Production entries and a real 30-product coverage benchmark arrive in #34/#35.
+Issue #34 supplies 25 common-ingredient entries with English explanations and
+explicit French matching aliases. Source/wording approval by Alex remains a
+pre-merge requirement. Flag-focused content belongs to #35. See the
+[production-content replay](../validation/issue34-common-entries.md) for the
+frozen 30- and 500-record observations; these are not accuracy benchmarks.
 See [the authoring guide](../../backend/content/ingredients/README.md) for content
 fields, source policy, review requirements, and the offline validator.
 
