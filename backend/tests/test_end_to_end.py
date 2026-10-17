@@ -9,7 +9,8 @@ services are replaced, at the HTTP level, by recorded replies:
 
 Everything in between is the production code: barcode check, OFF client,
 normalizer, cache, completeness, routing (#15), photo reading (#42), merging,
-whole-package nutrition (#36), the ingredient knowledge base as shipped in
+whole-package nutrition (#36), %DV and explanations from the reviewed nutrient
+content (#37, #38), the ingredient knowledge base as shipped in
 ``content/`` (#33-#35) and the pipeline (#43). Unit tests replace those parts
 with fakes; these tests show they fit together.
 
@@ -51,12 +52,17 @@ OYSTER_SAUCE = "4891130005418"  # per-100 g data only: photo 010 is its label
 KETCHUP_ZERO = "0057000002916"  # no saturated fat or fibre: photo 008 is its label
 UNKNOWN = "0620009999909"  # valid check digit, not in OFF
 
-# What the user reads (F2, F4). The results page shows "Not available" for a
-# whole_package_status of not_available, and "No verified explanation available
-# yet." while `explanations` is null.
+# What the user reads (F2, F3, F4). The results page also shows "Not available"
+# for a whole_package_status of not_available.
 NOT_CALCULATED = (
     "Whole-package nutrition could not be calculated from the available serving and "
     "package information."
+)
+NOT_AVAILABLE = "Not available"
+NO_EXPLANATION = "No verified explanation available yet."
+CONFIRM_FIRST = "Confirm this value from the photo before it is explained."
+PER_100_G_NOTE = (
+    "These amounts are per 100 g, not per serving. %DV is only given per serving, so none is shown."
 )
 NO_INGREDIENTS = "Ingredient information not available"
 NONE_FLAGGED = "No flagged ingredients found among the ingredients checked."
@@ -157,6 +163,18 @@ def nutrient(body: dict, name: str) -> dict:
     return body["product"]["nutrition"]["nutrients"][name]
 
 
+def explained(body: dict) -> dict[str, dict]:
+    return {row["name"]: row for row in body["explanations"]["rows"]}
+
+
+def assert_waits_for_confirmation(body: dict) -> None:
+    """Q1: no photo value is read as "a little"/"a lot" or explained before it is confirmed."""
+    for row in explained(body).values():
+        assert (row["status"], row["status_text"]) == ("needs_confirmation", CONFIRM_FIRST)
+        assert row["daily_value"] is None
+        assert row["explanation_message"] == NO_EXPLANATION
+
+
 def assert_no_ingredients(body: dict) -> None:
     ingredients = body["ingredients"]
     assert ingredients["status"] == "unavailable"
@@ -197,8 +215,19 @@ def test_complete_product_returns_nutrition_and_ingredients_without_a_photo(serv
     assert by_name["sodium"]["whole_package"]["display_amount"] == 4069
     assert by_name["sodium"]["whole_package"]["display_daily_value_percent"] == 177
 
-    # F3 is filled once #37 is merged; until then the page shows its fallback text.
-    assert body["explanations"] is None
+    # F3: per-serving %DV calculated from Health Canada's Daily Values, read as
+    # "a little" (5% or less), with the reviewed explanation and its sources.
+    explanations = body["explanations"]
+    assert explanations["basis_label"] == "per serving"
+    by_name = explained(body)
+    assert {row["status"] for row in by_name.values()} == {"verified"}
+    sodium = by_name["sodium"]
+    assert sodium["daily_value"]["display_percent"] == 5
+    assert sodium["daily_value"]["label"] == "Calculated"
+    assert sodium["daily_value"]["interpretation_text"] == "a little"
+    assert sodium["what_it_is"]["sources"] and sodium["how_to_read"]["sources"]
+    assert sodium["explanation_message"] is None
+    assert by_name["calories"]["daily_value"] is None  # no %DV is invented
 
     # F4: reviewed entries matched, coverage stated, nothing flagged.
     ingredients = body["ingredients"]
@@ -228,7 +257,15 @@ def test_incomplete_product_asks_for_a_photo_and_uses_its_label(services, client
     package = scanned["package_nutrition"]
     assert (package["status"], package["message"]) == ("not_calculated", NOT_CALCULATED)
     assert {row["whole_package_status"] for row in package["rows"]} == {"not_available"}
-    assert scanned["explanations"] is None
+    # F3: per-100 g amounts are explained but never given a %DV.
+    assert scanned["explanations"]["basis_note"] == PER_100_G_NOTE
+    by_name = explained(scanned)
+    assert {row["daily_value"] is None for row in by_name.values()} == {True}
+    assert by_name["sodium"]["status"] == "verified"
+    assert by_name["sodium"]["how_to_read"] is not None
+    for missing in ("trans_fat", "cholesterol"):
+        assert by_name[missing]["status_text"] == NOT_AVAILABLE
+        assert by_name[missing]["explanation_message"] == NO_EXPLANATION
     assert_no_ingredients(scanned)
 
     photographed = analysis(send_photo(client, PHOTOS / "010_dark-sauce.jpg", OYSTER_SAUCE))
@@ -255,6 +292,7 @@ def test_incomplete_product_asks_for_a_photo_and_uses_its_label(services, client
     assert set(package["pending_confirmation"]) == {f"nutrition.nutrients.{n}" for n in NUTRIENTS}
     assert rows(photographed)["sodium"]["per_serving"]["amount"] == 780
     assert (package["status"], package["message"]) == ("not_calculated", NOT_CALCULATED)
+    assert_waits_for_confirmation(photographed)
     assert_no_ingredients(photographed)
 
     # The product was looked up once (cached for the photo step), and the label
@@ -285,6 +323,13 @@ def test_photo_on_the_same_serving_basis_only_fills_gaps(services, client):
     assert photographed["product"]["nutrition"] == scanned["product"]["nutrition"]
     assert photographed["product"]["serving"]["source"] == "open_food_facts"
     assert photographed["package_nutrition"]["pending_confirmation"] == []
+    by_name = explained(photographed)
+    for missing in ("saturated_fat", "fibre"):
+        assert (by_name[missing]["status"], by_name[missing]["status_text"]) == (
+            "not_available",
+            NOT_AVAILABLE,
+        )
+    assert by_name["sodium"]["status"] == "verified"
 
 
 # --- Barcode not found, then a label photo (F1 path 3) -------------------------------
@@ -312,7 +357,7 @@ def test_unknown_barcode_gives_a_nutrition_only_result_from_the_photo(services, 
     assert body["next_step"] is None
     assert body["package_nutrition"]["per_serving_label"] == "Per serving (6 crackers (20 g))"
     assert len(body["package_nutrition"]["pending_confirmation"]) == len(NUTRIENTS)
-    assert body["explanations"] is None
+    assert_waits_for_confirmation(body)
     assert_no_ingredients(body)
 
 
