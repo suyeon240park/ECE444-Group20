@@ -4,9 +4,7 @@
     "id": "aspartame",
     "name": "Aspartame",
     "aliases": [
-      "aspartam",
-      "equal",
-      "nutrasweet"
+      "aspartam"
     ],
     "e_numbers": [
       "E951"
@@ -61,39 +59,17 @@
     "last_reviewed": "2026-10-16",
     "authority_positions": [
       {
-        "id": "iarc_2023",
+        "id": "jecfa_2023",
         "authority": "who_jecfa",
-        "statement": "IARC classified aspartame as Group 2B, possibly carcinogenic to humans, based on limited evidence for hepatocellular carcinoma. JECFA reaffirmed the acceptable daily intake of 0–40 mg/kg body weight.",
-        "scope": "cancer hazard and dietary risk",
+        "statement": "JECFA reaffirmed the acceptable daily intake of 0–40 mg/kg body weight and found no sufficient reason to change it based on available evidence.",
+        "scope": "dietary risk assessment",
         "source_ids": [
           "who_aspartame"
         ],
         "assessed_on": "2023-07-14",
         "effective_on": null
-      },
-      {
-        "id": "efsa_2013",
-        "authority": "efsa",
-        "statement": "EFSA concluded that aspartame and its breakdown products are safe for human consumption at current levels of exposure, with an acceptable daily intake of 40 mg/kg body weight.",
-        "scope": "food additive safety",
-        "source_ids": [
-          "efsa_sweeteners"
-        ],
-        "assessed_on": "2013-12-10",
-        "effective_on": null
       }
     ],
-    "flag": {
-      "flag_reason": "IARC classified aspartame as possibly carcinogenic (Group 2B) in 2023. EFSA's 2013 re-evaluation concluded it is safe at current exposure levels.",
-      "category": "conflicting_assessments",
-      "source_ids": [
-        "who_aspartame",
-        "efsa_sweeteners"
-      ],
-      "position_ids": [
-        "iarc_2023",
-        "efsa_2013"
-      ]
-    }
+    "flag": null
   }
 }

@@ -195,7 +195,7 @@ ADDITIVE_IDENTITIES = [
     ("tartrazine", "Tartrazine", "E102"),
     ("sunset_yellow", "Sunset Yellow FCF", "E110"),
     ("brilliant_blue", "Brilliant Blue FCF", "E133"),
-    ("caramel_colour", "Caramel colour", "E150a"),
+    ("caramel_colour", "Caramel colour", None),
     ("annatto", "Annatto", "E160b"),
     ("anthocyanins", "Anthocyanins", "E163"),
     ("tocopherols", "Tocopherols", "E306"),
@@ -225,12 +225,7 @@ def test_additive_name_and_e_number_resolution(service, expected_id, name, e_num
 
 FLAGGED_ADDITIVES = [
     ("titanium_dioxide", "conflicting_assessments"),
-    ("aspartame", "conflicting_assessments"),
     ("erythrosine", "authority_action"),
-    ("allura_red", "authority_action"),
-    ("tartrazine", "authority_action"),
-    ("sunset_yellow", "authority_action"),
-    ("brilliant_blue", "authority_action"),
 ]
 
 
@@ -243,6 +238,11 @@ def test_flagged_additive_has_correct_category(service, entry_id, expected_categ
 
 
 UNFLAGGED_ADDITIVES = [
+    "aspartame",
+    "allura_red",
+    "tartrazine",
+    "sunset_yellow",
+    "brilliant_blue",
     "caramel_colour",
     "annatto",
     "anthocyanins",
@@ -276,8 +276,8 @@ def test_total_entry_count(service):
 
 def test_flagged_ids_in_analysis_result(service):
     result = analyze(service, "Ingredients: Aspartame, sugar, titanium dioxide, salt")
-    assert set(result.flagged_ids) == {"aspartame", "titanium_dioxide"}
-    assert result.to_dict()["flagged_count"] == 2
+    assert set(result.flagged_ids) == {"titanium_dioxide"}
+    assert result.to_dict()["flagged_count"] == 1
 
 
 def test_e_number_does_not_conflate_additives(service):

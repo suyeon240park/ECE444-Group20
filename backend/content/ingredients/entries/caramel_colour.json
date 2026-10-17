@@ -5,15 +5,10 @@
     "name": "Caramel colour",
     "aliases": [
       "caramel color",
-      "colorant caramel",
-      "plain caramel"
+      "colorant caramel"
     ],
-    "e_numbers": [
-      "E150a"
-    ],
-    "ins_numbers": [
-      "INS 150a"
-    ],
+    "e_numbers": [],
+    "ins_numbers": [],
     "what_it_is": {
       "text": "A brown colour made by heating sugars.",
       "source_ids": [

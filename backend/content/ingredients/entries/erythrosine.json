@@ -28,19 +28,19 @@
       ]
     },
     "explanation": {
-      "text": "FDA revoked authorization for FD&C Red No. 3 in food in January 2025.",
+      "text": "FDA revoked the authorization for FD&C Red No. 3 in January 2025; it takes effect for food in January 2027.",
       "source_ids": [
-        "fda_phaseout"
+        "fda_red3"
       ]
     },
     "sources": [
       {
-        "id": "fda_phaseout",
+        "id": "fda_red3",
         "publisher": "FDA",
-        "title": "HHS, FDA to Phase Out Petroleum-Based Synthetic Dyes in Nation's Food Supply",
-        "url": "https://www.fda.gov/news-events/press-announcements/hhs-fda-phase-out-petroleum-based-synthetic-dyes-nations-food-supply",
-        "published_on": "2025-04-22",
-        "accessed_on": "2026-10-16"
+        "title": "FDA Revokes Authorization for Red No. 3 for Use in Food and Ingested Drugs",
+        "url": "https://www.fda.gov/food/cfsan-constituent-updates/fda-revokes-authorization-red-no-3-use-food-and-ingested-drugs",
+        "published_on": "2025-01-15",
+        "accessed_on": "2026-10-17"
       },
       {
         "id": "cfia_colours",
@@ -59,7 +59,7 @@
         "statement": "FDA revoked the authorization for FD&C Red No. 3 as a colour additive in food and ingested drugs, effective January 15, 2027 for compliance.",
         "scope": "food colour use",
         "source_ids": [
-          "fda_phaseout"
+          "fda_red3"
         ],
         "assessed_on": "2025-01-15",
         "effective_on": "2027-01-15"
@@ -69,7 +69,7 @@
       "flag_reason": "FDA revoked authorization for FD&C Red No. 3 in food.",
       "category": "authority_action",
       "source_ids": [
-        "fda_phaseout"
+        "fda_red3"
       ],
       "position_ids": [
         "fda_revocation"

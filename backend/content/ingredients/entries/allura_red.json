@@ -73,15 +73,6 @@
         "effective_on": null
       }
     ],
-    "flag": {
-      "flag_reason": "FDA announced a phase-out of petroleum-based synthetic food dyes including FD&C Red No. 40.",
-      "category": "authority_action",
-      "source_ids": [
-        "fda_phaseout"
-      ],
-      "position_ids": [
-        "fda_phaseout_2025"
-      ]
-    }
+    "flag": null
   }
 }

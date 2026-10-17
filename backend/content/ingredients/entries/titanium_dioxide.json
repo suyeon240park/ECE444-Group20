@@ -93,7 +93,7 @@
       }
     ],
     "flag": {
-      "flag_reason": "EFSA concluded E171 is no longer safe as a food additive; the EU withdrew authorization in 2022. FDA and Health Canada still permit it.",
+      "flag_reason": "EFSA concluded E171 can no longer be considered safe as a food additive. FDA and Health Canada still permit it.",
       "category": "conflicting_assessments",
       "source_ids": [
         "efsa_tio2",
