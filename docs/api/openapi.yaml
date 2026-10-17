@@ -1166,9 +1166,11 @@ components:
             - type: "null"
         explanations:
           description: |
-            %DV interpretation and nutrient explanations (#37). Always `null` until
-            #37 is merged; the client shows "No verified explanation available yet.".
-          type: "null"
+            Per-serving %DV and nutrient explanations (#37, F3). `null` if the reviewed
+            nutrient content did not load.
+          oneOf:
+            - $ref: "#/components/schemas/NutrientExplanationResult"
+            - type: "null"
         ingredients:
           description: Ingredient analysis (#33, F4). `null` if the knowledge base did not load.
           oneOf:
