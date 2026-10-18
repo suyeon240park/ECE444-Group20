@@ -94,6 +94,217 @@ paths:
                 timeout:
                   $ref: "#/components/examples/errorUpstreamTimeout"
 
+  /api/nutrition-label:
+    post:
+      operationId: readNutritionLabel
+      summary: Read a Nutrition Facts photo
+      description: |
+        Reads the Nutrition Facts table in a photo with the vision model and returns
+        a `nutrition_only` result: serving, servings per package and nutrients, with
+        no name, brand or ingredients. Implemented by #42.
+
+        Every value comes back `uncertain`: the model gives no per-value confidence,
+        so by Q1's safe-use rule nothing is used until the user confirms it (the
+        client then marks it `user_confirmed`). An unconfirmed serving size is listed
+        in `missing_fields`, so a fresh reading is always `incomplete`.
+
+        The photo is validated like `/api/barcode` (JPEG, PNG or WEBP; 10 MB; pixel
+        limit), turned upright from EXIF, and shrunk to 2000 px on its long edge
+        before it is sent to the model.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Photo of the Nutrition Facts table.
+      responses:
+        "200":
+          description: The table was read. Values are `uncertain` until confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResult"
+        "400":
+          description: No `image` field (`missing_image`) or the file is not a readable image (`invalid_image`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "413":
+          description: The upload is over 10 MB (`file_too_large`) or has too many pixels (`image_too_large`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "415":
+          description: The file is an image type other than JPEG, PNG or WEBP.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "422":
+          description: |
+            No Nutrition Facts table was found, or it was too blurred to read. The
+            client should ask for a retake.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "502":
+          description: The vision model failed or returned an unusable reply. The client may retry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "503":
+          description: Photo reading is not configured on this server (no `GEMINI_API_KEY`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "504":
+          description: The vision model did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+
+  /api/analysis/{barcode}:
+    get:
+      operationId: analyzeBarcode
+      summary: Analyze a packaged food identified by barcode
+      description: |
+        The product-analysis pipeline (#43): looks the barcode up like
+        `GET /api/products/{barcode}` and adds every section the results page
+        (#41) shows. Read `analysis.md` in this folder for the rules.
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          description: EAN-8, UPC-A, EAN-13 or GTIN-14, digits only.
+          schema:
+            type: string
+            pattern: "^\\d{8,14}$"
+      responses:
+        "200":
+          description: |
+            Product found. `next_step` says whether to ask for a Nutrition Facts photo.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: The barcode is not 8 to 14 digits.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: |
+            No usable record for this barcode. The client offers the Nutrition Facts
+            photo (`POST /api/analysis/label-photo`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: The product database failed. Whether the product exists is unknown.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: The product database did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/analysis/label-photo:
+    post:
+      operationId: analyzeLabelPhoto
+      summary: Analyze a Nutrition Facts photo
+      description: |
+        Reads the photo like `POST /api/nutrition-label` and returns the same
+        `AnalysisResult` as the barcode path. With a `barcode` the database finds,
+        the label's values are merged into that product (`result: product`).
+        Otherwise the result is `nutrition_only` and never claims a product was
+        identified. Every photo value is `uncertain` until the user confirms it.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Photo of the Nutrition Facts table.
+                barcode:
+                  type: string
+                  description: The scanned barcode, when the product was not found or lacked nutrition.
+      responses:
+        "200":
+          description: The table was read.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: |
+            `invalid_barcode` (checked before the photo is read), `missing_image` or
+            `invalid_image`.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error"
+                  - $ref: "#/components/schemas/PhotoError"
+        "413":
+          description: The upload is too large.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "415":
+          description: The file is not a JPEG, PNG or WEBP image.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "422":
+          description: No Nutrition Facts table was found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "502":
+          description: Every vision model failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "503":
+          description: Photo reading is not configured on this server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "504":
+          description: The vision model did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+
 components:
   schemas:
     IngredientStatus:
@@ -412,15 +623,6 @@ components:
           const: 1
         ingredient:
           $ref: '#/components/schemas/IngredientEntry'
-    NutrientValueOrNull:
-      oneOf:
-      - $ref: '#/components/schemas/NutrientValue'
-      - type: 'null'
-    SourceOrNull:
-      description: '`null` exactly when every other value in the object is `null`.'
-      oneOf:
-      - $ref: '#/components/schemas/Source'
-      - type: 'null'
     ProductResult:
       type: object
       additionalProperties: false
@@ -480,7 +682,7 @@ components:
     Serving:
       type: object
       additionalProperties: false
-      required: [size_text, quantity, unit, source]
+      required: [size_text, quantity, unit, source, certainty]
       properties:
         size_text:
           type: [string, "null"]
@@ -494,11 +696,19 @@ components:
           enum: [g, ml, null]
         source:
           $ref: "#/components/schemas/SourceOrNull"
+        certainty:
+          type: [string, "null"]
+          enum: [reported, confident, uncertain, user_confirmed, null]
+          description: |
+            Q1 critical field. `reported` for database values. A label-photo value is
+            `uncertain` until the user confirms it (`user_confirmed`); an uncertain
+            value must not be used in whole-package calculations (F2). `null` exactly
+            when `source` is `null`.
 
     Package:
       type: object
       additionalProperties: false
-      required: [quantity_text, quantity, unit, servings_per_package, source]
+      required: [quantity_text, quantity, unit, servings_per_package, source, certainty]
       properties:
         quantity_text:
           type: [string, "null"]
@@ -515,6 +725,14 @@ components:
           description: Only when a source states it. Never estimated by the backend.
         source:
           $ref: "#/components/schemas/SourceOrNull"
+        certainty:
+          type: [string, "null"]
+          enum: [reported, confident, uncertain, user_confirmed, null]
+          description: |
+            Q1 critical field. `reported` for database values. A label-photo value is
+            `uncertain` until the user confirms it (`user_confirmed`); an uncertain
+            value must not be used in whole-package calculations (F2). `null` exactly
+            when `source` is `null`.
 
     Nutrition:
       type: object
@@ -583,11 +801,13 @@ components:
           $ref: "#/components/schemas/Source"
         certainty:
           type: string
-          enum: [reported, confident, uncertain]
+          enum: [reported, confident, uncertain, user_confirmed]
           description: |
-            `reported` for database values. `confident` or `uncertain` for label-photo
-            values (Q1). Uncertain values must not be explained or used in
-            whole-package calculations.
+            `reported` for database values. `confident`, `uncertain` or
+            `user_confirmed` for label-photo values (Q1). Photo values start as
+            `uncertain` (the vision model gives no per-value confidence) and become
+            `user_confirmed` once the user checks them. Uncertain values must not be
+            explained or used in whole-package calculations.
 
     DataSource:
       type: object
@@ -627,7 +847,8 @@ components:
         `backend/app/services/package_nutrition.py`. See package-nutrition.md.
         Not returned by an endpoint yet; #43 wires it into the analysis pipeline.
       required: [status, per_serving_label, whole_package_label, servings, display_servings,
-        method, approximate, approximate_label, reason, message, pending_confirmation, rows]
+        method, approximate, approximate_label, daily_value_label, reason, message,
+        pending_confirmation, rows]
       properties:
         status:
           type: string
@@ -654,6 +875,12 @@ components:
         approximate_label:
           type: [string, "null"]
           enum: [Approximate, null]
+        daily_value_label:
+          type: [string, "null"]
+          enum: [Calculated for whole package, null]
+          description: |
+            Shown once with the whole-package column when any row has a whole-package
+            %DV (F2). `null` when no row has one.
         reason:
           type: [string, "null"]
           enum: [no_per_serving_nutrition, no_package_information, no_serving_quantity,
@@ -694,8 +921,7 @@ components:
     WholePackageAmount:
       type: object
       additionalProperties: false
-      required: [amount, unit, display_amount, daily_value_percent, display_daily_value_percent,
-        daily_value_label]
+      required: [amount, unit, display_amount, daily_value_percent, display_daily_value_percent]
       properties:
         amount:
           type: number
@@ -716,9 +942,139 @@ components:
         display_daily_value_percent:
           type: [integer, "null"]
           minimum: 0
-        daily_value_label:
+
+    NutrientExplanationResult:
+      type: object
+      additionalProperties: false
+      description: |
+        Per-serving %DV, Health Canada's 5% / 15% reading and plain-language
+        explanations (#37, F3), from `backend/app/services/nutrient_explanations.py`.
+        See nutrient-explanations.md. Not returned by an endpoint yet (#43).
+      required: [basis, basis_label, basis_note, daily_values_reference, daily_value_definition,
+        rows]
+      properties:
+        basis:
           type: [string, "null"]
-          enum: [Calculated for whole package, null]
+          enum: [serving, 100g, 100ml, null]
+        basis_label:
+          type: [string, "null"]
+          enum: [per serving, per 100 g, per 100 mL, null]
+          description: Shown with every amount, so the basis is never ambiguous.
+        basis_note:
+          type: [string, "null"]
+          description: |
+            For per-100 g / 100 mL data only: explains that the amounts are not per
+            serving and that no %DV is shown. `null` for per-serving data.
+        daily_values_reference:
+          type: object
+          additionalProperties: false
+          required: [title, url, version]
+          properties:
+            title: {type: string}
+            url: {type: string, format: uri}
+            version: {type: string}
+        daily_value_definition:
+          description: The %DV glossary text (#38). `null` until the content is reviewed.
+          oneOf:
+            - type: object
+              additionalProperties: false
+              required: [term, text, sources]
+              properties:
+                term: {type: string}
+                text: {type: string}
+                sources:
+                  type: array
+                  items: {$ref: "#/components/schemas/ExplanationSource"}
+            - type: "null"
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/NutrientExplanationRow"
+
+    NutrientExplanationRow:
+      type: object
+      additionalProperties: false
+      required: [name, display_name, guidance, value, status, status_text, daily_value,
+        what_it_is, how_to_read, explanation_message]
+      properties:
+        name:
+          type: string
+          enum: [calories, total_fat, saturated_fat, sodium, carbohydrate, sugars, fibre,
+            protein, trans_fat, cholesterol]
+        display_name: {type: string}
+        guidance:
+          type: string
+          enum: [limit, get_more, neutral]
+          description: Whether Health Canada suggests getting less or more of it. Not a verdict.
+        value:
+          $ref: "#/components/schemas/NutrientValueOrNull"
+        status:
+          type: string
+          enum: [verified, not_available, needs_confirmation]
+        status_text:
+          type: [string, "null"]
+          description: '"Not available", or the confirmation prompt for an unconfirmed photo value.'
+        daily_value:
+          oneOf:
+            - $ref: "#/components/schemas/PerServingDailyValue"
+            - type: "null"
+        what_it_is:
+          oneOf:
+            - $ref: "#/components/schemas/ExplanationText"
+            - type: "null"
+        how_to_read:
+          oneOf:
+            - $ref: "#/components/schemas/ExplanationText"
+            - type: "null"
+        explanation_message:
+          type: [string, "null"]
+          enum: [No verified explanation available yet., null]
+
+    PerServingDailyValue:
+      type: object
+      additionalProperties: false
+      required: [percent, display_percent, origin, label, interpretation, interpretation_text]
+      properties:
+        percent:
+          type: number
+          minimum: 0
+        display_percent:
+          type: integer
+          minimum: 0
+        origin:
+          type: string
+          enum: [label, calculated]
+        label:
+          type: [string, "null"]
+          enum: [Calculated, null]
+        interpretation:
+          type: [string, "null"]
+          enum: [a_little, a_lot, null]
+          description: 5% DV or less is a little; 15% DV or more is a lot; otherwise `null`.
+        interpretation_text:
+          type: [string, "null"]
+          enum: [a little, a lot, null]
+
+    ExplanationText:
+      type: object
+      additionalProperties: false
+      required: [text, sources]
+      properties:
+        text: {type: string}
+        sources:
+          type: array
+          minItems: 1
+          items: {$ref: "#/components/schemas/ExplanationSource"}
+
+    ExplanationSource:
+      type: object
+      additionalProperties: false
+      required: [id, publisher, title, url]
+      properties:
+        id: {type: string}
+        publisher: {type: string}
+        title: {type: string}
+        url: {type: string, format: uri}
 
     Error:
       type: object
@@ -737,6 +1093,106 @@ components:
               type: string
               description: For logs and developers. The client shows its own wording.
 
+    PhotoError:
+      description: Error body of `/api/nutrition-label`. Same shape as `Error`, with its own codes.
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum:
+                - missing_image
+                - invalid_image
+                - file_too_large
+                - image_too_large
+                - unsupported_media_type
+                - nutrition_table_not_found
+                - upstream_unavailable
+                - photo_reading_unavailable
+                - upstream_timeout
+            message:
+              type: string
+              description: For logs and developers. The client shows its own wording.
+
+    AnalysisResult:
+      description: |
+        Product-analysis pipeline result (#43). The first four properties are the
+        `ProductResult` contract unchanged; the rest are sections. A section that
+        could not be computed is `null`, and the others are still returned.
+      type: object
+      additionalProperties: false
+      required:
+        - result
+        - completeness
+        - missing_fields
+        - product
+        - next_step
+        - package_nutrition
+        - explanations
+        - ingredients
+      properties:
+        result:
+          $ref: "#/components/schemas/ProductResult/properties/result"
+        completeness:
+          $ref: "#/components/schemas/ProductResult/properties/completeness"
+        missing_fields:
+          $ref: "#/components/schemas/ProductResult/properties/missing_fields"
+        product:
+          $ref: "#/components/schemas/Product"
+        next_step:
+          description: The routing decision (#15) for a barcode lookup; `null` for a photo result.
+          oneOf:
+            - $ref: "#/components/schemas/NextStep"
+            - type: "null"
+        package_nutrition:
+          description: Per-serving and whole-package nutrition (#36, F2).
+          oneOf:
+            - $ref: "#/components/schemas/PackageNutritionResult"
+            - type: "null"
+        explanations:
+          description: |
+            Per-serving %DV and nutrient explanations (#37, F3). `null` if the reviewed
+            nutrient content did not load.
+          oneOf:
+            - $ref: "#/components/schemas/NutrientExplanationResult"
+            - type: "null"
+        ingredients:
+          description: Ingredient analysis (#33, F4). `null` if the knowledge base did not load.
+          oneOf:
+            - $ref: "#/components/schemas/IngredientAnalysisResult"
+            - type: "null"
+
+    NextStep:
+      description: What the client does after a successful barcode lookup (#15).
+      type: object
+      additionalProperties: false
+      required: [action, reason, product_identified, photo_fields, can_retry_lookup]
+      properties:
+        action:
+          type: string
+          enum: [use_database, request_nutrition_photo]
+          description: |
+            `request_nutrition_photo`: offer a Nutrition Facts photo to fill
+            `photo_fields`, then call `POST /api/analysis/label-photo` with the barcode.
+        reason:
+          type: string
+          enum: [complete, nutrition_missing, only_non_nutrition_missing]
+        product_identified:
+          type: boolean
+        photo_fields:
+          type: array
+          description: The `missing_fields` paths the photo is expected to fill.
+          items:
+            type: string
+        can_retry_lookup:
+          type: boolean
+
   examples:
     productComplete:
       summary: Found with everything a full analysis needs (synthetic example)
@@ -754,12 +1210,14 @@ components:
             quantity: 30
             unit: g
             source: open_food_facts
+            certainty: reported
           package:
             quantity_text: "300 g"
             quantity: 300
             unit: g
             servings_per_package: null
             source: open_food_facts
+            certainty: reported
           nutrition:
             basis: serving
             nutrients:
@@ -798,12 +1256,14 @@ components:
             quantity: null
             unit: null
             source: null
+            certainty: null
           package:
             quantity_text: "400.0 g"
             quantity: 400
             unit: g
             servings_per_package: null
             source: open_food_facts
+            certainty: reported
           nutrition:
             basis: "100g"
             nutrients:
@@ -840,12 +1300,14 @@ components:
             quantity: 250
             unit: ml
             source: nutrition_label_photo
+            certainty: user_confirmed
           package:
             quantity_text: null
             quantity: null
             unit: null
             servings_per_package: null
             source: null
+            certainty: null
           nutrition:
             basis: serving
             nutrients:

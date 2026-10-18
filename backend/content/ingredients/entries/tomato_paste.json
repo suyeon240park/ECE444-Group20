@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "tomato_paste",
+    "name": "Tomato paste",
+    "aliases": [
+      "pâte de tomates",
+      "pâte de tomate"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Tomatoes cooked into a concentrated paste.",
+      "source_ids": [
+        "canned",
+        "standards"
+      ]
+    },
+    "why_used": {
+      "text": "It adds tomato flavour to sauces and other dishes.",
+      "source_ids": [
+        "canned"
+      ]
+    },
+    "explanation": {
+      "text": "A small amount can intensify tomato flavour in a recipe.",
+      "source_ids": [
+        "canned"
+      ]
+    },
+    "sources": [
+      {
+        "id": "canned",
+        "publisher": "Health Canada",
+        "title": "Eight canned foods to keep on hand",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/cooking-skills/eight-canned-foods-keep-hand.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "Canadian Food Compositional Standards",
+        "url": "https://inspection.canada.ca/en/about-cfia/acts-and-regulations/list-acts-and-regulations/documents-incorporated-reference/canadian-food-compositional-standards-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "standards_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Normes canadiennes de composition des aliments",
+        "url": "https://inspection.canada.ca/fr/propos-lacia/lois-reglements/liste-lois-reglements/documents-incorpores-renvoi/normes-canadiennes-composition-aliments-0",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

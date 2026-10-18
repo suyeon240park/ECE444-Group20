@@ -27,7 +27,6 @@ export type WholePackageAmount = {
   display_amount: number;
   daily_value_percent: number | null;
   display_daily_value_percent: number | null;
-  daily_value_label: 'Calculated for whole package' | null;
 };
 
 export type WholePackageStatus = 'calculated' | 'not_available' | 'needs_confirmation';
@@ -56,6 +55,8 @@ export type PackageNutritionResult = {
   method: 'servings_per_package' | 'package_quantity' | null;
   approximate: boolean;
   approximate_label: 'Approximate' | null;
+  /** Shown once with the whole-package column; never on each row. */
+  daily_value_label: 'Calculated for whole package' | null;
   reason: NotCalculatedReason | null;
   message: string | null;
   pending_confirmation: string[];

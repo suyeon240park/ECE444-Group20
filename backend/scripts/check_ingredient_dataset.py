@@ -1,7 +1,8 @@
 """Replay a frozen OFF sample; report exploratory checks without health claims.
 
 Run from backend: python -m scripts.check_ingredient_dataset --output PATH
-No live calls, production entries, or parser-generated expected answers.
+No live calls or parser-generated expected answers. Production observations are
+reported separately from the unchanged synthetic-fixture assertions.
 """
 
 import argparse
@@ -17,6 +18,7 @@ from app.services.ingredient_knowledge import (
 )
 from app.services.ingredient_parser import parse_ingredients
 from app.services.normalize import normalize_off_product
+from scripts.ingredient_production_report import production_row, production_summary
 
 FIXTURES = Path(__file__).resolve().parents[1] / "tests/fixtures/ingredients"
 
@@ -67,6 +69,7 @@ def evaluate(snapshot, expectations):
         live_content = production.analyze(product)
         row["production_status"] = live_content.status.value
         row["production_checked_count"] = live_content.checked_count
+        row["production"] = production_row(live_content)
         expected = expectations["cases"].get(record["barcode"])
         if expected:
             # Expected names are authored separately from engine output. A failure
@@ -109,6 +112,7 @@ def evaluate(snapshot, expectations):
                 r["checks"].get("matched_ids") is False for r in audited
             ),
             "production_entry_count": len(production.knowledge.entries),
+            "production": production_summary(results),
         },
         "results": results,
     }
@@ -132,6 +136,7 @@ def main():
     return int(
         report["summary"]["rows_with_check_failures"] > 0
         or report["summary"]["invariant_failures"] > 0
+        or report["summary"]["production"]["invariant_failures"] > 0
     )
 
 

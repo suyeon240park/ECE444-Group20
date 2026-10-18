@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "water",
+    "name": "Water",
+    "aliases": [
+      "eau"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Water is a liquid ingredient in foods.",
+      "source_ids": [
+        "labels"
+      ]
+    },
+    "why_used": {
+      "text": "It can adjust the consistency of sauces.",
+      "source_ids": [
+        "enchiladas"
+      ]
+    },
+    "explanation": {
+      "text": "Adding water can make a sauce thinner.",
+      "source_ids": [
+        "enchiladas"
+      ]
+    },
+    "sources": [
+      {
+        "id": "labels",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "List of ingredients and allergens on food labels",
+        "url": "https://inspection.canada.ca/en/food-labels/labelling/industry/list-ingredients-and-allergens",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "enchiladas",
+        "publisher": "Health Canada",
+        "title": "Black bean enchiladas",
+        "url": "https://www.canada.ca/en/health-canada/services/food-guide/eating-support/kitchen/recipes/black-bean-enchiladas.html",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "labels_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Liste d'ingrédients et allergènes sur les étiquettes des aliments",
+        "url": "https://inspection.canada.ca/fr/etiquetage-aliment/etiquetage/industrie/liste-dingredients-allergenes",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

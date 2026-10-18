@@ -2,15 +2,24 @@
 
 from __future__ import annotations
 
+import logging
 import os
 
 from flask import Flask
 from flask_cors import CORS
 
+from app.routes.analysis import analysis_bp
 from app.routes.barcode import barcode_bp
 from app.routes.health import health_bp
+from app.routes.nutrition_label import nutrition_label_bp
 from app.routes.products import products_bp
+from app.services.analysis import AnalysisService
 from app.services.cache import TTLCache
+from app.services.ingredient_analysis import IngredientAnalysisService
+from app.services.ingredient_knowledge import load_ingredient_knowledge
+from app.services.label_extraction import LabelExtractionError, VisionConfig
+from app.services.label_reading import DEFAULT_FALLBACK_MODELS, LabelReader, parse_models
+from app.services.nutrient_content import NutrientContent, load_nutrient_content
 from app.services.open_food_facts import OpenFoodFactsClient
 from app.services.product_lookup import ProductLookupService
 
@@ -42,11 +51,59 @@ def create_app(test_config: dict | None = None) -> Flask:
     CORS(app, origins=parse_origins(app.config["CORS_ORIGINS"]))
 
     app.extensions["product_lookup"] = build_product_lookup(app.config)
+    app.extensions["label_reader"] = build_label_reader()
+    app.extensions["analysis"] = AnalysisService(
+        build_ingredient_analysis(), build_nutrient_content()
+    )
 
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(barcode_bp, url_prefix="/api")
     app.register_blueprint(products_bp, url_prefix="/api")
+    app.register_blueprint(nutrition_label_bp, url_prefix="/api")
+    app.register_blueprint(analysis_bp, url_prefix="/api")
     return app
+
+
+def build_ingredient_analysis() -> IngredientAnalysisService | None:
+    """Load the ingredient knowledge base (#33) for the analysis pipeline (#43).
+
+    Invalid content is logged and the pipeline answers without its ingredient
+    section, so a content mistake never takes nutrition down with it.
+    """
+    try:
+        return IngredientAnalysisService(load_ingredient_knowledge())
+    except Exception:
+        logging.getLogger(__name__).exception("Ingredient knowledge base failed to load")
+        return None
+
+
+def build_nutrient_content() -> NutrientContent | None:
+    """Load the reviewed nutrient content (#38) that the explanations section (#37) shows.
+
+    As with the knowledge base, broken content is logged and only the
+    explanations section is left out.
+    """
+    try:
+        return load_nutrient_content()
+    except Exception:
+        logging.getLogger(__name__).exception("Nutrient content failed to load")
+        return None
+
+
+def build_label_reader() -> LabelReader:
+    """Wire the vision model from GEMINI_API_KEY / VISION_MODEL (#42).
+
+    Without a key the reader answers 503, so the rest of the app still runs.
+    VISION_FALLBACK_MODELS (comma-separated; empty disables) are tried when
+    VISION_MODEL fails. Stored in ``app.extensions["label_reader"]``, which tests
+    replace with a fake.
+    """
+    try:
+        config = VisionConfig.from_env()
+    except LabelExtractionError:
+        return LabelReader(None)
+    fallbacks = os.getenv("VISION_FALLBACK_MODELS", DEFAULT_FALLBACK_MODELS)
+    return LabelReader(config, fallback_models=parse_models(fallbacks, config.model))
 
 
 def build_product_lookup(config) -> ProductLookupService:

@@ -127,7 +127,7 @@ def nutrition_only():
     return ProductResult(
         ResultType.NUTRITION_ONLY,
         Product(
-            serving=Serving("1 cup (250 mL)", 250, "ml", PHOTO),
+            serving=Serving("1 cup (250 mL)", 250, "ml", PHOTO, Certainty.USER_CONFIRMED),
             nutrition=Nutrition(NutritionBasis.SERVING, nutrients),
             source=DataSource(PHOTO, RETRIEVED_AT),
         ),

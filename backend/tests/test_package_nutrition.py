@@ -340,7 +340,23 @@ def test_whole_package_dv_is_calculated_from_the_whole_package_amount():
 
     assert sodium.daily_value_percent == pytest.approx(140 * 12.5 / 2300 * 100)
     assert sodium.display_daily_value_percent == 76
-    assert sodium.to_dict()["daily_value_label"] == WHOLE_PACKAGE_DAILY_VALUE_LABEL
+
+
+def test_dv_label_is_given_once_for_the_column_not_per_row():
+    body = calculate_package_nutrition(make_product()).to_dict()
+    assert body["daily_value_label"] == WHOLE_PACKAGE_DAILY_VALUE_LABEL
+    assert all("daily_value_label" not in (row["whole_package"] or {}) for row in body["rows"])
+
+
+def test_no_dv_label_without_any_whole_package_dv():
+    # Only nutrients without a Daily Value: nothing to label.
+    nutrients = {name: off_value(name) for name in ("calories", "carbohydrate", "protein")}
+    body = calculate_package_nutrition(make_product(nutrients=nutrients)).to_dict()
+    assert body["status"] == "calculated"
+    assert body["daily_value_label"] is None
+
+    not_calculated = calculate_package_nutrition(make_product(package=Package())).to_dict()
+    assert not_calculated["daily_value_label"] is None
 
 
 @pytest.mark.parametrize("name", ["calories", "carbohydrate", "protein", "trans_fat"])
@@ -348,7 +364,6 @@ def test_no_dv_is_invented(name):
     whole = rows_by_name(calculate_package_nutrition(make_product()))[name].whole_package
     assert whole.daily_value_percent is None
     assert whole.display_daily_value_percent is None
-    assert whole.to_dict()["daily_value_label"] is None
 
 
 def test_saturated_dv_covers_saturated_plus_trans():
@@ -407,6 +422,7 @@ def test_to_dict_has_every_key():
         "method",
         "approximate",
         "approximate_label",
+        "daily_value_label",
         "reason",
         "message",
         "pending_confirmation",
@@ -419,7 +435,6 @@ def test_to_dict_has_every_key():
         "display_amount",
         "daily_value_percent",
         "display_daily_value_percent",
-        "daily_value_label",
     }
 
 

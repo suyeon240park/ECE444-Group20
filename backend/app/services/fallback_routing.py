@@ -26,6 +26,7 @@ from app.models.product import (
     ErrorCode,
     Nutrition,
     NutritionBasis,
+    Package,
     Product,
     ProductResult,
     ResultType,
@@ -156,7 +157,10 @@ def same_serving_basis(database: Product, label_serving: Serving, label: Nutriti
 
 
 def merge_label_nutrition(
-    database: ProductResult, label_serving: Serving, label_nutrition: Nutrition
+    database: ProductResult,
+    label_serving: Serving,
+    label_nutrition: Nutrition,
+    label_package: Package | None = None,
 ) -> ProductResult:
     """Apply a Nutrition Facts photo reading to a product identified by barcode (path 2).
 
@@ -166,7 +170,10 @@ def merge_label_nutrition(
       whole. Values on different bases are never combined, and nothing is converted
       or derived from per-100 g data.
 
-    The product's identity, ingredients and package always stay from the database.
+    The product's identity and ingredients always stay from the database. So does
+    its package, unless the database has no servings per package and the label
+    prints one (#42): F2 prefers a stated servings per package to one derived from
+    package quantity, so the label's package replaces the database's.
     A reading with no nutrient values changes nothing.
     """
     if database.result is not ResultType.PRODUCT:
@@ -176,6 +183,14 @@ def merge_label_nutrition(
         return database
 
     product = database.product
+    if (
+        label_package is not None
+        and label_package.servings_per_package is not None
+        and product.package.servings_per_package is None
+    ):
+        if label_package.source is not Source.NUTRITION_LABEL_PHOTO:
+            raise ValueError("label package must have source 'nutrition_label_photo'")
+        product = replace(product, package=label_package)
     if same_serving_basis(product, label_serving, label_nutrition):
         nutrients = {
             name: value if value is not None else label_nutrition.nutrients[name]
@@ -188,17 +203,25 @@ def merge_label_nutrition(
 
 
 def build_nutrition_only(
-    label_serving: Serving, label_nutrition: Nutrition, read_at: datetime
+    label_serving: Serving,
+    label_nutrition: Nutrition,
+    read_at: datetime,
+    label_package: Package | None = None,
 ) -> ProductResult:
     """Build the result for a label photo read without an identified product (path 3).
 
     Barcode, name, brand and ingredients are left ``None``: the lookup did not
-    identify a product, so the result must not claim one (F1).
+    identify a product, so the result must not claim one (F1). ``label_package``
+    carries servings per package when the label prints it (#42).
     """
     _check_label_reading(label_serving, label_nutrition)
+    label_package = label_package or Package()
+    if label_package.source not in (None, Source.NUTRITION_LABEL_PHOTO):
+        raise ValueError("label package must have source 'nutrition_label_photo'")
     product = Product(
         source=DataSource(Source.NUTRITION_LABEL_PHOTO, read_at),
         serving=label_serving,
+        package=label_package,
         nutrition=label_nutrition,
     )
     return ProductResult(ResultType.NUTRITION_ONLY, product)

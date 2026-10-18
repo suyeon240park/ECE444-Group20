@@ -66,7 +66,9 @@ checked it. Values that would be used once confirmed are listed in
 ## %DV
 
 - A whole-package %DV is calculated from the whole-package amount. It never scales a
-  printed per-serving %DV. It carries `daily_value_label: "Calculated for whole package"`.
+  printed per-serving %DV. The result's `daily_value_label` is
+  "Calculated for whole package" whenever any row has a whole-package %DV. The client
+  shows it once, with the whole-package column, rather than on every row.
 - The Daily Values come from Health Canada's
   [Table of Daily Values](https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html)
   for adults and children 4 years of age or older, version 2022-10-20. They are kept in

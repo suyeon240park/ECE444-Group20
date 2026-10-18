@@ -32,10 +32,15 @@ export default function PackageNutritionTable({ result }: Props) {
           {result.per_serving_label ?? 'Per serving'}
         </Text>
         {calculated ? (
-          <Text style={[styles.cell, styles.headerText]}>
-            {result.whole_package_label}
-            {result.approximate ? ' (approximate)' : ''}
-          </Text>
+          <View style={styles.cell}>
+            <Text style={styles.headerText}>
+              {result.whole_package_label}
+              {result.approximate ? ' (approximate)' : ''}
+            </Text>
+            {result.daily_value_label ? (
+              <Text style={styles.note}>%DV {result.daily_value_label.toLowerCase()}</Text>
+            ) : null}
+          </View>
         ) : null}
       </View>
 
@@ -78,7 +83,7 @@ function WholePackageCell({ row }: { row: PackageNutrientRow }) {
       <Text style={styles.amount}>{formatAmount(whole.display_amount, whole.unit)}</Text>
       {whole.display_daily_value_percent !== null ? (
         <Text style={styles.note}>
-          {whole.display_daily_value_percent}% DV · {whole.daily_value_label}
+          {whole.display_daily_value_percent}% DV
         </Text>
       ) : null}
     </View>

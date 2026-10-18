@@ -70,13 +70,20 @@ def test_empty_product_emits_every_key_as_null():
     assert body["name"] is None
     assert body["brand"] is None
     assert body["ingredients_text"] is None
-    assert body["serving"] == {"size_text": None, "quantity": None, "unit": None, "source": None}
+    assert body["serving"] == {
+        "size_text": None,
+        "quantity": None,
+        "unit": None,
+        "source": None,
+        "certainty": None,
+    }
     assert body["package"] == {
         "quantity_text": None,
         "quantity": None,
         "unit": None,
         "servings_per_package": None,
         "source": None,
+        "certainty": None,
     }
     assert body["nutrition"]["basis"] is None
     assert body["nutrition"]["nutrients"] == {name: None for name in ALL_NUTRIENTS}
@@ -106,7 +113,7 @@ def test_zero_amount_is_kept_and_distinct_from_missing():
 
 def test_enums_serialize_to_contract_strings():
     assert [s.value for s in Source] == ["open_food_facts", "nutrition_label_photo"]
-    assert [c.value for c in Certainty] == ["reported", "confident", "uncertain"]
+    assert [c.value for c in Certainty] == ["reported", "confident", "uncertain", "user_confirmed"]
     assert [b.value for b in NutritionBasis] == ["serving", "100g", "100ml"]
     assert [r.value for r in ResultType] == ["product", "nutrition_only"]
     assert [c.value for c in Completeness] == ["complete", "incomplete"]
@@ -305,7 +312,7 @@ def nutrition_only_product(**overrides) -> Product:
     }
     fields = dict(
         source=photo_source(),
-        serving=Serving("1 cup (250 mL)", 250, "ml", PHOTO),
+        serving=Serving("1 cup (250 mL)", 250, "ml", PHOTO, Certainty.USER_CONFIRMED),
         nutrition=Nutrition(NutritionBasis.SERVING, confident),
     )
     fields.update(overrides)
