@@ -40,6 +40,9 @@ scan barcode ── GET /api/analysis/{barcode}
    ├─ 404 product_not_found                            → offer a label photo
    │        └─ POST /api/analysis/label-photo  (image)            → result: nutrition_only
    └─ 400 / 502 / 504                                  → retry or offer a label photo
+
+photo result ── user confirms or corrects the values (#39)
+   └─ POST /api/analysis/confirm  (the result, checked values user_confirmed) → re-analyzed
 ```
 
 - **Barcode path.** Errors are those of `GET /api/products/{barcode}`. On 200,
@@ -61,11 +64,17 @@ scan barcode ── GET /api/analysis/{barcode}
 Every value read from a photo is `uncertain`. `package_nutrition` does not scale
 those values; it lists them in `pending_confirmation`. `explanations` shows them as
 `needs_confirmation`, with no %DV reading or explanation. A value counts as confirmed
-when its `certainty` is `user_confirmed`. Confirming values on the client and
-sending them back is #39's work. The pipeline already scales and explains
-`user_confirmed` values (`confirmed_paths` in `app/services/analysis.py`).
+when its `certainty` is `user_confirmed`; the pipeline then scales and explains it
+(`confirmed_paths` in `app/services/analysis.py`).
 
-## Not done yet
+The client's confirm screen (#39) sends the photo result back to
+`POST /api/analysis/confirm` with the checked values marked `user_confirmed`:
 
-- **Confirmation round trip (#39).** There is no endpoint yet that takes
-  user-confirmed values back.
+- Only label-photo values are read from the request. A `product` result is looked
+  up again by barcode, and its database values come from that lookup, so a client
+  cannot change or confirm database data (`app/services/confirmation.py`).
+- A photo serving replaces the database's serving and nutrition, as in
+  `merge_label_nutrition`; without one, photo nutrients only fill gaps, and one
+  that would replace a database value is refused with 400 `invalid_confirmation`.
+- A photo value may only be `uncertain` or `user_confirmed`. A user correction is
+  sent as the edited amount with `user_confirmed`.
