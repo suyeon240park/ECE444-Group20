@@ -493,15 +493,6 @@ components:
           const: 1
         ingredient:
           $ref: '#/components/schemas/IngredientEntry'
-    NutrientValueOrNull:
-      oneOf:
-      - $ref: '#/components/schemas/NutrientValue'
-      - type: 'null'
-    SourceOrNull:
-      description: '`null` exactly when every other value in the object is `null`.'
-      oneOf:
-      - $ref: '#/components/schemas/Source'
-      - type: 'null'
     ProductResult:
       type: object
       additionalProperties: false
@@ -821,6 +812,139 @@ components:
         display_daily_value_percent:
           type: [integer, "null"]
           minimum: 0
+
+    NutrientExplanationResult:
+      type: object
+      additionalProperties: false
+      description: |
+        Per-serving %DV, Health Canada's 5% / 15% reading and plain-language
+        explanations (#37, F3), from `backend/app/services/nutrient_explanations.py`.
+        See nutrient-explanations.md. Not returned by an endpoint yet (#43).
+      required: [basis, basis_label, basis_note, daily_values_reference, daily_value_definition,
+        rows]
+      properties:
+        basis:
+          type: [string, "null"]
+          enum: [serving, 100g, 100ml, null]
+        basis_label:
+          type: [string, "null"]
+          enum: [per serving, per 100 g, per 100 mL, null]
+          description: Shown with every amount, so the basis is never ambiguous.
+        basis_note:
+          type: [string, "null"]
+          description: |
+            For per-100 g / 100 mL data only: explains that the amounts are not per
+            serving and that no %DV is shown. `null` for per-serving data.
+        daily_values_reference:
+          type: object
+          additionalProperties: false
+          required: [title, url, version]
+          properties:
+            title: {type: string}
+            url: {type: string, format: uri}
+            version: {type: string}
+        daily_value_definition:
+          description: The %DV glossary text (#38). `null` until the content is reviewed.
+          oneOf:
+            - type: object
+              additionalProperties: false
+              required: [term, text, sources]
+              properties:
+                term: {type: string}
+                text: {type: string}
+                sources:
+                  type: array
+                  items: {$ref: "#/components/schemas/ExplanationSource"}
+            - type: "null"
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/NutrientExplanationRow"
+
+    NutrientExplanationRow:
+      type: object
+      additionalProperties: false
+      required: [name, display_name, guidance, value, status, status_text, daily_value,
+        what_it_is, how_to_read, explanation_message]
+      properties:
+        name:
+          type: string
+          enum: [calories, total_fat, saturated_fat, sodium, carbohydrate, sugars, fibre,
+            protein, trans_fat, cholesterol]
+        display_name: {type: string}
+        guidance:
+          type: string
+          enum: [limit, get_more, neutral]
+          description: Whether Health Canada suggests getting less or more of it. Not a verdict.
+        value:
+          $ref: "#/components/schemas/NutrientValueOrNull"
+        status:
+          type: string
+          enum: [verified, not_available, needs_confirmation]
+        status_text:
+          type: [string, "null"]
+          description: '"Not available", or the confirmation prompt for an unconfirmed photo value.'
+        daily_value:
+          oneOf:
+            - $ref: "#/components/schemas/PerServingDailyValue"
+            - type: "null"
+        what_it_is:
+          oneOf:
+            - $ref: "#/components/schemas/ExplanationText"
+            - type: "null"
+        how_to_read:
+          oneOf:
+            - $ref: "#/components/schemas/ExplanationText"
+            - type: "null"
+        explanation_message:
+          type: [string, "null"]
+          enum: [No verified explanation available yet., null]
+
+    PerServingDailyValue:
+      type: object
+      additionalProperties: false
+      required: [percent, display_percent, origin, label, interpretation, interpretation_text]
+      properties:
+        percent:
+          type: number
+          minimum: 0
+        display_percent:
+          type: integer
+          minimum: 0
+        origin:
+          type: string
+          enum: [label, calculated]
+        label:
+          type: [string, "null"]
+          enum: [Calculated, null]
+        interpretation:
+          type: [string, "null"]
+          enum: [a_little, a_lot, null]
+          description: 5% DV or less is a little; 15% DV or more is a lot; otherwise `null`.
+        interpretation_text:
+          type: [string, "null"]
+          enum: [a little, a lot, null]
+
+    ExplanationText:
+      type: object
+      additionalProperties: false
+      required: [text, sources]
+      properties:
+        text: {type: string}
+        sources:
+          type: array
+          minItems: 1
+          items: {$ref: "#/components/schemas/ExplanationSource"}
+
+    ExplanationSource:
+      type: object
+      additionalProperties: false
+      required: [id, publisher, title, url]
+      properties:
+        id: {type: string}
+        publisher: {type: string}
+        title: {type: string}
+        url: {type: string, format: uri}
 
     Error:
       type: object
