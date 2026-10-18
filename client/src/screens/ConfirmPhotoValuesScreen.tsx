@@ -1,21 +1,32 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import {
-  buildConfirmedReading,
+  confirmPhotoValues,
+  type AnalysisResult,
+  type ConfirmationRequest,
+  type ConfirmOutcome,
+  type ProductResult,
+} from '../analysis';
+import {
+  buildConfirmationRequest,
   buildFields,
   canConfirm,
   fieldError,
   SERVING_PATH,
-  type ConfirmedReading,
   type Field,
-  type LabelReading,
 } from '../photoConfirmation';
 
+/** What `POST /api/analysis/label-photo` gave: a result, or 422 `nutrition_table_not_found`. */
+export type PhotoReading = { status: 'not_found' } | { status: 'found'; result: ProductResult };
+
 type Props = {
-  reading: LabelReading;
-  onConfirm: (result: ConfirmedReading) => void;
+  reading: PhotoReading;
+  /** Called with the re-analyzed result once the confirmed values are sent. */
+  onAnalyzed: (analysis: AnalysisResult) => void;
   onRetake: () => void;
+  /** Sends the confirmed values; replaced in previews and tests. */
+  submit?: (request: ConfirmationRequest) => Promise<ConfirmOutcome>;
 };
 
 export const NO_TABLE_MESSAGE =
@@ -26,7 +37,12 @@ export const NO_TABLE_MESSAGE =
  * it before it is used (#39, Q1). Values the user does not confirm are not used for
  * explanations (#37) or whole-package totals (#36).
  */
-export default function ConfirmPhotoValuesScreen({ reading, onConfirm, onRetake }: Props) {
+export default function ConfirmPhotoValuesScreen({
+  reading,
+  onAnalyzed,
+  onRetake,
+  submit = confirmPhotoValues,
+}: Props) {
   if (reading.status === 'not_found') {
     return (
       <View style={styles.container}>
@@ -38,15 +54,42 @@ export default function ConfirmPhotoValuesScreen({ reading, onConfirm, onRetake 
       </View>
     );
   }
-  return <ConfirmForm reading={reading} onConfirm={onConfirm} onRetake={onRetake} />;
+  return (
+    <ConfirmForm
+      result={reading.result}
+      onAnalyzed={onAnalyzed}
+      onRetake={onRetake}
+      submit={submit}
+    />
+  );
 }
 
 function ConfirmForm({
-  reading,
-  onConfirm,
+  result,
+  onAnalyzed,
   onRetake,
-}: Props & { reading: Extract<LabelReading, { status: 'found' }> }) {
-  const [fields, setFields] = useState<Field[]>(() => buildFields(reading));
+  submit,
+}: {
+  result: ProductResult;
+  onAnalyzed: (analysis: AnalysisResult) => void;
+  onRetake: () => void;
+  submit: (request: ConfirmationRequest) => Promise<ConfirmOutcome>;
+}) {
+  const [fields, setFields] = useState<Field[]>(() => buildFields(result));
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const send = async () => {
+    setSending(true);
+    setError(null);
+    const outcome = await submit(buildConfirmationRequest(result, fields));
+    setSending(false);
+    if (outcome.kind === 'ok') {
+      onAnalyzed(outcome.analysis);
+    } else {
+      setError(outcome.message);
+    }
+  };
 
   const update = (path: string, change: Partial<Field>) =>
     setFields((current) =>
@@ -67,18 +110,22 @@ function ConfirmForm({
     <View style={styles.container}>
       <Text style={styles.heading}>Check the values from your photo</Text>
       <Text style={styles.help}>
-        These were read from the photo automatically and may contain mistakes. Compare each
-        one with the label, fix anything that is wrong, and confirm it. Values you don't
-        confirm are not used.
+        These were read from the photo automatically and may contain mistakes. Compare each one with
+        the label, fix anything that is wrong, and confirm it. Values you don't confirm are not
+        used.
       </Text>
 
-      <View style={styles.highlightBox}>
-        <Text style={styles.highlightTitle}>Check these first</Text>
-        <Text style={styles.help}>The serving size and servings per package change every total.</Text>
-        {highlighted.map((field) => (
-          <FieldRow key={field.path} field={field} update={update} />
-        ))}
-      </View>
+      {highlighted.length > 0 ? (
+        <View style={styles.highlightBox}>
+          <Text style={styles.highlightTitle}>Check these first</Text>
+          <Text style={styles.help}>
+            The serving size and servings per package change every total.
+          </Text>
+          {highlighted.map((field) => (
+            <FieldRow key={field.path} field={field} update={update} />
+          ))}
+        </View>
+      ) : null}
 
       {nutrients.map((field) => (
         <FieldRow key={field.path} field={field} update={update} />
@@ -86,7 +133,9 @@ function ConfirmForm({
 
       <Pressable
         style={[styles.button, styles.buttonSecondary]}
-        onPress={() => setFields((current) => current.map((f) => ({ ...f, confirmed: canConfirm(f) })))}
+        onPress={() =>
+          setFields((current) => current.map((f) => ({ ...f, confirmed: canConfirm(f) })))
+        }
       >
         <Text style={styles.buttonSecondaryText}>
           {allConfirmed ? 'All values confirmed' : 'Confirm all values I checked'}
@@ -97,12 +146,18 @@ function ConfirmForm({
           <Text style={styles.buttonSecondaryText}>Retake photo</Text>
         </Pressable>
         <Pressable
-          style={[styles.button, styles.buttonPrimary, styles.flex]}
-          onPress={() => onConfirm(buildConfirmedReading(fields))}
+          style={[styles.button, styles.buttonPrimary, styles.flex, sending && styles.dim]}
+          disabled={sending}
+          onPress={() => void send()}
         >
-          <Text style={styles.buttonPrimaryText}>Use these values</Text>
+          {sending ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonPrimaryText}>Use these values</Text>
+          )}
         </Pressable>
       </View>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
 }
@@ -122,7 +177,10 @@ function FieldRow({
         <Text style={styles.label}>{field.label}</Text>
         <Pressable
           accessibilityRole="checkbox"
-          accessibilityState={{ checked: field.confirmed, disabled: !confirmable }}
+          accessibilityState={{
+            checked: field.confirmed,
+            disabled: !confirmable,
+          }}
           disabled={!confirmable}
           onPress={() => update(field.path, { confirmed: !field.confirmed })}
           style={[styles.check, field.confirmed && styles.checkOn, !confirmable && styles.dim]}
@@ -132,14 +190,23 @@ function FieldRow({
           </Text>
         </Pressable>
       </View>
-      {field.unreadable ? (
-        <Text style={styles.warning}>Couldn't read this clearly. Enter it from the label, or leave it blank.</Text>
+      {field.unread ? (
+        <Text style={styles.warning}>
+          Not read from the photo. Enter it from the label, or leave it blank.
+        </Text>
       ) : null}
       <View style={styles.inputs}>
         <TextInput
           style={styles.input}
           value={field.amountText}
-          onChangeText={(text) => update(field.path, { amountText: text })}
+          onChangeText={(text) =>
+            // A corrected amount makes a %DV read from the same line suspect: clear it, so
+            // the user enters the printed one or it is calculated from the new amount.
+            update(
+              field.path,
+              field.dvText === null ? { amountText: text } : { amountText: text, dvText: '' },
+            )
+          }
           keyboardType="decimal-pad"
           placeholder="Not read"
           accessibilityLabel={`${field.label} amount`}
@@ -168,13 +235,18 @@ function FieldRow({
               value={field.dvText}
               onChangeText={(text) => update(field.path, { dvText: text })}
               keyboardType="decimal-pad"
-              placeholder="—"
+              placeholder="auto"
               accessibilityLabel={`${field.label} percent daily value`}
             />
             <Text style={styles.unitText}>% DV</Text>
           </>
         ) : null}
       </View>
+      {field.dvText === '' && field.amountText.trim() !== '' ? (
+        <Text style={styles.hint}>
+          Enter the %DV printed on the label, or leave it empty to have it calculated.
+        </Text>
+      ) : null}
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
@@ -202,9 +274,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   rowConfirmed: { borderColor: '#1b7f3b', backgroundColor: '#f1faf3' },
-  rowHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
+  rowHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 8,
+  },
   label: { fontWeight: '600', color: '#1a1a1a', flexShrink: 1 },
-  inputs: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
+  inputs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
   input: {
     minWidth: 90,
     borderWidth: 1,
@@ -219,18 +301,37 @@ const styles = StyleSheet.create({
   dvInput: { minWidth: 60 },
   unitText: { color: '#555' },
   units: { flexDirection: 'row', gap: 6 },
-  unit: { borderWidth: 1, borderColor: '#1b7f3b', borderRadius: 6, paddingVertical: 6, paddingHorizontal: 10 },
+  unit: {
+    borderWidth: 1,
+    borderColor: '#1b7f3b',
+    borderRadius: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
   unitOn: { backgroundColor: '#1b7f3b' },
-  check: { borderWidth: 1, borderColor: '#1b7f3b', borderRadius: 16, paddingVertical: 4, paddingHorizontal: 10 },
+  check: {
+    borderWidth: 1,
+    borderColor: '#1b7f3b',
+    borderRadius: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+  },
   checkOn: { backgroundColor: '#1b7f3b' },
   checkText: { color: '#1b7f3b', fontWeight: '600' },
   checkTextOn: { color: '#fff', fontWeight: '600' },
   dim: { opacity: 0.4 },
   warning: { color: '#7a4b00' },
+  hint: { color: '#555', fontSize: 12 },
   error: { color: '#b3261e' },
   buttons: { flexDirection: 'row', gap: 12 },
   flex: { flex: 1 },
-  button: { paddingVertical: 12, paddingHorizontal: 12, borderRadius: 8, borderWidth: 1, alignItems: 'center' },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
   buttonPrimary: { backgroundColor: '#1b7f3b', borderColor: '#1b7f3b' },
   buttonSecondary: { backgroundColor: '#fff', borderColor: '#1b7f3b' },
   buttonPrimaryText: { color: '#fff', fontWeight: '600' },

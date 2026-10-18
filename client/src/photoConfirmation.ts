@@ -1,41 +1,23 @@
 /**
  * Confirming values read from a Nutrition Facts photo (#39, Q1 safe-use rule).
  *
- * The vision model gives no per-value confidence, so every value it reads must be
- * confirmed or corrected by the user before #36 (whole-package totals) or #37
- * (explanations) may use it. The confirmed paths returned here are the ones those
- * services take as `confirmed`.
+ * The photo endpoints (#42/#43) mark every value they read `uncertain`: the vision
+ * model gives no per-value confidence. The user checks each value against the label,
+ * corrects it if needed, and confirms it. `buildConfirmationRequest` turns that into
+ * the body of `POST /api/analysis/confirm`, with checked values `user_confirmed` and
+ * the rest still `uncertain`, so #36 and #37 use only what the user checked.
+ *
+ * Only label-photo values are editable. Database values are never shown here: the
+ * server keeps its own copy of them anyway.
  */
-import { NUTRIENT_LABELS, type NutrientName } from './packageNutrition';
-
-/** A photo reading, as `backend/app/services/label_extraction.py` returns it (#16/#42). */
-export type LabelNutrient = {
-  amount: number | null;
-  unit: string | null;
-  daily_value_percent: number | null;
-};
-
-export type LabelReading =
-  | { status: 'not_found' }
-  | {
-      status: 'found';
-      serving: {
-        size_text: string | null;
-        household: string | null;
-        quantity: number | null;
-        unit: 'g' | 'ml' | null;
-      };
-      package: { servings_per_package: number | null };
-      nutrition: {
-        basis: 'serving' | null;
-        nutrients: Partial<Record<NutrientName, LabelNutrient | null>>;
-      };
-      unreadable_fields: string[];
-    };
+import type { ConfirmationRequest, Package, Product, ProductResult, Serving } from './analysis';
+import { NUTRIENT_LABELS, type NutrientName, type NutrientValue } from './packageNutrition';
 
 export const SERVING_PATH = 'serving';
-export const SERVINGS_PER_PACKAGE_PATH = 'package.servings_per_package';
+export const PACKAGE_PATH = 'package';
 export const nutrientPath = (name: NutrientName) => `nutrition.nutrients.${name}`;
+
+const PHOTO = 'nutrition_label_photo';
 
 /** Table order of the Canadian Nutrition Facts table. */
 export const LABEL_ORDER: NutrientName[] = [
@@ -51,7 +33,7 @@ export const LABEL_ORDER: NutrientName[] = [
   'protein',
 ];
 
-const UNITS: Record<NutrientName, string> = {
+const UNITS: Record<NutrientName, NutrientValue['unit']> = {
   calories: 'kcal',
   total_fat: 'g',
   saturated_fat: 'g',
@@ -65,7 +47,13 @@ const UNITS: Record<NutrientName, string> = {
 };
 
 /** Nutrients printed with a %DV on the Canadian label; saturated fat carries saturated + trans. */
-const DV_ON_LABEL = new Set<NutrientName>(['total_fat', 'saturated_fat', 'sodium', 'fibre', 'sugars']);
+const DV_ON_LABEL = new Set<NutrientName>([
+  'total_fat',
+  'saturated_fat',
+  'sodium',
+  'fibre',
+  'sugars',
+]);
 
 /** One editable row. Text fields keep what the user typed; numbers are parsed on use. */
 export type Field = {
@@ -77,40 +65,57 @@ export type Field = {
   dvText: string | null;
   /** Serving size and servings per package multiply everything else. */
   highlighted: boolean;
-  unreadable: boolean;
+  /** Nothing was read from the photo for this row. */
+  unread: boolean;
   confirmed: boolean;
 };
 
 const toText = (value: number | null | undefined) => (value == null ? '' : String(value));
+const isPhoto = (value: { source: string | null } | null | undefined) => value?.source === PHOTO;
 
-export function buildFields(reading: Extract<LabelReading, { status: 'found' }>): Field[] {
-  const unreadable = new Set(reading.unreadable_fields);
-  const isUnreadable = (path: string) =>
-    [...unreadable].some((p) => p === path || p.startsWith(`${path}.`));
-  const fields: Field[] = [
-    {
+/**
+ * The rows to show for a photo result.
+ *
+ * - `nutrition_only`: every value came from the photo, so every row is shown; a value
+ *   the photo did not give is an empty row the user may fill in.
+ * - `product`: only the photo's values and the gaps the database leaves are shown.
+ *   The serving appears only if it came from the photo: adding one would replace the
+ *   database's whole nutrition. A database value is never shown for editing.
+ */
+export function buildFields(result: ProductResult): Field[] {
+  const { product } = result;
+  const nutritionOnly = result.result === 'nutrition_only';
+  const fields: Field[] = [];
+
+  if (nutritionOnly || isPhoto(product.serving)) {
+    fields.push({
       path: SERVING_PATH,
-      label: reading.serving.size_text ? `Serving size (${reading.serving.size_text})` : 'Serving size',
-      unit: reading.serving.unit,
-      amountText: toText(reading.serving.quantity),
+      label: product.serving.size_text
+        ? `Serving size (${product.serving.size_text})`
+        : 'Serving size',
+      unit: product.serving.unit,
+      amountText: toText(product.serving.quantity),
       dvText: null,
       highlighted: true,
-      unreadable: isUnreadable(SERVING_PATH),
-      confirmed: false,
-    },
-    {
-      path: SERVINGS_PER_PACKAGE_PATH,
+      unread: product.serving.quantity == null,
+      confirmed: product.serving.certainty === 'user_confirmed',
+    });
+  }
+  if (nutritionOnly || isPhoto(product.package) || product.package.servings_per_package == null) {
+    fields.push({
+      path: PACKAGE_PATH,
       label: 'Servings per package',
       unit: null,
-      amountText: toText(reading.package.servings_per_package),
+      amountText: isPhoto(product.package) ? toText(product.package.servings_per_package) : '',
       dvText: null,
       highlighted: true,
-      unreadable: isUnreadable(SERVINGS_PER_PACKAGE_PATH),
-      confirmed: false,
-    },
-  ];
+      unread: !isPhoto(product.package) || product.package.servings_per_package == null,
+      confirmed: isPhoto(product.package) && product.package.certainty === 'user_confirmed',
+    });
+  }
   for (const name of LABEL_ORDER) {
-    const value = reading.nutrition.nutrients[name] ?? null;
+    const value = product.nutrition.nutrients[name];
+    if (value != null && !isPhoto(value)) continue;
     fields.push({
       path: nutrientPath(name),
       label: NUTRIENT_LABELS[name],
@@ -118,8 +123,8 @@ export function buildFields(reading: Extract<LabelReading, { status: 'found' }>)
       amountText: toText(value?.amount),
       dvText: DV_ON_LABEL.has(name) ? toText(value?.daily_value_percent) : null,
       highlighted: false,
-      unreadable: isUnreadable(nutrientPath(name)),
-      confirmed: false,
+      unread: value == null,
+      confirmed: value?.certainty === 'user_confirmed',
     });
   }
   return fields;
@@ -136,7 +141,7 @@ export function parseNumber(text: string): number | null | undefined {
 export function fieldError(field: Field): string | null {
   const amount = parseNumber(field.amountText);
   if (amount === undefined) return 'Enter a number, for example 12 or 2.5.';
-  const positiveOnly = field.path === SERVING_PATH || field.path === SERVINGS_PER_PACKAGE_PATH;
+  const positiveOnly = field.path === SERVING_PATH || field.path === PACKAGE_PATH;
   if (positiveOnly && amount === 0) return 'This must be more than 0.';
   if (field.path === SERVING_PATH && amount !== null && field.unit === null) {
     return 'Choose g or mL for the serving size.';
@@ -151,36 +156,80 @@ export function fieldError(field: Field): string | null {
 export const canConfirm = (field: Field) =>
   fieldError(field) === null && parseNumber(field.amountText) !== null;
 
-export type ConfirmedReading = {
-  serving: { quantity: number | null; unit: 'g' | 'ml' | null };
-  servings_per_package: number | null;
-  nutrients: Partial<Record<NutrientName, LabelNutrient | null>>;
-  /** Pass these to #36/#37 as `confirmed`. Unconfirmed values are not in this list. */
-  confirmed: string[];
+const certaintyOf = (field: Field) =>
+  field.confirmed && canConfirm(field) ? ('user_confirmed' as const) : ('uncertain' as const);
+
+const EMPTY_SERVING: Serving = {
+  size_text: null,
+  quantity: null,
+  unit: null,
+  source: null,
+  certainty: null,
 };
 
-/** The values as the user left them, and which of them the user confirmed. */
-export function buildConfirmedReading(fields: Field[]): ConfirmedReading {
-  const byPath = new Map(fields.map((f) => [f.path, f]));
-  const amount = (path: string) => parseNumber(byPath.get(path)?.amountText ?? '') ?? null;
-  const nutrients: ConfirmedReading['nutrients'] = {};
-  for (const name of LABEL_ORDER) {
-    const field = byPath.get(nutrientPath(name));
-    const value = amount(nutrientPath(name));
-    const dv = field?.dvText != null ? (parseNumber(field.dvText) ?? null) : null;
-    nutrients[name] =
-      value === null && dv === null
-        ? null
-        : { amount: value, unit: value === null ? null : UNITS[name], daily_value_percent: dv };
+const EMPTY_PACKAGE: Package = {
+  quantity_text: null,
+  quantity: null,
+  unit: null,
+  servings_per_package: null,
+  source: null,
+  certainty: null,
+};
+
+/**
+ * The body for `POST /api/analysis/confirm`: the result with the user's values, each
+ * photo value `user_confirmed` if the user confirmed it and `uncertain` otherwise.
+ * An emptied field is sent as missing.
+ */
+export function buildConfirmationRequest(
+  result: ProductResult,
+  fields: Field[],
+): ConfirmationRequest {
+  const product: Product = JSON.parse(JSON.stringify(result.product));
+  for (const field of fields) {
+    const amount = parseNumber(field.amountText) ?? null;
+    if (field.path === SERVING_PATH) {
+      product.serving =
+        amount === null
+          ? { ...EMPTY_SERVING }
+          : {
+              size_text: product.serving.size_text,
+              quantity: amount,
+              unit: field.unit as Serving['unit'],
+              source: PHOTO,
+              certainty: certaintyOf(field),
+            };
+    } else if (field.path === PACKAGE_PATH) {
+      if (amount !== null) {
+        const photoPackage: Package = {
+          quantity_text: null,
+          quantity: null,
+          unit: null,
+          servings_per_package: amount,
+          source: PHOTO,
+          certainty: certaintyOf(field),
+        };
+        product.package = photoPackage;
+      } else if (isPhoto(product.package)) {
+        product.package = { ...EMPTY_PACKAGE };
+      }
+    } else {
+      const name = field.path.slice('nutrition.nutrients.'.length) as NutrientName;
+      const dv = field.dvText === null ? null : (parseNumber(field.dvText) ?? null);
+      product.nutrition.nutrients[name] =
+        amount === null
+          ? null
+          : {
+              amount,
+              unit: UNITS[name],
+              daily_value_percent: dv,
+              source: PHOTO,
+              certainty: certaintyOf(field),
+            };
+    }
   }
-  const serving = byPath.get(SERVING_PATH);
-  return {
-    serving: {
-      quantity: amount(SERVING_PATH),
-      unit: (serving?.unit as 'g' | 'ml' | null | undefined) ?? null,
-    },
-    servings_per_package: amount(SERVINGS_PER_PACKAGE_PATH),
-    nutrients,
-    confirmed: fields.filter((f) => f.confirmed && canConfirm(f)).map((f) => f.path),
-  };
+  if (Object.values(product.nutrition.nutrients).some((v) => v != null)) {
+    product.nutrition.basis = product.nutrition.basis ?? 'serving';
+  }
+  return { result: result.result, product };
 }
