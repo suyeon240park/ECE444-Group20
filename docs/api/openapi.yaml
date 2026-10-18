@@ -623,15 +623,6 @@ components:
           const: 1
         ingredient:
           $ref: '#/components/schemas/IngredientEntry'
-    NutrientValueOrNull:
-      oneOf:
-      - $ref: '#/components/schemas/NutrientValue'
-      - type: 'null'
-    SourceOrNull:
-      description: '`null` exactly when every other value in the object is `null`.'
-      oneOf:
-      - $ref: '#/components/schemas/Source'
-      - type: 'null'
     ProductResult:
       type: object
       additionalProperties: false
