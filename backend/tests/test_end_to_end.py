@@ -246,6 +246,8 @@ def test_complete_product_returns_nutrition_and_ingredients_without_a_photo(serv
 
 def test_incomplete_product_asks_for_a_photo_and_uses_its_label(services, client):
     services.product(OYSTER_SAUCE, "oyster_sauce_no_serving")
+    # The recorded reply has a carbohydrate %DV of 0 that the label does not print.
+    # Keep it: these tests check the flow; the Q1 benchmark (#17) checks accuracy.
     services.label("010_dark-sauce")
 
     scanned = analysis(client.get(f"/api/analysis/{OYSTER_SAUCE}"))

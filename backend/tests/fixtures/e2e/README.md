@@ -14,7 +14,7 @@ rate limited for the label photos, so those came from the first fallback model.
 | `gemini_005_crackers.json` | `005_crackers.jpg` | `gemini-3-flash-preview` | yes |
 | `gemini_008_ketchup.json` | `008_ketchup.jpg` (Heinz Ketchup Zero, `0057000002916`) | `gemini-3-flash-preview` | yes |
 | `gemini_010_dark-sauce.json` | `010_dark-sauce.jpg` (Premium Oyster Sauce, `4891130005418`) | `gemini-3-flash-preview` | one extra value: carbohydrate %DV `0`, which the label does not print |
-| `gemini_no_table.json` | `no_table.png` (the app icon: no Nutrition Facts table) | `gemini-3.5-flash` | `table_found: false` |
+| `gemini_no_table.json` | `no_table.png` (a generated 480×360 package front: no Nutrition Facts table; re-recorded 2026-10-18) | `gemini-3.5-flash` | `table_found: false` |
 
 The label photos are in `tests/fixtures/nutrition_labels/images/` at the repository
 root. The model's mistake on 010 is kept as recorded: the end-to-end tests check the
