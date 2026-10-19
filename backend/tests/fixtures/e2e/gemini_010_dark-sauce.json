@@ -1,0 +1,39 @@
+{
+  "model": "gemini-3-flash-preview",
+  "reply": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "{\n  \"table_found\": true,\n  \"serving\": {\n    \"size_text\": \"1 tbsp (15 ml)\",\n    \"household\": \"1 tbsp\",\n    \"quantity\": 15,\n    \"unit\": \"mL\"\n  },\n  \"servings_per_package\": null,\n  \"nutrients\": {\n    \"calories\": {\n      \"amount\": 20,\n      \"unit\": \"kcal\",\n      \"daily_value_percent\": null\n    },\n    \"total_fat\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 0\n    },\n    \"saturated_fat\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 0\n    },\n    \"trans_fat\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": null\n    },\n    \"carbohydrate\": {\n      \"amount\": 5,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 0\n    },\n    \"fibre\": {\n      \"amount\": 0,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 0\n    },\n    \"sugars\": {\n      \"amount\": 4,\n      \"unit\": \"g\",\n      \"daily_value_percent\": 4\n    },\n    \"protein\": {\n      \"amount\": 1,\n      \"unit\": \"g\",\n      \"daily_value_percent\": null\n    },\n    \"cholesterol\": {\n      \"amount\": 0,\n      \"unit\": \"mg\",\n      \"daily_value_percent\": null\n    },\n    \"sodium\": {\n      \"amount\": 780,\n      \"unit\": \"mg\",\n      \"daily_value_percent\": 34\n    }\n  },\n  \"unreadable_fields\": []\n}",
+              "thoughtSignature": "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"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 1517,
+      "candidatesTokenCount": 464,
+      "totalTokenCount": 2669,
+      "promptTokensDetails": [
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1064
+        },
+        {
+          "modality": "TEXT",
+          "tokenCount": 453
+        }
+      ],
+      "thoughtsTokenCount": 688,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-3-flash-preview",
+    "responseId": "kWDSasHKGdzcytMPsKijiA8"
+  }
+}
