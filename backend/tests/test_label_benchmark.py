@@ -75,6 +75,14 @@ def test_score_image_table_not_found():
     assert score_image("a", rows, Record("a", None, "HTTP 500"))[0].outcome == "missing"
 
 
+def test_score_image_unreadable_photo_is_not_scored():
+    rows = [TruthRow("status", "unreadable", "")]
+    for record in (Record("a", RESULT), Record("a", {"status": "not_found"}), None):
+        scores = score_image("a", rows, record)
+        assert [s.outcome for s in scores] == ["unsupported"]
+        assert lb.accuracy(scores) == (0, 0)
+
+
 def test_score_image_failed_or_not_found_counts_fields_as_missing():
     for record in (Record("a", None, "HTTP 500"), Record("a", {"status": "not_found"}), None):
         scores = score_image("a", TRUTH, record)
@@ -104,6 +112,7 @@ def test_load_truth_accepts_excel_csv(tmp_path: Path):
         ("001.jpg,nutrition.nutrients.sodium,310,mg", "unknown field"),
         (",status,found,", "image"),
         ("001.jpg,serving.quantity,,g", "no expected value"),
+        ("001.jpg,status,blurry,", "status must be not_found or unreadable"),
     ],
 )
 def test_load_truth_rejects_typos(tmp_path: Path, row, message):
@@ -116,18 +125,28 @@ def test_load_truth_rejects_typos(tmp_path: Path, row, message):
 def test_render_report(monkeypatch):
     monkeypatch.setenv("VISION_PRICE_INPUT_PER_MTOK", "0.30")
     monkeypatch.setenv("VISION_PRICE_OUTPUT_PER_MTOK", "2.50")
-    truth = {"001.jpg": TRUTH, "002.jpg": [TruthRow("status", "not_found", "")], "003.jpg": TRUTH}
+    truth = {
+        "001.jpg": TRUTH,
+        "002.jpg": [TruthRow("status", "not_found", "")],
+        "003.jpg": TRUTH,
+        "005.jpg": [TruthRow("status", "unreadable", "")],
+    }
     records = {
         "001.jpg": Record("001.jpg", RESULT, None, "m", 4.0, 1000, 200),
         "002.jpg": Record("002.jpg", {"status": "not_found"}, None, "m", 2.0, 1000, 200),
         "004.jpg": Record("004.jpg", None, "HTTP 500", "m"),
+        "005.jpg": Record("005.jpg", RESULT, None, "m", 2.0, 1000, 200),
     }
 
     report = render_report(truth, records)
 
     assert "**Aggregate field accuracy: 36.4% (4/11)**" in report
-    assert "Photos: 3 (1 failed)" in report
-    assert "Response time: mean 3.0 s, max 4.0 s" in report
+    assert (
+        "Unsupported input (photos a reviewer cannot read, left out of the accuracy): 1" in report
+    )
+    assert "| 005.jpg | 0 | 0 | 0 | 0 | 2.0 | unreadable to a reviewer: not scored |" in report
+    assert "Photos: 4 (1 failed)" in report
+    assert "Response time: mean 2.7 s, max 4.0 s" in report
     assert "Cost per photo: mean $0.0008" in report
     assert "| 003.jpg | 0 | 0 | 5 | 0 |  | no photo |" in report
     assert "| 004.jpg | 0 | 0 | 0 | 0 |  | no ground truth; error: HTTP 500 |" in report
