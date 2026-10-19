@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "malic_acid",
+    "name": "Malic acid",
+    "aliases": [
+      "acide malique"
+    ],
+    "e_numbers": [
+      "E296"
+    ],
+    "ins_numbers": [
+      "INS 296"
+    ],
+    "what_it_is": {
+      "text": "An organic acid naturally found in fruits.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "why_used": {
+      "text": "It adds tartness and controls acidity.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "Malic acid is an acidulant that gives a tart taste to candy and fruit-flavoured foods.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "hc_permitted",
+        "publisher": "Health Canada",
+        "title": "Lists of Permitted Food Additives",
+        "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/food-safety/food-additives/lists-permitted.html",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [],
+    "flag": null
+  }
+}
