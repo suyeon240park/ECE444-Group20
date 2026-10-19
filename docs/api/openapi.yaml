@@ -175,6 +175,136 @@ paths:
               schema:
                 $ref: "#/components/schemas/PhotoError"
 
+  /api/analysis/{barcode}:
+    get:
+      operationId: analyzeBarcode
+      summary: Analyze a packaged food identified by barcode
+      description: |
+        The product-analysis pipeline (#43): looks the barcode up like
+        `GET /api/products/{barcode}` and adds every section the results page
+        (#41) shows. Read `analysis.md` in this folder for the rules.
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          description: EAN-8, UPC-A, EAN-13 or GTIN-14, digits only.
+          schema:
+            type: string
+            pattern: "^\\d{8,14}$"
+      responses:
+        "200":
+          description: |
+            Product found. `next_step` says whether to ask for a Nutrition Facts photo.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: The barcode is not 8 to 14 digits.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: |
+            No usable record for this barcode. The client offers the Nutrition Facts
+            photo (`POST /api/analysis/label-photo`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: The product database failed. Whether the product exists is unknown.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: The product database did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/analysis/label-photo:
+    post:
+      operationId: analyzeLabelPhoto
+      summary: Analyze a Nutrition Facts photo
+      description: |
+        Reads the photo like `POST /api/nutrition-label` and returns the same
+        `AnalysisResult` as the barcode path. With a `barcode` the database finds,
+        the label's values are merged into that product (`result: product`).
+        Otherwise the result is `nutrition_only` and never claims a product was
+        identified. Every photo value is `uncertain` until the user confirms it.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Photo of the Nutrition Facts table.
+                barcode:
+                  type: string
+                  description: The scanned barcode, when the product was not found or lacked nutrition.
+      responses:
+        "200":
+          description: The table was read.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: |
+            `invalid_barcode` (checked before the photo is read), `missing_image` or
+            `invalid_image`.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error"
+                  - $ref: "#/components/schemas/PhotoError"
+        "413":
+          description: The upload is too large.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "415":
+          description: The file is not a JPEG, PNG or WEBP image.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "422":
+          description: No Nutrition Facts table was found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "502":
+          description: Every vision model failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "503":
+          description: Photo reading is not configured on this server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+        "504":
+          description: The vision model did not answer in time.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhotoError"
+
 components:
   schemas:
     IngredientStatus:
@@ -989,6 +1119,79 @@ components:
             message:
               type: string
               description: For logs and developers. The client shows its own wording.
+
+    AnalysisResult:
+      description: |
+        Product-analysis pipeline result (#43). The first four properties are the
+        `ProductResult` contract unchanged; the rest are sections. A section that
+        could not be computed is `null`, and the others are still returned.
+      type: object
+      additionalProperties: false
+      required:
+        - result
+        - completeness
+        - missing_fields
+        - product
+        - next_step
+        - package_nutrition
+        - explanations
+        - ingredients
+      properties:
+        result:
+          $ref: "#/components/schemas/ProductResult/properties/result"
+        completeness:
+          $ref: "#/components/schemas/ProductResult/properties/completeness"
+        missing_fields:
+          $ref: "#/components/schemas/ProductResult/properties/missing_fields"
+        product:
+          $ref: "#/components/schemas/Product"
+        next_step:
+          description: The routing decision (#15) for a barcode lookup; `null` for a photo result.
+          oneOf:
+            - $ref: "#/components/schemas/NextStep"
+            - type: "null"
+        package_nutrition:
+          description: Per-serving and whole-package nutrition (#36, F2).
+          oneOf:
+            - $ref: "#/components/schemas/PackageNutritionResult"
+            - type: "null"
+        explanations:
+          description: |
+            Per-serving %DV and nutrient explanations (#37, F3). `null` if the reviewed
+            nutrient content did not load.
+          oneOf:
+            - $ref: "#/components/schemas/NutrientExplanationResult"
+            - type: "null"
+        ingredients:
+          description: Ingredient analysis (#33, F4). `null` if the knowledge base did not load.
+          oneOf:
+            - $ref: "#/components/schemas/IngredientAnalysisResult"
+            - type: "null"
+
+    NextStep:
+      description: What the client does after a successful barcode lookup (#15).
+      type: object
+      additionalProperties: false
+      required: [action, reason, product_identified, photo_fields, can_retry_lookup]
+      properties:
+        action:
+          type: string
+          enum: [use_database, request_nutrition_photo]
+          description: |
+            `request_nutrition_photo`: offer a Nutrition Facts photo to fill
+            `photo_fields`, then call `POST /api/analysis/label-photo` with the barcode.
+        reason:
+          type: string
+          enum: [complete, nutrition_missing, only_non_nutrition_missing]
+        product_identified:
+          type: boolean
+        photo_fields:
+          type: array
+          description: The `missing_fields` paths the photo is expected to fill.
+          items:
+            type: string
+        can_retry_lookup:
+          type: boolean
 
   examples:
     productComplete:
