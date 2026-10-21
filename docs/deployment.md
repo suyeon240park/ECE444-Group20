@@ -4,8 +4,10 @@ Staging runs on [Render](https://render.com)'s free tier: the Flask backend as a
 
 | | URL |
 |---|---|
-| App | [STAGING_APP_URL] |
-| Backend health check | [STAGING_API_URL]/api/health |
+| App | https://whats-in-my-food.onrender.com |
+| Backend health check | https://whats-in-my-food-api.onrender.com/api/health |
+
+Both services are in Frank's Render account; ask Frank for logs or to change a setting. The deploy-hook secrets are set in the repository.
 
 The app's home screen shows the backend's status and commit, and the commit it was built from ("App build …"). After a deploy, both should show the commit at the top of `main`.
 
@@ -105,6 +107,6 @@ If the repository's **Settings** tab is not visible to you, the repository owner
 
 ### 5. Check it
 
-- `[STAGING_API_URL]/api/health` returns `{"status": "ok", "commit": "<sha>", …}`.
+- https://whats-in-my-food-api.onrender.com/api/health returns `{"status": "ok", "commit": "<sha>", …}`.
 - The app URL shows the backend as `ok` with the same commit as "App build". "Unreachable: Failed to fetch" usually means `CORS_ORIGINS` does not exactly match the app's URL.
 - After the next merge to `main`, the Actions run shows **Deploy staging** green and both commits update.

@@ -129,8 +129,8 @@ CI runs exactly these commands. Details for each part are in [backend/README.md]
 
 The latest `main` runs on Render's free tier (#22):
 
-- App: [STAGING_APP_URL]
-- Backend health check: [STAGING_API_URL]/api/health
+- App: https://whats-in-my-food.onrender.com
+- Backend health check: https://whats-in-my-food-api.onrender.com/api/health
 
 A merge to `main` is deployed automatically once CI passes. The home screen shows the commit of the app build and of the backend, so you can check that staging is up to date. The backend sleeps after 15 minutes without traffic, so the first request after a quiet period takes about a minute. Setup, settings and limits: [docs/deployment.md](docs/deployment.md).
 
