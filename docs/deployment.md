@@ -13,7 +13,7 @@ The app's home screen shows the backend's status and commit, and the commit it w
 
 Free, no card. Limits that matter for us:
 
-- The backend **sleeps after 15 minutes without traffic** and takes about a minute to wake. The first request after a quiet period is slow; the app shows "Checking…" until the backend answers. Q2 response-time measurements must warm the backend first or they measure the wake-up.
+- The backend **sleeps after 15 minutes without traffic** and takes about a minute to wake. The first request after a quiet period is slow; the app shows "Checking backend…" until the backend answers. Q2 response-time measurements must warm the backend first or they measure the wake-up.
 - 750 free instance hours per month per workspace, enough for one always-on service.
 - No persistent disk. Nothing in the backend writes files, and the in-memory product cache (#14) is lost on every restart or sleep.
 - One instance; no scaling.
@@ -45,7 +45,7 @@ Render dashboard → **New** → **Web Service** → **Public Git Repository** �
 | Root Directory | `backend` |
 | Runtime | Python 3 |
 | Build Command | `pip install -r requirements.txt` |
-| Start Command | `gunicorn wsgi:app` (gunicorn binds to Render's `$PORT` by itself) |
+| Start Command | `gunicorn wsgi:app` (gunicorn reads `backend/gunicorn.conf.py`: Render's `$PORT`, 4 threads, and a 180 s timeout so label photos are not cut off) |
 | Instance Type | Free |
 | Health Check Path (Advanced) | `/api/health` |
 | Auto-Deploy (Advanced, if shown) | Off: CI triggers deploys |
@@ -58,8 +58,9 @@ Environment variables:
 | `FLASK_ENV` | `production` |
 | `CORS_ORIGINS` | the static site's URL from step 2, e.g. `https://whats-in-my-food.onrender.com` (no trailing slash) |
 | `OFF_USER_AGENT` | `WhatsInMyFood/0.1 (<team contact email>)`; Open Food Facts asks for a contact |
+| `GEMINI_API_KEY` | the team's Gemini key, for label photos (`POST /api/nutrition-label`, #42). Without it that endpoint answers 503 and everything else works. Use a free-tier key: staging is public, so anyone with the URL can spend its quota |
 
-Not set on purpose: `GIT_COMMIT` (the backend falls back to Render's `RENDER_GIT_COMMIT`), `DATABASE_URL` (no code uses the database yet), `GEMINI_API_KEY` (no endpoint uses the vision model yet). Every other variable in `backend/.env.example` has a working default.
+Not set on purpose: `GIT_COMMIT` (the backend falls back to Render's `RENDER_GIT_COMMIT`), `DATABASE_URL` (no code uses the database yet). Every other variable in `backend/.env.example`, including `VISION_MODEL`, has a working default.
 
 ### 2. Client: static site
 
