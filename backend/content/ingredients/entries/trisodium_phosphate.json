@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "trisodium_phosphate",
+    "name": "Trisodium phosphate",
+    "aliases": [
+      "phosphate trisodique",
+      "sodium phosphate tribasic"
+    ],
+    "e_numbers": [
+      "E339"
+    ],
+    "ins_numbers": [
+      "INS 339"
+    ],
+    "what_it_is": {
+      "text": "A phosphate salt used as a food additive.",
+      "source_ids": [
+        "hc_permitted"
+      ]
+    },
+    "why_used": {
+      "text": "It can regulate acidity and act as an emulsifier in processed foods.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "Trisodium phosphate is a buffering and emulsifying agent found in cereals and processed cheese.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      },
+      {
+        "id": "hc_permitted",
+        "publisher": "Health Canada",
+        "title": "Lists of Permitted Food Additives",
+        "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/food-safety/food-additives/lists-permitted.html",
+        "published_on": null,
+        "accessed_on": "2026-10-16"
+      }
+    ],
+    "last_reviewed": "2026-10-16",
+    "authority_positions": [],
+    "flag": null
+  }
+}

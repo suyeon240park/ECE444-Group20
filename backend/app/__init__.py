@@ -2,12 +2,29 @@
 
 from __future__ import annotations
 
+import logging
 import os
 
 from flask import Flask
 from flask_cors import CORS
 
+from app.routes.analysis import analysis_bp
+from app.routes.barcode import barcode_bp
 from app.routes.health import health_bp
+from app.routes.nutrition_label import nutrition_label_bp
+from app.routes.products import products_bp
+from app.services.analysis import AnalysisService
+from app.services.cache import TTLCache
+from app.services.ingredient_analysis import IngredientAnalysisService
+from app.services.ingredient_knowledge import load_ingredient_knowledge
+from app.services.label_extraction import LabelExtractionError, VisionConfig
+from app.services.label_reading import DEFAULT_FALLBACK_MODELS, LabelReader, parse_models
+from app.services.nutrient_content import NutrientContent, load_nutrient_content
+from app.services.open_food_facts import OpenFoodFactsClient
+from app.services.product_lookup import ProductLookupService
+
+# Largest request body accepted. Phone photos are typically 2-8 MB.
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
 
 def create_app(test_config: dict | None = None) -> Flask:
@@ -23,14 +40,82 @@ def create_app(test_config: dict | None = None) -> Flask:
         # Render sets RENDER_GIT_COMMIT on every deploy (#22); GIT_COMMIT overrides it.
         GIT_COMMIT=os.getenv("GIT_COMMIT") or os.getenv("RENDER_GIT_COMMIT") or "dev",
         CORS_ORIGINS=os.getenv("CORS_ORIGINS", "*"),
+        MAX_CONTENT_LENGTH=MAX_UPLOAD_BYTES,
+        OFF_BASE_URL=os.getenv("OFF_BASE_URL", "https://world.openfoodfacts.org"),
+        OFF_USER_AGENT=os.getenv("OFF_USER_AGENT", "WhatsInMyFood/0.1 (ECE444 student project)"),
+        OFF_TIMEOUT_SECONDS=float(os.getenv("OFF_TIMEOUT_SECONDS", "8")),
+        PRODUCT_CACHE_TTL_SECONDS=float(os.getenv("PRODUCT_CACHE_TTL_SECONDS", "86400")),
     )
     if test_config:
         app.config.update(test_config)
 
     CORS(app, origins=parse_origins(app.config["CORS_ORIGINS"]))
 
+    app.extensions["product_lookup"] = build_product_lookup(app.config)
+    app.extensions["label_reader"] = build_label_reader()
+    app.extensions["analysis"] = AnalysisService(
+        build_ingredient_analysis(), build_nutrient_content()
+    )
+
     app.register_blueprint(health_bp, url_prefix="/api")
+    app.register_blueprint(barcode_bp, url_prefix="/api")
+    app.register_blueprint(products_bp, url_prefix="/api")
+    app.register_blueprint(nutrition_label_bp, url_prefix="/api")
+    app.register_blueprint(analysis_bp, url_prefix="/api")
     return app
+
+
+def build_ingredient_analysis() -> IngredientAnalysisService | None:
+    """Load the ingredient knowledge base (#33) for the analysis pipeline (#43).
+
+    Invalid content is logged and the pipeline answers without its ingredient
+    section, so a content mistake never takes nutrition down with it.
+    """
+    try:
+        return IngredientAnalysisService(load_ingredient_knowledge())
+    except Exception:
+        logging.getLogger(__name__).exception("Ingredient knowledge base failed to load")
+        return None
+
+
+def build_nutrient_content() -> NutrientContent | None:
+    """Load the reviewed nutrient content (#38) that the explanations section (#37) shows.
+
+    As with the knowledge base, broken content is logged and only the
+    explanations section is left out.
+    """
+    try:
+        return load_nutrient_content()
+    except Exception:
+        logging.getLogger(__name__).exception("Nutrient content failed to load")
+        return None
+
+
+def build_label_reader() -> LabelReader:
+    """Wire the vision model from GEMINI_API_KEY / VISION_MODEL (#42).
+
+    Without a key the reader answers 503, so the rest of the app still runs.
+    VISION_FALLBACK_MODELS (comma-separated; empty disables) are tried when
+    VISION_MODEL fails. Stored in ``app.extensions["label_reader"]``, which tests
+    replace with a fake.
+    """
+    try:
+        config = VisionConfig.from_env()
+    except LabelExtractionError:
+        return LabelReader(None)
+    fallbacks = os.getenv("VISION_FALLBACK_MODELS", DEFAULT_FALLBACK_MODELS)
+    return LabelReader(config, fallback_models=parse_models(fallbacks, config.model))
+
+
+def build_product_lookup(config) -> ProductLookupService:
+    """Wire the Open Food Facts client and cache from configuration.
+
+    Stored in ``app.extensions["product_lookup"]``, which tests replace with a fake.
+    """
+    client = OpenFoodFactsClient(
+        config["OFF_BASE_URL"], config["OFF_USER_AGENT"], config["OFF_TIMEOUT_SECONDS"]
+    )
+    return ProductLookupService(client, TTLCache(config["PRODUCT_CACHE_TTL_SECONDS"]))
 
 
 def parse_origins(value: str | list[str]) -> str | list[str]:

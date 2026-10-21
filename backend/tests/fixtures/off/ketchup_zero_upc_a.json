@@ -1,0 +1,101 @@
+{
+  "code": "0057000002916",
+  "errors": [],
+  "product": {
+    "brands": "Heinz",
+    "code": "0057000002916",
+    "last_modified_t": 1788599076,
+    "nutriments": {
+      "carbohydrates": 6.66666666666667,
+      "carbohydrates_100g": 6.66666666666667,
+      "carbohydrates_serving": 1,
+      "carbohydrates_unit": "g",
+      "carbohydrates_value": 6.66666666666667,
+      "energy": 147.333333333333,
+      "energy-kcal": 33.3333333333333,
+      "energy-kcal_100g": 33.3333333333333,
+      "energy-kcal_serving": 5,
+      "energy-kcal_unit": "kcal",
+      "energy-kcal_value": 33.3333333333333,
+      "energy-kj": 147.333333333333,
+      "energy-kj_100g": 147.333333333333,
+      "energy-kj_modifier": "~",
+      "energy-kj_serving": 22.1,
+      "energy-kj_unit": "kJ",
+      "energy-kj_value": 147.333333333333,
+      "energy_100g": 147.333333333333,
+      "energy_modifier": "~",
+      "energy_serving": 22.1,
+      "energy_unit": "kJ",
+      "energy_value": 147.333333333333,
+      "fat": 0,
+      "fat_100g": 0,
+      "fat_serving": 0,
+      "fat_unit": "g",
+      "fat_value": 0.0,
+      "iron": 0.000666666666666667,
+      "iron_100g": 0.000666666666666667,
+      "iron_serving": 0.0001,
+      "iron_unit": "g",
+      "iron_value": 0.000666666666666667,
+      "potassium": 1,
+      "potassium_100g": 1,
+      "potassium_serving": 0.15,
+      "potassium_unit": "g",
+      "potassium_value": 1.0,
+      "proteins": 2,
+      "proteins_100g": 2,
+      "proteins_serving": 0.3,
+      "proteins_unit": "g",
+      "proteins_value": 2.0,
+      "salt": 0,
+      "salt_100g": 0,
+      "salt_modifier": "~",
+      "salt_serving": 0,
+      "salt_unit": "g",
+      "salt_value": 0.0,
+      "sodium": 0,
+      "sodium_100g": 0,
+      "sodium_serving": 0,
+      "sodium_unit": "g",
+      "sodium_value": 0.0,
+      "sugars": 6.66666666666667,
+      "sugars_100g": 6.66666666666667,
+      "sugars_serving": 1,
+      "sugars_unit": "g",
+      "sugars_value": 6.66666666666667
+    },
+    "nutrition_data": "on",
+    "nutrition_data_per": "100ml",
+    "nutrition_data_prepared_per": "100g",
+    "product_name": "Ketchup Zero",
+    "product_name_en": "Ketchup Zero",
+    "serving_quantity": 15,
+    "serving_quantity_unit": "ml",
+    "serving_size": "0.04 bottle (15 ml)"
+  },
+  "result": {
+    "id": "product_found",
+    "lc_name": "Product found",
+    "name": "Product found"
+  },
+  "status": "success_with_warnings",
+  "warnings": [
+    {
+      "field": {
+        "id": "code",
+        "value": "0057000002916"
+      },
+      "impact": {
+        "id": "none",
+        "lc_name": "None",
+        "name": "None"
+      },
+      "message": {
+        "id": "different_normalized_product_code",
+        "lc_name": "",
+        "name": ""
+      }
+    }
+  ]
+}

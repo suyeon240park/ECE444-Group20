@@ -9,4 +9,7 @@ select = ["E", "F", "I", "B", "UP"]
 testpaths = ["tests"]
 pythonpath = ["."]
 # CI runs plain `pytest`, so this is where the coverage gate is enforced.
-addopts = "--cov=app --cov-report=term-missing --cov-fail-under=80"
+addopts = "--cov=app --cov-report=term-missing --cov-fail-under=80 -m 'not live'"
+markers = [
+    "live: calls the real Open Food Facts API (run with `pytest -m live --no-cov`)",
+]

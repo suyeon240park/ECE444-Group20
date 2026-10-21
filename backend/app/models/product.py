@@ -29,13 +29,16 @@ class Certainty(str, Enum):
     """How far a value can be trusted.
 
     ``reported`` is used for product-database values. ``confident`` and
-    ``uncertain`` are for OCR values under Q1's confidence rule; uncertain values
-    must not be used for explanations or whole-package calculations.
+    ``uncertain`` are for label-photo values under Q1's confidence rule; uncertain
+    values must not be used for explanations or whole-package calculations.
+    ``user_confirmed`` is a label-photo value the user checked against the label
+    (Q1 safe-use rule), so it may be used like a confident one.
     """
 
     REPORTED = "reported"
     CONFIDENT = "confident"
     UNCERTAIN = "uncertain"
+    USER_CONFIRMED = "user_confirmed"
 
 
 class NutritionBasis(str, Enum):
@@ -103,15 +106,16 @@ CANONICAL_UNITS: dict[str, str] = {
 
 QUANTITY_UNITS: tuple[str, ...] = ("g", "ml")
 
-# EAN-8, UPC-A (12), EAN-13 and GTIN-14, digits only.
-BARCODE_PATTERN = re.compile(r"^\d{8,14}$")
+# EAN-8, UPC-A (12), EAN-13 and GTIN-14: ASCII digits only (``\d`` would also match
+# other scripts' digits, and ``$`` would accept a trailing newline).
+BARCODE_PATTERN = re.compile(r"[0-9]{8,14}")
 
 _DATABASE_SOURCES = {Source.OPEN_FOOD_FACTS}
-_OCR_CERTAINTIES = {Certainty.CONFIDENT, Certainty.UNCERTAIN}
+_OCR_CERTAINTIES = {Certainty.CONFIDENT, Certainty.UNCERTAIN, Certainty.USER_CONFIRMED}
 
 
 def is_valid_barcode(value: str) -> bool:
-    return bool(BARCODE_PATTERN.match(value))
+    return BARCODE_PATTERN.fullmatch(value) is not None
 
 
 def _check_source_certainty(source: Source, certainty: Certainty) -> None:
@@ -119,7 +123,8 @@ def _check_source_certainty(source: Source, certainty: Certainty) -> None:
         raise ValueError(f"database values must have certainty 'reported', got {certainty.value!r}")
     if source not in _DATABASE_SOURCES and certainty not in _OCR_CERTAINTIES:
         raise ValueError(
-            f"label-photo values must be 'confident' or 'uncertain', got {certainty.value!r}"
+            "label-photo values must be 'confident', 'uncertain' or 'user_confirmed', "
+            f"got {certainty.value!r}"
         )
 
 
@@ -131,6 +136,23 @@ def _check_quantity(name: str, value: float | None) -> None:
 def _check_unit(name: str, value: str | None) -> None:
     if value is not None and value not in QUANTITY_UNITS:
         raise ValueError(f"{name} must be one of {QUANTITY_UNITS}, got {value!r}")
+
+
+def _default_certainty(obj: Any, name: str) -> None:
+    """Fill in and check the certainty of a serving or package (Q1 critical fields).
+
+    Database values default to ``reported``. Label-photo values default to
+    ``uncertain``: the vision model gives no per-value confidence, so a photo value
+    is unusable until the user confirms it. No source means no certainty.
+    """
+    if obj.source is None:
+        if obj.certainty is not None:
+            raise ValueError(f"{name} has a certainty but no source")
+        return
+    if obj.certainty is None:
+        default = Certainty.REPORTED if obj.source in _DATABASE_SOURCES else Certainty.UNCERTAIN
+        object.__setattr__(obj, "certainty", default)
+    _check_source_certainty(obj.source, obj.certainty)
 
 
 def _check_source_presence(name: str, values: tuple[Any, ...], source: Source | None) -> None:
@@ -192,11 +214,20 @@ class Serving:
     quantity: float | None = None
     unit: str | None = None
     source: Source | None = None
+    # Serving size multiplies every whole-package value (F2), so a photo reading must
+    # be confirmed before use. Defaults from the source; see ``_default_certainty``.
+    certainty: Certainty | None = None
 
     def __post_init__(self) -> None:
         _check_quantity("serving.quantity", self.quantity)
         _check_unit("serving.unit", self.unit)
         _check_source_presence("serving", (self.size_text, self.quantity, self.unit), self.source)
+        _default_certainty(self, "serving")
+
+    @property
+    def is_usable(self) -> bool:
+        """Whether F2 may use this serving size; an unconfirmed photo reading may not."""
+        return self.source is not None and self.certainty is not Certainty.UNCERTAIN
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -204,6 +235,7 @@ class Serving:
             "quantity": self.quantity,
             "unit": self.unit,
             "source": self.source.value if self.source else None,
+            "certainty": self.certainty.value if self.certainty else None,
         }
 
 
@@ -220,6 +252,8 @@ class Package:
     unit: str | None = None
     servings_per_package: float | None = None
     source: Source | None = None
+    # Servings per package is a whole-package multiplier (F2, Q1); see Serving.certainty.
+    certainty: Certainty | None = None
 
     def __post_init__(self) -> None:
         _check_quantity("package.quantity", self.quantity)
@@ -230,6 +264,12 @@ class Package:
             (self.quantity_text, self.quantity, self.unit, self.servings_per_package),
             self.source,
         )
+        _default_certainty(self, "package")
+
+    @property
+    def is_usable(self) -> bool:
+        """Whether F2 may use these package values; an unconfirmed photo reading may not."""
+        return self.source is not None and self.certainty is not Certainty.UNCERTAIN
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -238,6 +278,7 @@ class Package:
             "unit": self.unit,
             "servings_per_package": self.servings_per_package,
             "source": self.source.value if self.source else None,
+            "certainty": self.certainty.value if self.certainty else None,
         }
 
 
@@ -334,9 +375,9 @@ class Product:
 def compute_missing_fields(product: Product, result: ResultType = ResultType.PRODUCT) -> list[str]:
     """Dotted JSON paths of the data F1 requires for a full analysis that is missing.
 
-    An uncertain OCR value counts as missing because it cannot be used. A
-    nutrition-only result is judged on its nutrition alone: it never has a name or
-    ingredients, by definition.
+    An uncertain label-photo value, including an unconfirmed serving size, counts as
+    missing because it cannot be used. A nutrition-only result is judged on its
+    nutrition alone: it never has a name or ingredients, by definition.
     """
     missing: list[str] = []
     if result is ResultType.PRODUCT:
@@ -344,7 +385,7 @@ def compute_missing_fields(product: Product, result: ResultType = ResultType.PRO
             missing.append("name")
         if product.ingredients_text is None:
             missing.append("ingredients_text")
-    if product.serving.size_text is None:
+    if product.serving.size_text is None or not product.serving.is_usable:
         missing.append("serving.size_text")
     if product.nutrition.basis is not NutritionBasis.SERVING:
         missing.append("nutrition.basis")

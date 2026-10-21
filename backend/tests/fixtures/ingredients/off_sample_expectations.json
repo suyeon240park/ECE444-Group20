@@ -1,0 +1,102 @@
+{
+  "review_status": "Exploratory agent-authored expectations written from the raw OFF strings before executing the parser on this sample. Teammate review pending. Semantic-count checks deliberately expose limitations beyond literal tokenization.",
+  "cases": {
+    "065633132832": {
+      "candidates": ["Whole grain oats", "Whole grain corn", "sugar", "golden sugar", "golden syrup", "Corn starch", "Brown rice flour", "Salt", "Calcium carbonate", "Trisodium phosphate", "Monoglycerides", "Caramel", "annatto", "Tocopherols", "Iron", "Niacinamide", "Calcium pantothenate", "Pyridoxine hydrochloride", "Folate"],
+      "matched_ids": ["sugar", "salt"],
+      "total_count": 19,
+      "notes": "Vitamin B3/B5/B6 parentheticals identify the preceding nutrient rather than additional ingredients. Checks semantic count without adding test aliases to improve the result."
+    },
+    "055577105405": {
+      "candidates": ["Whole grain rolled oats", "Rolled whole wheat", "brown sugar", "honey blend", "Dried coconut", "Modified milk ingredients", "Coconut oil", "Vegetable oil", "Almonds", "Natural flavour"],
+      "matched_ids": ["vegetable_oil"],
+      "total_count": 10,
+      "notes": "Sugars is a heading; honey blend stays one declared name. Sample retailer calls this Honey Almond, but OFF calls it Original: parsing correctness cannot validate product identity."
+    },
+    "072400011597": {
+      "candidates": ["farine de blé", "germe de blé délipidé", "phosphate disodique", "orthophosphate ferrique"],
+      "matched_ids": [],
+      "total_count": 4,
+      "notes": "French text occupies the English field. Fer describes the nutrient supplied by ferric orthophosphate; it is not a second independently added ingredient."
+    },
+    "060410047019": {
+      "candidates": ["SPECIALLY SELECTED POTATOES", "VEGETABLE OIL", "SALT", "POMMES DE TERRE SPÉCIALEMENT SÉLECTIONNÉES", "HUILE VÉGÉTALE", "SEL"],
+      "matched_ids": ["vegetable_oil", "salt"],
+      "total_count": 3,
+      "notes": "Three distinct ingredients repeated in French. The physical count expectation deliberately tests the unknown bilingual alias limitation; expected candidates retain both languages."
+    },
+    "060410087251": {
+      "candidates": ["Specially selected potatoes", "Vegetable oil", "Salt"],
+      "matched_ids": ["vegetable_oil", "salt"],
+      "total_count": 3,
+      "notes": "Simple comma-separated list."
+    },
+    "673513001507": {
+      "candidates": ["Potatoes", "non-hydrogenated sunflower oil", "non-hydrogenated canola oil", "sea salt"],
+      "matched_ids": [],
+      "total_count": 4,
+      "notes": "Declared alternatives both count. Do not remove adjectives to invent aliases to canola oil or salt."
+    },
+    "059749878753": {
+      "candidates": ["Patates", "huile de canola", "Sel"],
+      "matched_ids": ["canola_oil", "salt"],
+      "total_count": 3,
+      "notes": "French fallback should reach the same service."
+    },
+    "063211000115": {
+      "candidates": ["Water", "Tomato paste", "glucose-fructose", "Modified corn starch", "Wheat flour", "Salt", "Vegetable oil", "corn oil", "canola oil", "soybean oil", "Citric acid", "Ascorbic acid", "Flavour", "celery", "garlic", "Spice extracts"],
+      "matched_ids": ["modified_corn_starch", "salt", "vegetable_oil", "corn_oil", "canola_oil", "soybean_oil", "ascorbic_acid"],
+      "total_count": 16,
+      "notes": "Applies the documented compound-parent-plus-components policy, contextual oil names, and embedded contains declaration. Synthetic ascorbic-acid flag is NOT health evidence."
+    },
+    "063211311051": {
+      "candidates": ["Water", "Yellow peas", "Ham", "Pork lard", "Modified corn starch", "Salt", "Onion powder", "Hydrolyzed corn protein", "Spice", "Smoke flavour"],
+      "matched_ids": ["modified_corn_starch", "salt"],
+      "total_count": 10,
+      "notes": "Hydrolyzed corn protein must not match corn by substring."
+    },
+    "059749886086": {
+      "warning_expected": true,
+      "notes": "Corrupted OCR-like text includes cooking directions, addresses, fragments and bilingual prose. At minimum, coverage must not look like an unqualified valid ingredient count. No trustworthy full ingredient segmentation is asserted."
+    },
+    "057000013677": {
+      "candidates": ["Mushroom broth", "water", "seasoning", "salt", "yeast extract", "natural flavour", "mushrooms", "onions", "cream", "milk", "modified corn starch", "tomato paste", "corn starch", "salt", "white wine", "garlic", "chives", "spices", "herbs"],
+      "matched_ids": ["salt", "milk", "modified_corn_starch"],
+      "total_count": 18,
+      "notes": "Named parent/components count under current policy; repeated salt counts once."
+    },
+    "024094000364": {
+      "candidates": ["Durum wheat semolina"],
+      "matched_ids": [],
+      "total_count": 1,
+      "notes": "A single unknown ingredient is a real list, not unavailable."
+    },
+    "056800430318": {
+      "warning_expected": true,
+      "notes": "Marketing prose, OCR debris, storage text, addresses and bilingual ingredients are mixed. Warning presence alone does not prove all contamination was handled."
+    },
+    "629025410009": {
+      "matched_ids": ["sugar", "modified_corn_starch"],
+      "total_count": 18,
+      "notes": "Four concatenated flavour lists. Counts the union of named ingredients under current policy, excluding Contains and Made with advisories. Count-only check does not establish every occurrence's correctness."
+    },
+    "067311037330": {
+      "warning_expected": true,
+      "notes": "Nested source nouns share a trailing juices suffix. Preserve ambiguous spans and warn rather than inventing standalone fruit matches."
+    },
+    "056412503011": {
+      "warning_expected": true,
+      "notes": "This field is front-of-pack marketing copy, not a usable ingredient list. The app should not present an unqualified ingredient-count claim. No complete expected segmentation is asserted."
+    },
+    "059749998130": {
+      "candidates": ["Water", "Concentrated orange juice", "Concentrated apple juice", "concentrated grape juice", "sulphites", "Concentrated lemon juice", "Ascorbic acid"],
+      "matched_ids": ["sulphites", "ascorbic_acid"],
+      "total_count": 7,
+      "notes": "A leading and/or continues an alternatives list; neither and nor or is an ingredient. Vitamin C is a stored alias for ascorbic acid. The exact occurrence text may retain its parenthesis."
+    },
+    "056800737899": {
+      "warning_expected": true,
+      "notes": "The English section has an unclosed parenthesis. French heading starts a separate recoverable section; do not silently treat the English fragment as verified."
+    }
+  }
+}

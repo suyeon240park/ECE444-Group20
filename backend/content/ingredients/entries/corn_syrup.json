@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "corn_syrup",
+    "name": "Corn syrup",
+    "aliases": [
+      "sirop de maïs",
+      "sirop de mais"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "Corn syrup is a sweet syrup made by breaking down corn starch.",
+      "source_ids": [
+        "fda_syrup"
+      ]
+    },
+    "why_used": {
+      "text": "It adds sweetness.",
+      "source_ids": [
+        "fda_types"
+      ]
+    },
+    "explanation": {
+      "text": "Corn syrup and high-fructose corn syrup are different sweeteners.",
+      "source_ids": [
+        "fda_syrup"
+      ]
+    },
+    "sources": [
+      {
+        "id": "fda_syrup",
+        "publisher": "FDA",
+        "title": "High Fructose Corn Syrup Questions and Answers",
+        "url": "https://www.fda.gov/food/food-additives-petitions/high-fructose-corn-syrup-questions-and-answers",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "fda_types",
+        "publisher": "FDA",
+        "title": "Types of Food Ingredients",
+        "url": "https://www.fda.gov/food/food-additives-and-gras-ingredients-information-consumers/types-food-ingredients",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "labels_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "Liste d'ingrédients et allergènes sur les étiquettes des aliments",
+        "url": "https://inspection.canada.ca/fr/etiquetage-aliment/etiquetage/industrie/liste-dingredients-allergenes",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "code": "0068100058925",
+  "errors": [],
+  "product": {
+    "brands": "Kraft",
+    "code": "0068100058925",
+    "ingredients_text": "",
+    "ingredients_text_fr": "",
+    "last_modified_t": 1773963791,
+    "product_name": "Kraft",
+    "product_name_fr": "Kraft",
+    "product_quantity": 200,
+    "product_quantity_unit": "g",
+    "quantity": "200 g"
+  },
+  "result": {
+    "id": "product_found",
+    "lc_name": "Product found",
+    "name": "Product found"
+  },
+  "status": "success",
+  "warnings": []
+}

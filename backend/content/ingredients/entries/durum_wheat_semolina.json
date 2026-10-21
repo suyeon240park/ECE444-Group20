@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "ingredient": {
+    "id": "durum_wheat_semolina",
+    "name": "Durum wheat semolina",
+    "aliases": [
+      "durum semolina",
+      "semoule de blé dur"
+    ],
+    "e_numbers": [],
+    "ins_numbers": [],
+    "what_it_is": {
+      "text": "A milled product of durum wheat.",
+      "source_ids": [
+        "durum"
+      ]
+    },
+    "why_used": {
+      "text": "It is used to make pasta.",
+      "source_ids": [
+        "pasta_paper"
+      ]
+    },
+    "explanation": {
+      "text": "Durum wheat semolina is a common base for pasta dough.",
+      "source_ids": [
+        "durum",
+        "pasta_paper"
+      ]
+    },
+    "sources": [
+      {
+        "id": "pasta_paper",
+        "publisher": "Foods (MDPI), Messia et al.",
+        "title": "Nutritional and Technological Quality of High Protein Pasta",
+        "url": "https://mdpi-res.com/d_attachment/foods/foods-10-00589/article_deploy/foods-10-00589.pdf",
+        "published_on": "2021-03-11",
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "durum",
+        "publisher": "Canadian Food Inspection Agency",
+        "title": "The biology of Triticum turgidum ssp. durum (durum wheat)",
+        "url": "https://inspection.canada.ca/en/plant-varieties/plants-novel-traits/applicants/directive-94-08/biology-documents/triticum-turgidum-ssp-durum",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      },
+      {
+        "id": "durum_fr",
+        "publisher": "Agence canadienne d'inspection des aliments",
+        "title": "La biologie du Triticum turgidum ssp. durum (blé dur)",
+        "url": "https://inspection.canada.ca/fr/varietes-vegetales/vegetaux-caracteres-nouveaux/demandeurs/directive-94-08/documents-biologie/triticum-turgidum-ssp-durum",
+        "published_on": null,
+        "accessed_on": "2026-10-14"
+      }
+    ],
+    "last_reviewed": "2026-10-14",
+    "authority_positions": [],
+    "flag": null
+  }
+}
