@@ -1,0 +1,487 @@
+{
+  "completeness": "incomplete",
+  "explanations": {
+    "basis": "serving",
+    "basis_label": "per serving",
+    "basis_note": null,
+    "daily_value_definition": {
+      "sources": [
+        {
+          "id": "nutrition_facts_table",
+          "publisher": "Health Canada",
+          "title": "Nutrition labelling: Nutrition facts table",
+          "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+        },
+        {
+          "id": "daily_values_table",
+          "publisher": "Health Canada",
+          "title": "Table of Daily Values",
+          "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+        }
+      ],
+      "term": "% Daily Value (%DV)",
+      "text": "%DV is a quick way to tell whether one serving of a food has a little or a lot of a nutrient. It compares the amount in one serving with a daily reference amount set by Health Canada. 5% DV or less is a little, and 15% DV or more is a lot."
+    },
+    "daily_values_reference": {
+      "title": "Table of Daily Values: Part 1, foods for adults and children 4 years of age or older",
+      "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html",
+      "version": "2022-10-20"
+    },
+    "rows": [
+      {
+        "daily_value": null,
+        "display_name": "Calories",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "neutral",
+        "how_to_read": null,
+        "name": "calories",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 100.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "kcal"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Fat",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "neutral",
+        "how_to_read": null,
+        "name": "total_fat",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 5.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Saturated fat",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "limit",
+        "how_to_read": null,
+        "name": "saturated_fat",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 1.5,
+          "certainty": "uncertain",
+          "daily_value_percent": 8.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Sodium",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "limit",
+        "how_to_read": null,
+        "name": "sodium",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 160.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Carbohydrate",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "neutral",
+        "how_to_read": null,
+        "name": "carbohydrate",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 12.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Sugars",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "limit",
+        "how_to_read": null,
+        "name": "sugars",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 2.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 2.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Fibre",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "get_more",
+        "how_to_read": null,
+        "name": "fibre",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Protein",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "neutral",
+        "how_to_read": null,
+        "name": "protein",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 1.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Trans fat",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "limit",
+        "how_to_read": null,
+        "name": "trans_fat",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "what_it_is": null
+      },
+      {
+        "daily_value": null,
+        "display_name": "Cholesterol",
+        "explanation_message": "No verified explanation available yet.",
+        "guidance": "neutral",
+        "how_to_read": null,
+        "name": "cholesterol",
+        "status": "needs_confirmation",
+        "status_text": "Confirm this value from the photo before it is explained.",
+        "value": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "what_it_is": null
+      }
+    ]
+  },
+  "ingredients": {
+    "checked_count": 0,
+    "coverage_text": null,
+    "flagged_count": 0,
+    "flagged_ids": [],
+    "matched": [],
+    "message": "Ingredient information not available",
+    "status": "unavailable",
+    "total_count": 0,
+    "unmatched": [],
+    "warnings": []
+  },
+  "missing_fields": [
+    "serving.size_text",
+    "nutrition.nutrients.calories",
+    "nutrition.nutrients.total_fat",
+    "nutrition.nutrients.saturated_fat",
+    "nutrition.nutrients.sodium",
+    "nutrition.nutrients.carbohydrate",
+    "nutrition.nutrients.sugars",
+    "nutrition.nutrients.fibre",
+    "nutrition.nutrients.protein"
+  ],
+  "next_step": null,
+  "package_nutrition": {
+    "approximate": false,
+    "approximate_label": null,
+    "daily_value_label": null,
+    "display_servings": null,
+    "message": "Whole-package nutrition could not be calculated from the available serving and package information.",
+    "method": null,
+    "pending_confirmation": [
+      "nutrition.nutrients.calories",
+      "nutrition.nutrients.total_fat",
+      "nutrition.nutrients.saturated_fat",
+      "nutrition.nutrients.sodium",
+      "nutrition.nutrients.carbohydrate",
+      "nutrition.nutrients.sugars",
+      "nutrition.nutrients.fibre",
+      "nutrition.nutrients.protein",
+      "nutrition.nutrients.trans_fat",
+      "nutrition.nutrients.cholesterol"
+    ],
+    "per_serving_label": "Per serving (6 crackers (20 g))",
+    "reason": "no_package_information",
+    "rows": [
+      {
+        "name": "calories",
+        "per_serving": {
+          "amount": 100.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "kcal"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "total_fat",
+        "per_serving": {
+          "amount": 5.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "saturated_fat",
+        "per_serving": {
+          "amount": 1.5,
+          "certainty": "uncertain",
+          "daily_value_percent": 8.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "sodium",
+        "per_serving": {
+          "amount": 160.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "carbohydrate",
+        "per_serving": {
+          "amount": 12.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "sugars",
+        "per_serving": {
+          "amount": 2.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 2.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "fibre",
+        "per_serving": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "protein",
+        "per_serving": {
+          "amount": 1.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "trans_fat",
+        "per_serving": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      },
+      {
+        "name": "cholesterol",
+        "per_serving": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "whole_package": null,
+        "whole_package_status": "not_available"
+      }
+    ],
+    "servings": null,
+    "status": "not_calculated",
+    "whole_package_label": null
+  },
+  "product": {
+    "barcode": null,
+    "brand": null,
+    "ingredients_text": null,
+    "name": null,
+    "nutrition": {
+      "basis": "serving",
+      "nutrients": {
+        "calories": {
+          "amount": 100.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "kcal"
+        },
+        "carbohydrate": {
+          "amount": 12.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "cholesterol": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "fibre": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 0.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "saturated_fat": {
+          "amount": 1.5,
+          "certainty": "uncertain",
+          "daily_value_percent": 8.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "sodium": {
+          "amount": 160.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "mg"
+        },
+        "sugars": {
+          "amount": 2.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 2.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "total_fat": {
+          "amount": 5.0,
+          "certainty": "uncertain",
+          "daily_value_percent": 7.0,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        },
+        "trans_fat": {
+          "amount": 0.0,
+          "certainty": "uncertain",
+          "daily_value_percent": null,
+          "source": "nutrition_label_photo",
+          "unit": "g"
+        }
+      }
+    },
+    "package": {
+      "certainty": null,
+      "quantity": null,
+      "quantity_text": null,
+      "servings_per_package": null,
+      "source": null,
+      "unit": null
+    },
+    "serving": {
+      "certainty": "uncertain",
+      "quantity": 20.0,
+      "size_text": "6 crackers (20 g)",
+      "source": "nutrition_label_photo",
+      "unit": "g"
+    },
+    "source": {
+      "last_modified_at": null,
+      "provider": "nutrition_label_photo",
+      "retrieved_at": "2026-10-22T04:12:57.020738Z",
+      "url": null
+    }
+  },
+  "result": "nutrition_only"
+}
