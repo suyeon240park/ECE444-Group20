@@ -17,7 +17,10 @@ rate limited for the label photos, so those came from the first fallback model.
 | `gemini_no_table.json` | `no_table.png` (a generated 480×360 package front: no Nutrition Facts table; re-recorded 2026-10-18) | `gemini-3.5-flash` | `table_found: false` |
 
 The label photos are in `tests/fixtures/nutrition_labels/images/` at the repository
-root. The model's mistake on 010 is kept as recorded: the end-to-end tests check the
+root. `no_table.png` was drawn with Pillow: a beige 480×360 canvas, a red rectangle
+with a yellow circle, and the words "PACKAGE FRONT", with no EXIF. Any picture without
+a Nutrition Facts table can replace it, as long as its reply is re-recorded and still
+says `table_found: false`. The model's mistake on 010 is kept as recorded: the end-to-end tests check the
 flow, not extraction accuracy, which the Q1 benchmark (#17) measures.
 
 To re-record after changing the prompt or the photo preparation, run the script
