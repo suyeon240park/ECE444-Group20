@@ -4,6 +4,7 @@ import IngredientSection from '../components/IngredientSection';
 import NutrientExplanationList from '../components/NutrientExplanationList';
 import PackageNutritionTable from '../components/PackageNutritionTable';
 import Section, { Unavailable } from '../components/Section';
+import { formatDate } from '../format';
 import { NOT_AVAILABLE, NUTRIENT_LABELS, type NutrientName } from '../packageNutrition';
 import type { AnalysisResult, DataSource } from '../productResult';
 
@@ -15,28 +16,6 @@ function sourceLine(provider: DataSource, retrievedAt: string): string {
   return provider === 'open_food_facts'
     ? `Data from Open Food Facts, retrieved ${date}.`
     : `Read from your Nutrition Facts photo on ${date}.`;
-}
-
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-/** "2026-10-22T04:12:56Z" as "October 22, 2026"; the text unchanged if it is not a date. */
-export function formatDate(iso: string): string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
-  const month = match ? MONTHS[Number(match[2]) - 1] : undefined;
-  return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : iso;
 }
 
 /** A missing-data path from the API in words a shopper would use. */
@@ -64,6 +43,8 @@ type Props = {
   analysis: AnalysisResult;
   /** Go back to the scan screen. */
   onScanAnother: () => void;
+  /** Open the detail view for one checked ingredient. */
+  onOpenIngredient: (ingredientId: string) => void;
 };
 
 /**
@@ -72,7 +53,7 @@ type Props = {
  * means, and the ingredient summary. Each section stands alone, so one the server could
  * not provide says so and the rest still show. There is no overall score, grade or verdict.
  */
-export default function ResultsScreen({ analysis, onScanAnother }: Props) {
+export default function ResultsScreen({ analysis, onScanAnother, onOpenIngredient }: Props) {
   const { product } = analysis;
   const nutritionOnly = analysis.result === 'nutrition_only';
   const pending = analysis.package_nutrition?.pending_confirmation ?? [];
@@ -138,7 +119,7 @@ export default function ResultsScreen({ analysis, onScanAnother }: Props) {
       </Section>
 
       <Section title="Ingredients">
-        <IngredientSection result={analysis.ingredients} />
+        <IngredientSection result={analysis.ingredients} onOpen={onOpenIngredient} />
       </Section>
 
       <Pressable

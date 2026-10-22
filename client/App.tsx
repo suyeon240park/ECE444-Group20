@@ -5,9 +5,11 @@ import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { API_BASE_URL, fetchHealth, type HealthResponse } from './src/api';
 import { fetchAnalysis } from './src/analysisApi';
 import StatusCard from './src/components/StatusCard';
+import { findEntry } from './src/ingredientView';
 import { isMockName, MOCKS } from './src/mocks';
 import type { AnalysisResult } from './src/productResult';
 import BarcodeScreen from './src/screens/BarcodeScreen';
+import IngredientDetailScreen from './src/screens/IngredientDetailScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 
 type BackendState =
@@ -19,11 +21,13 @@ type Screen =
   | { kind: 'scan' }
   | { kind: 'loading'; barcode: string }
   | { kind: 'error'; barcode: string; message: string }
-  | { kind: 'results'; analysis: AnalysisResult };
+  | { kind: 'results'; analysis: AnalysisResult }
+  | { kind: 'ingredient'; analysis: AnalysisResult; ingredientId: string };
 
 /**
  * Development only, on the web: `?preview=complete` (or incomplete, nutrition_only, flagged,
- * sections_unavailable) opens the results page with mock data and no backend (#41).
+ * multiple_flags, no_flags, sections_unavailable) opens the results page with mock data and no
+ * backend (#41).
  */
 function previewFromUrl(): AnalysisResult | null {
   if (!__DEV__ || Platform.OS !== 'web' || typeof window === 'undefined') {
@@ -41,6 +45,10 @@ export default function App() {
   });
   // Only the latest lookup may change the screen; a slow one for an earlier scan is ignored.
   const latestLookup = useRef(0);
+  const scrollRef = useRef<ScrollView>(null);
+  // Where the results page was scrolled to when an ingredient's details were opened.
+  const scrollY = useRef(0);
+  const resultsScrollY = useRef<number | null>(null);
 
   async function openResults(barcode: string) {
     const lookup = ++latestLookup.current;
@@ -58,8 +66,29 @@ export default function App() {
 
   function scanAnother() {
     latestLookup.current += 1;
+    resultsScrollY.current = null;
     setView({ kind: 'scan' });
   }
+
+  function openIngredient(analysis: AnalysisResult, ingredientId: string) {
+    resultsScrollY.current = scrollY.current;
+    setView({ kind: 'ingredient', analysis, ingredientId });
+  }
+
+  function closeIngredient(analysis: AnalysisResult) {
+    setView({ kind: 'results', analysis });
+  }
+
+  // Details open at the top; going back returns to where the results page was.
+  useEffect(() => {
+    if (view.kind === 'ingredient') {
+      scrollRef.current?.scrollTo({ y: 0, animated: false });
+    } else if (view.kind === 'results' && resultsScrollY.current !== null) {
+      const y = resultsScrollY.current;
+      resultsScrollY.current = null;
+      requestAnimationFrame(() => scrollRef.current?.scrollTo({ y, animated: false }));
+    }
+  }, [view.kind]);
 
   useEffect(() => {
     fetchHealth()
@@ -69,9 +98,23 @@ export default function App() {
       );
   }, []);
 
+  const resultsView = view.kind === 'results' || view.kind === 'ingredient' ? view : null;
+  const ingredient =
+    view.kind === 'ingredient'
+      ? findEntry(view.analysis.ingredients, view.ingredientId)
+      : undefined;
+
   return (
-    <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
-      <View style={[styles.column, view.kind === 'results' && styles.columnWide]}>
+    <ScrollView
+      ref={scrollRef}
+      contentContainerStyle={styles.page}
+      keyboardShouldPersistTaps="handled"
+      onScroll={(event) => {
+        scrollY.current = event.nativeEvent.contentOffset.y;
+      }}
+      scrollEventThrottle={16}
+    >
+      <View style={[styles.column, resultsView && styles.columnWide]}>
         <View style={styles.header}>
           <Text style={styles.title}>What's in My Food?</Text>
           {view.kind === 'scan' ? (
@@ -103,9 +146,38 @@ export default function App() {
           />
         )}
 
-        {view.kind === 'results' && (
-          <ResultsScreen analysis={view.analysis} onScanAnother={scanAnother} />
+        {/* The results page stays mounted (hidden) while an ingredient is open, so its
+            "Show N more" state is still there on the way back. */}
+        {resultsView && (
+          <View style={view.kind === 'ingredient' ? styles.hidden : undefined}>
+            <ResultsScreen
+              analysis={resultsView.analysis}
+              onScanAnother={scanAnother}
+              onOpenIngredient={(id) => openIngredient(resultsView.analysis, id)}
+            />
+          </View>
         )}
+
+        {view.kind === 'ingredient' &&
+          (ingredient ? (
+            <IngredientDetailScreen
+              entry={ingredient}
+              onBack={() => closeIngredient(view.analysis)}
+            />
+          ) : (
+            <StatusCard
+              kind="error"
+              title="Ingredient not found"
+              message="We couldn't find the details for this ingredient."
+              actions={[
+                {
+                  label: 'Back to results',
+                  onPress: () => closeIngredient(view.analysis),
+                  primary: true,
+                },
+              ]}
+            />
+          ))}
 
         <View style={styles.status}>
           {backend.kind === 'loading' && <Text style={styles.statusText}>Checking backend…</Text>}
@@ -141,6 +213,7 @@ const styles = StyleSheet.create({
   },
   column: { width: '100%', maxWidth: 520, gap: 20 },
   columnWide: { maxWidth: 760 },
+  hidden: { display: 'none' },
   header: { gap: 4, alignItems: 'center' },
   title: { fontSize: 28, fontWeight: '700', color: '#1a1a1a' },
   subtitle: { color: '#555', textAlign: 'center' },
