@@ -78,7 +78,12 @@ export const NUTRIENT_LABELS: Record<NutrientName, string> = {
 
 export const NOT_AVAILABLE = 'Not available';
 
-/** Per-serving amounts are shown as the source states them. */
+/**
+ * Amounts as the source states them, to at most three decimal places. Some sources give
+ * long decimals (233.33333333333); three places drop that noise and keep real precision
+ * such as 0.119 g.
+ */
 export function formatAmount(amount: number, unit: string): string {
-  return unit === 'kcal' ? `${amount}` : `${amount} ${unit}`;
+  const shown = Number(amount.toFixed(3));
+  return unit === 'kcal' ? `${shown}` : `${shown} ${unit}`;
 }

@@ -1104,7 +1104,7 @@
       "last_modified_at": "2026-07-17T17:21:12Z",
       "provider": "open_food_facts",
       "retrieved_at": "2026-10-22T04:12:56.861449Z",
-      "url": "https://world.openfoodfacts.org/product/0013000006408"
+      "url": null
     }
   },
   "result": "product"
