@@ -3,8 +3,10 @@ import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import IngredientSection from '../components/IngredientSection';
 import NutrientExplanationList from '../components/NutrientExplanationList';
 import PackageNutritionTable from '../components/PackageNutritionTable';
+import PerBasisNutritionTable from '../components/PerBasisNutritionTable';
 import Section, { Unavailable } from '../components/Section';
-import { formatDate } from '../format';
+import StatusCard from '../components/StatusCard';
+import { formatDate, joinWords } from '../format';
 import { NOT_AVAILABLE, NUTRIENT_LABELS, type NutrientName } from '../packageNutrition';
 import type { AnalysisResult, DataSource } from '../productResult';
 
@@ -39,12 +41,63 @@ export function describeMissing(path: string): string {
   }
 }
 
+/** What the analysis does have, in words a shopper would use (#45). */
+export function describeShown(analysis: AnalysisResult): string[] {
+  const { product } = analysis;
+  const shown: string[] = [];
+  if (analysis.result === 'product' && product.name) {
+    shown.push('product name');
+  }
+  const values = Object.values(product.nutrition.nutrients).some((value) => value !== null);
+  if (values) {
+    const basis = product.nutrition.basis;
+    shown.push(
+      analysis.result === 'nutrition_only'
+        ? 'nutrition values read from your photo'
+        : basis === '100g'
+          ? 'nutrition values per 100 g'
+          : basis === '100ml'
+            ? 'nutrition values per 100 ml'
+            : basis === 'serving'
+              ? 'nutrition values per serving'
+              : 'nutrition values',
+    );
+  }
+  if (analysis.package_nutrition?.status === 'calculated') {
+    shown.push('whole-package amounts');
+  }
+  if (analysis.explanations && analysis.explanations.rows.length > 0) {
+    shown.push('nutrient explanations');
+  }
+  if (analysis.ingredients && analysis.ingredients.status !== 'unavailable') {
+    shown.push('ingredient check');
+  }
+  return shown;
+}
+
+/** The sections the server could not provide at all (they came back null). */
+export function describeFailedSections(analysis: AnalysisResult): string[] {
+  const failed: string[] = [];
+  if (analysis.package_nutrition === null) {
+    failed.push('nutrition');
+  }
+  if (analysis.explanations === null) {
+    failed.push('nutrient explanations');
+  }
+  if (analysis.ingredients === null) {
+    failed.push('ingredients');
+  }
+  return failed;
+}
+
 type Props = {
   analysis: AnalysisResult;
   /** Go back to the scan screen. */
   onScanAnother: () => void;
   /** Open the detail view for one checked ingredient. */
   onOpenIngredient: (ingredientId: string) => void;
+  /** Look the product up again; given only when there is a barcode to look up. */
+  onRetry?: () => void;
 };
 
 /**
@@ -53,10 +106,25 @@ type Props = {
  * means, and the ingredient summary. Each section stands alone, so one the server could
  * not provide says so and the rest still show. There is no overall score, grade or verdict.
  */
-export default function ResultsScreen({ analysis, onScanAnother, onOpenIngredient }: Props) {
+export default function ResultsScreen({
+  analysis,
+  onScanAnother,
+  onOpenIngredient,
+  onRetry,
+}: Props) {
   const { product } = analysis;
   const nutritionOnly = analysis.result === 'nutrition_only';
   const pending = analysis.package_nutrition?.pending_confirmation ?? [];
+  const failedSections = describeFailedSections(analysis);
+  const shown = describeShown(analysis);
+  const nutrition = analysis.package_nutrition;
+  // No serving size, but the database lists values per 100 g: show those, labelled, rather
+  // than a table of "Not available".
+  const basis = product.nutrition.basis;
+  const perBasis =
+    nutrition?.reason === 'no_per_serving_nutrition' && (basis === '100g' || basis === '100ml')
+      ? basis
+      : null;
 
   return (
     <View style={styles.container}>
@@ -84,27 +152,48 @@ export default function ResultsScreen({ analysis, onScanAnother, onOpenIngredien
       </Section>
 
       {analysis.missing_fields.length > 0 ? (
-        <View style={styles.notice} accessibilityLiveRegion="polite">
-          <Text style={styles.noticeTitle}>Some information is missing</Text>
-          <Text style={styles.noticeBody}>
-            Everything we have is shown below. Still missing or unconfirmed:{' '}
-            {analysis.missing_fields.map(describeMissing).join(', ')}.
-          </Text>
-          {pending.length > 0 ? (
-            <Text style={styles.noticeBody}>
-              Values read from a photo are shown, but not used in totals or explanations until you
-              confirm them.
-            </Text>
-          ) : null}
-        </View>
+        <StatusCard
+          kind="notice"
+          title="Some information is missing"
+          message={`Missing: ${analysis.missing_fields.map(describeMissing).join(', ')}.`}
+          lines={[
+            shown.length > 0
+              ? `Still shown: ${joinWords(shown)}.`
+              : 'There is nothing else to show for this product.',
+            ...(pending.length > 0
+              ? [
+                  'Values read from a photo are shown, but not used in totals or explanations until you confirm them.',
+                ]
+              : []),
+          ]}
+        />
+      ) : null}
+
+      {failedSections.length > 0 ? (
+        <StatusCard
+          kind="error"
+          title="Part of the analysis didn't load"
+          message={`We couldn't get ${joinWords(failedSections)} from the server. The rest is shown below.`}
+          actions={onRetry ? [{ label: 'Try again', onPress: onRetry, primary: true }] : []}
+        />
       ) : null}
 
       <Section
         title="Nutrition"
-        subtitle="Per serving is what the label states. Whole package is calculated from it."
+        subtitle={
+          perBasis
+            ? 'Amounts as the food database lists them.'
+            : 'Per serving is what the label states. Whole package is calculated from it.'
+        }
       >
-        {analysis.package_nutrition ? (
-          <PackageNutritionTable result={analysis.package_nutrition} />
+        {nutrition && perBasis ? (
+          <PerBasisNutritionTable
+            basis={perBasis}
+            nutrients={product.nutrition.nutrients}
+            order={nutrition.rows.map((row) => row.name)}
+          />
+        ) : nutrition ? (
+          <PackageNutritionTable result={nutrition} />
         ) : (
           <Unavailable message={NOT_AVAILABLE} />
         )}
@@ -137,16 +226,6 @@ const styles = StyleSheet.create({
   container: { alignSelf: 'stretch', gap: 16 },
   meta: { color: '#555' },
   link: { color: '#1b7f3b', textDecorationLine: 'underline' },
-  notice: {
-    gap: 4,
-    padding: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#e0b252',
-    backgroundColor: '#fff6e5',
-  },
-  noticeTitle: { fontWeight: '600', color: '#7a4b00' },
-  noticeBody: { color: '#7a4b00', lineHeight: 20 },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 12,

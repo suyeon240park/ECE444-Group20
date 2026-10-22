@@ -67,9 +67,25 @@ the ones not in the reviewed database yet. Tapping a checked ingredient opens it
 links and the last-reviewed date, plus the reason, category and each authority's position for a
 flagged one. Going back returns to the same place on the results page.
 
+## Loading, partial-data and error states
+
+Every screen shows these the same way through `src/components/StatusCard.tsx`:
+
+- **Loading:** a spinner and a line saying what is happening. A product lookup that takes more
+  than 8 seconds says it is taking longer than usual (the request stops after 20 seconds).
+- **Error:** a plain message and what to do next. A failed scan offers "Try again" (it repeats
+  how the scan was started). A failed lookup offers "Try again" and "Scan another product".
+- **Partial data:** an amber notice on the results page lists what is missing and what is still
+  shown. A section the server could not provide at all gets a "Try again" button. When the
+  database lists values per 100 g and no serving size, the Nutrition section shows those values
+  (`PerBasisNutritionTable`) instead of a table of "Not available".
+
+Not built yet: offering a Nutrition Facts photo as the next step after a not-found or an
+incomplete product. It needs the photo upload and confirmation screens from #39.
+
 To work on the page without a backend, start the web build (`npm run web`) and open
 `http://localhost:8081/?preview=<name>`, where `<name>` is `complete`, `incomplete`,
-`nutrition_only`, `flagged`, `multiple_flags`, `no_flags` or `sections_unavailable`. The data is
+`nutrition_only`, `flagged`, `multiple_flags`, `no_flags` or `sections_unavailable` (the last one shows the "part of the analysis didn't load" state). The data is
 in `src/mocks/`: four are real pipeline responses, the other three use the documented
 ingredient examples (`multiple_flags` has four flags, so "Show 1 more" appears). The preview
 works in development only.
@@ -87,8 +103,8 @@ client/
 │   ├── analysisApi.ts   fetchAnalysis(): GET /api/analysis/{barcode}
 │   ├── productResult.ts types of the product contract and the analysis response
 │   ├── ingredientView.ts labels and helpers for showing the ingredient result
-│   ├── format.ts        formatDate(): ISO dates as "October 22, 2026"
-│   ├── components/      shared pieces: Section, StatusCard, nutrition table, explanations, ingredients, source links
+│   ├── format.ts        formatDate() and joinWords() for text shown to people
+│   ├── components/      shared pieces: Section, StatusCard (loading, error, notice), nutrition tables, explanations, ingredients, source links
 │   ├── mocks/           mock analysis responses for the results page
 │   └── screens/
 │       ├── BarcodeScreen.tsx   take or upload a photo, show the barcode or the failure
