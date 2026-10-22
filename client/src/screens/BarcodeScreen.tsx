@@ -45,11 +45,16 @@ function toState(previewUri: string | null, outcome: BarcodeResult): ScreenState
   return { kind: 'failure', previewUri, code: outcome.code, message: outcome.message };
 }
 
+type Props = {
+  /** Called once with the barcode when one is read; the results page opens from it (#41). */
+  onBarcode?: (barcode: string) => void;
+};
+
 /**
  * Take or upload a photo of a product, send it to the backend, show the barcode found.
  * On the web, a webcam mode keeps scanning until it reads one.
  */
-export default function BarcodeScreen() {
+export default function BarcodeScreen({ onBarcode }: Props) {
   const [state, setState] = useState<ScreenState>({ kind: 'idle' });
   // Only the latest request may update the screen; older ones, and ones that finish
   // after the screen is gone, are ignored.
@@ -60,6 +65,13 @@ export default function BarcodeScreen() {
       latestRequest.current += 1;
     };
   }, []);
+
+  useEffect(() => {
+    if (state.kind === 'success') {
+      onBarcode?.(state.barcode);
+    }
+    // Only a new result should fire it, not a new callback from a parent re-render.
+  }, [state]);
 
   const busy = state.kind === 'loading' || state.kind === 'live';
   const liveSupported = isLiveScanSupported();
