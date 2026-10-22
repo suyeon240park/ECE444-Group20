@@ -1,4 +1,8 @@
-"""The Nutrition Facts benchmark set still meets issue #17 and requirement Q1."""
+"""The Nutrition Facts benchmark set keeps the shape issue #17 and Q1 ask for.
+
+These tests check size, categories, hard photos and the folder rules. They cannot tell
+whether a value is right: that is the teammates' check described in the README.
+"""
 
 import csv
 from collections import Counter

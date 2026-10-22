@@ -19,10 +19,26 @@ Rules:
 - Photos must not contain personal information. Crop to the package.
 - Name files `NNN_short-description.jpg`. Keep images under 2 MB, upright, without EXIF metadata.
 - Only photos taken by the team, or openly licensed photos whose source and licence are recorded in `images.csv`. Never user-uploaded photos.
-- Every value in `ground_truth.csv` is checked by two teammates against the photo at full size, as Q1 requires. The ground truth is what the extraction is checked against, so it must not share the extractor's mistakes: never copy a value from the extractor's output.
-- `tests/test_benchmark_dataset.py` fails if the set stops meeting #17 (50 scored products, 5 categories, 10 hard photos) or a photo breaks these rules.
+- A value in `ground_truth.csv` is final only once two teammates have each checked it against the photo at full size ([Q1](../../../docs/requirements.md#q1--nutrition-values-extracted-from-a-label-photo-must-match-the-printed-label), verification steps 2 and 3). The ground truth is what the extraction is checked against, so it must not share the extractor's mistakes: never copy a value from the extractor's output.
+- `tests/test_benchmark_dataset.py` fails if the set stops meeting #17 (50 scored products, 5 categories, 10 hard photos) or a photo breaks these rules. It cannot tell whether a value is right; only the teammates' check can.
 
-How photos 011 to 054 were transcribed (October 18, 2026): the packages were not available, so each table was read from its photo at full resolution, zooming in where the print was small. The values were then cross-checked two ways: against the per-serving values Open Food Facts contributors typed in by hand (241 values agreed and 49 did not; each disagreement was either re-read on the photo, which matched the transcription, or came from an Open Food Facts record for a different serving size or converted from per-100 g values), and by recomputing every printed %DV from its amount and every calorie count from fat, carbohydrate and protein. Until two teammates have checked them, as Q1 requires, treat these values as a draft.
+### Status of the values
+
+| Photos | How they were transcribed | Checked by two teammates |
+|---|---|---|
+| 001 to 010 | by hand from the package, by the team (#16) | under the rule at the time: one teammate transcribes, a second checks |
+| 011 to 054 | see below | **not yet**: the check sheet is on PR #57 |
+
+Until 011 to 054 are checked, they are a draft: an accuracy number from this set must not be reported as meeting Q1.
+
+How photos 011 to 054 were transcribed (October 18, 2026): the packages were not available, so an AI assistant made the first transcription from each photo at full resolution. It is a different model from the one the benchmark scores (`VISION_MODEL` and its fallbacks), so the two do not share the same reading of a photo. The values were then cross-checked two ways: against the per-serving values Open Food Facts contributors typed in by hand (241 values agreed and 49 did not; each disagreement was either re-read on the photo, which matched the transcription, or came from an Open Food Facts record for a different serving size or converted from per-100 g values), and by recomputing every printed %DV from its amount and every calorie count from fat, carbohydrate and protein. Q1 asks for a manual transcription, so the teammates' check replaces it: each of them reads every value on the photo, not on the sheet.
+
+Special photos:
+
+- **053** is a degraded copy of a real label, upscaled until the decimal points vanish, so a reviewer cannot tell 1.5 g from 15 g. It tests the `unreadable` path; Q1 leaves such photos out of the accuracy and counts them as unsupported input ([Q1](../../../docs/requirements.md#q1--nutrition-values-extracted-from-a-label-photo-must-match-the-printed-label), conditions).
+- **054** is the front of the same Weetabix box as 012. It tests the `not_found` path and is not scored, so the product is not counted twice.
+
+Licence: photos 011 to 054 are CC BY-SA 3.0. We comply by crediting each photo in `images.csv` (product page and original image URL) and keeping this licence on them; crops and the degraded 053 are shared under the same licence.
 
 ## `ground_truth.csv`
 
@@ -41,9 +57,16 @@ Nutrient names: `calories`, `total_fat`, `saturated_fat`, `trans_fat`, `carbohyd
 |---|---|
 | `image` | file name in `images/` |
 | `category` | `beverages`, `cereal_bread`, `condiments`, `dairy`, `deli_meat`, `frozen_packaged_meals` or `snacks` (Q1 needs at least five) |
-| `difficulty` | `curved` (the table is on a curved or crinkled surface), `glare`, `blur` or `none` (Q1 needs at least 10 `curved` or `glare`) |
+| `difficulty` | `curved`, `glare`, `blur` or `none` (Q1 needs at least 10 `curved` or `glare`); see the definitions below |
 | `source`, `barcode`, `product`, `product_url`, `image_url`, `license` | where the photo comes from; empty for the team's own photos |
 | `notes` | anything a reviewer should know, such as which column was transcribed |
+
+Difficulty: one label per photo, for the effect that most gets in the way of reading it.
+
+- `glare`: a reflection hides or washes out part of the table's text.
+- `curved`: the table is printed on a bent or crinkled surface (a tub, can, bottle or bag), so in the photo its rows or columns visibly curve or its edges recede.
+- `blur`: the text is out of focus or too low-resolution to read easily.
+- `none`: a flat, sharp, evenly lit table.
 
 Labelling conventions:
 
