@@ -305,6 +305,67 @@ paths:
               schema:
                 $ref: "#/components/schemas/PhotoError"
 
+  /api/analysis/confirm:
+    post:
+      operationId: confirmPhotoValues
+      summary: Re-analyze a photo result after the user checked its values
+      description: |
+        The client shows the values from `POST /api/analysis/label-photo`, the user
+        confirms or corrects them (#39, Q1), and the client sends the result back with
+        each checked label-photo value's `certainty` set to `user_confirmed`. Values
+        left `uncertain` are still not scaled or explained.
+
+        Only label-photo values are read from the request. A `product` result is
+        looked up again by its barcode, and every database value comes from that
+        lookup, so a client cannot change or confirm database data. A photo serving
+        replaces the database's serving and nutrition; without one, photo nutrients
+        only fill the database's gaps. A `nutrition_only` result never claims a
+        product, whatever the request says. See analysis.md.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmationRequest"
+      responses:
+        "200":
+          description: The result, re-analyzed with the confirmed values.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: |
+            `invalid_confirmation` (not JSON, unknown `result`, a `serving`,
+            `package`, `nutrition` or `nutrients` that is not an object, a photo value
+            with another certainty, a number that is a string, a boolean, `NaN` or
+            infinite, a value the model rejects, or a photo value replacing a database
+            value) or `invalid_barcode`.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error"
+                  - $ref: "#/components/schemas/ConfirmationError"
+        "404":
+          description: A `product` result's barcode is no longer in the database.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: The database lookup failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "504":
+          description: The database lookup timed out.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   schemas:
     IngredientStatus:
@@ -1092,6 +1153,40 @@ components:
             message:
               type: string
               description: For logs and developers. The client shows its own wording.
+
+    ConfirmationRequest:
+      description: |
+        The `result` and `product` of the photo `AnalysisResult` the client received,
+        with checked label-photo values marked `user_confirmed`. Only values with
+        `source: nutrition_label_photo` are read; each needs `certainty` `uncertain`
+        or `user_confirmed`. A `product` result needs its `barcode`. (The server
+        ignores any other top-level keys, such as `package_nutrition`.)
+      type: object
+      additionalProperties: false
+      required: [result, product]
+      properties:
+        result:
+          type: string
+          enum: [product, nutrition_only]
+        product:
+          $ref: "#/components/schemas/Product"
+
+    ConfirmationError:
+      description: Error body of `/api/analysis/confirm` for a request it refuses.
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [invalid_confirmation]
+            message:
+              type: string
 
     PhotoError:
       description: Error body of `/api/nutrition-label`. Same shape as `Error`, with its own codes.
