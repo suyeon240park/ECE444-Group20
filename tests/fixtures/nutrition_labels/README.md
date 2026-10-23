@@ -35,7 +35,7 @@ How photos 011 to 054 were transcribed (October 18, 2026): the packages were not
 
 Special photos:
 
-- **053** is a degraded copy of a real label, upscaled until the decimal points vanish, so a reviewer cannot tell 1.5 g from 15 g. It tests the `unreadable` path; Q1 leaves such photos out of the accuracy and counts them as unsupported input ([Q1](../../../docs/requirements.md#q1--nutrition-values-extracted-from-a-label-photo-must-match-the-printed-label), conditions).
+- **053** is a degraded copy of a real label, shrunk to 1/16 of its size, scaled back up and blurred, so a reviewer can make out the table's layout but not one of its numbers. (An earlier, lighter version only hid the decimal points, and the values could still be worked out from each other.) It tests the `unreadable` path; Q1 leaves such photos out of the accuracy and counts them as unsupported input ([Q1](../../../docs/requirements.md#q1--nutrition-values-extracted-from-a-label-photo-must-match-the-printed-label), conditions).
 - **054** is the front of the same Weetabix box as 012. It tests the `not_found` path and is not scored, so the product is not counted twice.
 
 Licence: photos 011 to 054 are CC BY-SA 3.0. We comply by crediting each photo in `images.csv` (product page and original image URL) and keeping this licence on them; crops and the degraded 053 are shared under the same licence.
