@@ -29,7 +29,7 @@ from dotenv import load_dotenv
 from app.services.label_extraction import LabelExtractionError, VisionConfig, extract_label
 from app.services.label_reading import (
     DEFAULT_FALLBACK_MODELS,
-    _give_up,
+    give_up_on_rate_limit,
     parse_models,
     prepare_photo,
 )
@@ -47,7 +47,11 @@ def record(photo: Path, config: VisionConfig, fallbacks: tuple[str, ...]) -> dic
     for model in (config.model, *fallbacks):
         try:
             extract_label(
-                image, "image/jpeg", replace(config, model=model), post=post, sleep=_give_up
+                image,
+                "image/jpeg",
+                replace(config, model=model),
+                post=post,
+                sleep=give_up_on_rate_limit,
             )
         except LabelExtractionError as error:
             print(f"{model}: {error}", file=sys.stderr)

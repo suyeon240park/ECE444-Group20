@@ -39,6 +39,7 @@ backend/
 │   └── services/        logic the routes call (barcode.py: image validation and detection)
 ├── tests/               pytest tests, one file per route or model module
 ├── wsgi.py              entry point for `flask run` and gunicorn
+├── gunicorn.conf.py     gunicorn settings for staging: port, threads, timeout (#22)
 ├── requirements.txt     runtime dependencies
 ├── requirements-dev.txt runtime + test + lint dependencies
 ├── pyproject.toml       ruff and pytest configuration

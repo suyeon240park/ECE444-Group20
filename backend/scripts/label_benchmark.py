@@ -52,6 +52,12 @@ COUNTED = ("correct", "wrong", "missing")
 # Written in ground_truth.csv for a field the label does not print.
 NOT_PRINTED = "-"
 
+# The "status" values a photo may have: no Nutrition Facts table, or one a human
+# reviewer cannot read. Q1 leaves unreadable photos out of the accuracy and tracks
+# them separately as unsupported input.
+NOT_FOUND = "not_found"
+UNREADABLE = "unreadable"
+
 
 @dataclass(frozen=True)
 class TruthRow:
@@ -79,7 +85,7 @@ class Score:
     field: str
     expected: str
     actual: str
-    outcome: str  # correct | wrong | missing | extra | absent
+    outcome: str  # correct | wrong | missing | extra | absent | unsupported
 
 
 def load_truth(path: Path) -> dict[str, list[TruthRow]]:
@@ -100,6 +106,10 @@ def load_truth(path: Path) -> dict[str, list[TruthRow]]:
                 raise ValueError(
                     f"{path.name} line {line}: {field} has no expected value "
                     f"(use {NOT_PRINTED} if the label does not print it)"
+                )
+            if field == "status" and expected not in (NOT_FOUND, UNREADABLE):
+                raise ValueError(
+                    f"{path.name} line {line}: status must be {NOT_FOUND} or {UNREADABLE}"
                 )
             if expected == NOT_PRINTED:
                 expected = ""
@@ -136,11 +146,15 @@ def _matches(expected: str, unit: str, actual: Any, actual_unit: str | None) -> 
 def score_image(image: str, rows: list[TruthRow], record: Record | None) -> list[Score]:
     result = record.result if record else None
     status_row = next((r for r in rows if r.field == "status"), None)
+    actual_status = result.get("status", "") if result else ""
 
-    if status_row and status_row.expected == "not_found":
-        actual = result.get("status", "") if result else ""
-        outcome = "correct" if actual == "not_found" else ("wrong" if actual else "missing")
-        return [Score(image, "status", "not_found", actual, outcome)]
+    if status_row and status_row.expected == UNREADABLE:
+        return [Score(image, "status", UNREADABLE, actual_status, "unsupported")]
+    if status_row and status_row.expected == NOT_FOUND:
+        outcome = (
+            "correct" if actual_status == NOT_FOUND else ("wrong" if actual_status else "missing")
+        )
+        return [Score(image, "status", NOT_FOUND, actual_status, outcome)]
 
     scores = []
     for row in rows:
@@ -193,6 +207,8 @@ def render_report(truth: dict[str, list[TruthRow]], records: dict[str, Record]) 
         all_scores += scores
         counts = {o: sum(s.outcome == o for s in scores) for o in (*COUNTED, "extra")}
         notes = []
+        if any(s.outcome == "unsupported" for s in scores):
+            notes.append("unreadable to a reviewer: not scored")
         if image not in truth:
             notes.append("no ground truth")
         if record is None:
@@ -221,6 +237,9 @@ def render_report(truth: dict[str, list[TruthRow]], records: dict[str, Record]) 
         f"**Aggregate field accuracy: {_pct(correct, total)} ({correct}/{total})**: "
         f"correct {counts['correct']}, wrong {counts['wrong']}, missing {counts['missing']}. "
         f"Extra (a value returned for a field not printed on the label): {counts['extra']}.",
+        "",
+        "Unsupported input (photos a reviewer cannot read, left out of the accuracy): "
+        f"{sum(s.outcome == 'unsupported' for s in all_scores)}",
         "",
     ]
     if ok:
