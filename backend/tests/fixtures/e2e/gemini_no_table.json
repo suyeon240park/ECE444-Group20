@@ -7,7 +7,7 @@
           "parts": [
             {
               "text": "{\"table_found\": false}",
-              "thoughtSignature": "EqUDCqIDAWkUfROBvwUx0wLpGrj1QrZaDFTcrIo8il0d+FgBAWDNvSzm9KvYOm3gaCEcliRhs6wHEaCBYPa/x9UU+6IMigslfHHdxg+EiYuaaTGW3/zuRxFbcmcmQcAHwxK/WWIXAd6LmP/GPSFDpFl61GZ6oug0S5c8isZjTqpypTf2KwCrfLkkXK2hQOAEmYuzjldRQZBmwZDLIeqrLCICIUag7+HA0QpaKUfUOTkRLWSAOar2CQeLBjl1rM4j28M5gB6MaL8u/i+zW28mm+KMDql9OExTqztUpwMuZ/X5MCQhEcATmbE2dFQDtkbA76wjLQJ30S3marknCfuZ0oWYUpKnGycJFyIxDdGk144IF3C6PluxoXsNMDdSm0BJk51o+mwqqTOK4MHv5hI80PMnNKUwS+kGaFNPr8pbwyRhrYhV5D3uocDpVcaxqlah+oK0nYR8t6PgjzQoflgud2VL1T8w8kIx+kqgAqZWa9Kf0Hbpl//UFPG1QJ8okddiMinBTGDoqFUcu5YspjxCDQ3/FXhOK3YkYDouiUirJSTZZWGJPIXk9Q=="
+              "thoughtSignature": "EokDCoYDAWkUfRNofuRDH6zn0DtjjD091qmg9AHyMhdxl5bki1SqjQOgiZ7Gw+Ozjw83P/HooBRC4dlvj6yCH4PoqSlDjYEp3zKlXHp0T9EZdSboitBAL4FKMuqwNg7aTfSpiXf/jEhux0uTKZ3hmGYnTWkJiq/RuoAvBCBbPgEq6bVFQoyJc8R8hQ8b3lya3AzhraH7aiz+c6TAvddWKgP83Lm7taj/zjnrsKA2AkHbtOnqIfTiI4zvehFp1HRyh8bGO5JSUUVP3GwLiARApRejr2NyaAbX514V2WtHX9H70IPUhpSc5EFRM2JnQiSyfdFHQJlVYsL7u3y5ZRbmZZPA8h8KHvPcjepaKmt1aVKHoGhtS11Ay2tkNxUbINV1y+u6YixeERSNjIZ3LwZBEOdl/spQIh4h09qg6CWQCE5gNOpfmnZEfyoUbILxhS47AKX/MwuHTCEXXS0pxhQBSROs4cZqyt96cB/o+GSnv2An4DnN4Kqki3p7+BXAUmDeedlkG5oExW4yMDDS"
             }
           ],
           "role": "model"
@@ -17,23 +17,23 @@
       }
     ],
     "usageMetadata": {
-      "promptTokenCount": 1542,
+      "promptTokenCount": 1517,
       "candidatesTokenCount": 7,
-      "totalTokenCount": 1622,
+      "totalTokenCount": 1589,
       "promptTokensDetails": [
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1064
+        },
         {
           "modality": "TEXT",
           "tokenCount": 453
-        },
-        {
-          "modality": "IMAGE",
-          "tokenCount": 1089
         }
       ],
-      "thoughtsTokenCount": 73,
+      "thoughtsTokenCount": 65,
       "serviceTier": "standard"
     },
     "modelVersion": "gemini-3.6-flash",
-    "responseId": "zWDSavCON8jmytMPtJuq8Q4"
+    "responseId": "9X7VauvjM43ZytMPoYDD8Ag"
   }
 }
