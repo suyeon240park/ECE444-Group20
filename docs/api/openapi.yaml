@@ -336,9 +336,11 @@ paths:
                 $ref: "#/components/schemas/AnalysisResult"
         "400":
           description: |
-            `invalid_confirmation` (not JSON, unknown `result`, a photo value with
-            another certainty, a value the model rejects, or a photo value replacing a
-            database value) or `invalid_barcode`.
+            `invalid_confirmation` (not JSON, unknown `result`, a `serving`,
+            `package`, `nutrition` or `nutrients` that is not an object, a photo value
+            with another certainty, a number that is a string, a boolean, `NaN` or
+            infinite, a value the model rejects, or a photo value replacing a database
+            value) or `invalid_barcode`.
           content:
             application/json:
               schema:

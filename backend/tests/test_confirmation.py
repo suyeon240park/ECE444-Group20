@@ -7,6 +7,9 @@ model and database), marks values the way the client does, and sends it back.
 from __future__ import annotations
 
 import copy
+import json
+import math
+from dataclasses import replace
 
 import pytest
 from jsonschema import Draft202012Validator
@@ -39,6 +42,7 @@ from tests.test_analysis import (
     database_product,
     explanation_row,
     make_client,
+    nutrients,
     ok_body,
     post_photo,
 )
@@ -234,6 +238,94 @@ def test_invalid_values_are_rejected(read_body, change):
     assert_error(confirm(make_client(), read_body), 400, "invalid_confirmation")
 
 
+def confirm_text(client, body):
+    """Send ``body`` as JSON text, which may hold ``NaN`` or ``Infinity`` as Flask accepts them."""
+    return client.post(
+        "/api/analysis/confirm", data=json.dumps(body), content_type="application/json"
+    )
+
+
+def sodium(body):
+    return body["product"]["nutrition"]["nutrients"]["sodium"]
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda b: sodium(b).update(amount=math.nan),
+        lambda b: sodium(b).update(amount=math.inf),
+        lambda b: sodium(b).update(amount=-math.inf),
+        lambda b: sodium(b).update(daily_value_percent=math.nan),
+        lambda b: b["product"]["serving"].update(quantity=math.inf),
+        lambda b: b["product"]["package"].update(servings_per_package=math.nan),
+    ],
+)
+def test_non_finite_numbers_are_rejected(read_body, change):
+    change(read_body)
+    response = confirm_text(make_client(), read_body)
+    assert_error(response, 400, "invalid_confirmation")
+    assert "must be a finite number" in response.get_json()["error"]["message"]
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        (
+            lambda b: sodium(b).update(amount="12"),
+            "product.nutrition.nutrients.sodium.amount must be a number, got '12'",
+        ),
+        (
+            lambda b: sodium(b).update(amount=True),
+            "product.nutrition.nutrients.sodium.amount must be a number, got True",
+        ),
+        (
+            lambda b: sodium(b).update(amount=None),
+            "product.nutrition.nutrients.sodium.amount must be a number, got None",
+        ),
+        (
+            lambda b: sodium(b).update(daily_value_percent=False),
+            "product.nutrition.nutrients.sodium.daily_value_percent must be a number, got False",
+        ),
+        (
+            lambda b: b["product"]["serving"].update(quantity="30"),
+            "product.serving.quantity must be a number, got '30'",
+        ),
+        (
+            lambda b: b["product"]["package"].update(servings_per_package=True),
+            "product.package.servings_per_package must be a number, got True",
+        ),
+    ],
+)
+def test_wrong_types_get_a_readable_message(read_body, change, message):
+    change(read_body)
+    response = confirm(make_client(), read_body)
+    assert_error(response, 400, "invalid_confirmation")
+    assert response.get_json()["error"]["message"] == message
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        (
+            lambda b: b["product"]["nutrition"].update(nutrients=None),
+            "product.nutrition.nutrients must be an object",
+        ),
+        (
+            lambda b: b["product"]["nutrition"].update(nutrients=[]),
+            "product.nutrition.nutrients must be an object",
+        ),
+        (lambda b: b["product"].update(nutrition=None), "product.nutrition must be an object"),
+        (lambda b: b["product"].update(serving="x"), "product.serving must be an object"),
+        (lambda b: b["product"].update(package=7), "product.package must be an object"),
+    ],
+)
+def test_malformed_sections_are_rejected(read_body, change, message):
+    change(read_body)
+    response = confirm(make_client(), read_body)
+    assert_error(response, 400, "invalid_confirmation")
+    assert response.get_json()["error"]["message"] == message
+
+
 def test_body_must_be_json():
     response = make_client().post("/api/analysis/confirm", data="hello")
     assert_error(response, 400, "invalid_confirmation")
@@ -298,6 +390,34 @@ def test_photo_package_does_not_replace_a_database_servings_per_package():
         None, Package(servings_per_package=3, source=PHOTO, certainty=Certainty.USER_CONFIRMED), {}
     )
     assert rebuild_product(database, photo).product.package.servings_per_package == 10
+
+
+def test_photo_nutrient_fills_a_gap_in_the_database_nutrition():
+    database = database_product()
+    without_sodium = {k: v for k, v in nutrients().items() if k != "sodium"}
+    database = ProductResult(
+        ResultType.PRODUCT,
+        replace(database.product, nutrition=Nutrition(NutritionBasis.SERVING, without_sodium)),
+    )
+    sodium_value = NutrientValue(140, "mg", PHOTO, Certainty.USER_CONFIRMED)
+
+    merged = rebuild_product(database, PhotoValues(None, None, {"sodium": sodium_value}))
+
+    assert merged.product.nutrition.nutrients["sodium"] == sodium_value
+    assert merged.product.nutrition.nutrients["total_fat"].source is Source.OPEN_FOOD_FACTS
+
+
+def test_photo_serving_without_photo_nutrients_leaves_no_nutrition():
+    serving = Serving("6 crackers (30 g)", 30, "g", PHOTO, Certainty.USER_CONFIRMED)
+
+    merged = rebuild_product(database_product(), PhotoValues(serving, None, {}))
+
+    assert merged.product.serving == serving
+    assert merged.product.nutrition == Nutrition()
+
+
+def test_parse_accepts_a_product_without_sections():
+    assert parse_photo_values({}) == PhotoValues(None, None, {})
 
 
 def test_parse_reads_only_photo_values():

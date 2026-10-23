@@ -14,6 +14,7 @@ nutrition as a whole; without one, photo values only fill the database's gaps.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import Any
@@ -62,6 +63,29 @@ def _object(value: Any, path: str) -> dict[str, Any]:
     return value
 
 
+def _optional_object(parent: dict[str, Any], key: str, path: str) -> dict[str, Any]:
+    """``parent[key]`` as an object. Absent means empty; null or any other type is refused."""
+    if key not in parent:
+        return {}
+    return _object(parent[key], path)
+
+
+def _number(raw: dict[str, Any], key: str, path: str, required: bool = False) -> float | None:
+    """A finite number from the request.
+
+    Flask's parser accepts ``NaN`` and ``Infinity``, which would make the response
+    invalid JSON, and Python counts ``true`` as 1, so both are refused here.
+    """
+    value = raw.get(key)
+    if value is None and not required:
+        return None
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ConfirmationError(f"{path}.{key} must be a number, got {value!r}")
+    if not math.isfinite(value):
+        raise ConfirmationError(f"{path}.{key} must be a finite number, got {value!r}")
+    return value
+
+
 def _certainty(raw: dict[str, Any], path: str) -> Certainty:
     certainty = raw.get("certainty")
     if certainty not in CLIENT_CERTAINTIES:
@@ -88,14 +112,15 @@ def parse_photo_values(product: Any) -> PhotoValues:
     product = _object(product, "product")
 
     serving = None
-    raw_serving = product.get("serving")
+    raw_serving = _optional_object(product, "serving", "product.serving")
     if _is_photo(raw_serving):
         certainty = _certainty(raw_serving, "product.serving")
+        quantity = _number(raw_serving, "quantity", "product.serving")
         serving = _build(
             "product.serving",
             lambda: Serving(
                 raw_serving.get("size_text"),
-                raw_serving.get("quantity"),
+                quantity,
                 raw_serving.get("unit"),
                 PHOTO,
                 certainty,
@@ -103,21 +128,18 @@ def parse_photo_values(product: Any) -> PhotoValues:
         )
 
     package = None
-    raw_package = product.get("package")
+    raw_package = _optional_object(product, "package", "product.package")
     if _is_photo(raw_package):
         certainty = _certainty(raw_package, "product.package")
+        servings = _number(raw_package, "servings_per_package", "product.package")
         # The label prints servings per package only (#42); net quantity is never read.
         package = _build(
             "product.package",
-            lambda: Package(
-                servings_per_package=raw_package.get("servings_per_package"),
-                source=PHOTO,
-                certainty=certainty,
-            ),
+            lambda: Package(servings_per_package=servings, source=PHOTO, certainty=certainty),
         )
 
-    nutrition = _object(product.get("nutrition") or {}, "product.nutrition")
-    raw_nutrients = _object(nutrition.get("nutrients") or {}, "product.nutrition.nutrients")
+    nutrition = _optional_object(product, "nutrition", "product.nutrition")
+    raw_nutrients = _optional_object(nutrition, "nutrients", "product.nutrition.nutrients")
     nutrients: dict[str, NutrientValue] = {}
     for name, raw in raw_nutrients.items():
         if not _is_photo(raw):
@@ -126,14 +148,12 @@ def parse_photo_values(product: Any) -> PhotoValues:
         if name not in ALL_NUTRIENTS:
             raise ConfirmationError(f"{path}: unknown nutrient")
         certainty = _certainty(raw, path)
+        amount = _number(raw, "amount", path, required=True)
+        daily_value = _number(raw, "daily_value_percent", path)
         nutrients[name] = _build(
             path,
-            lambda raw=raw, certainty=certainty: NutrientValue(
-                raw.get("amount"),
-                raw.get("unit"),
-                PHOTO,
-                certainty,
-                raw.get("daily_value_percent"),
+            lambda raw=raw, certainty=certainty, amount=amount, daily_value=daily_value: (
+                NutrientValue(amount, raw.get("unit"), PHOTO, certainty, daily_value)
             ),
         )
     return PhotoValues(serving, package, nutrients)

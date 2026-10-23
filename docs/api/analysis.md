@@ -78,3 +78,7 @@ The client's confirm screen (#39) sends the photo result back to
   that would replace a database value is refused with 400 `invalid_confirmation`.
 - A photo value may only be `uncertain` or `user_confirmed`. A user correction is
   sent as the edited amount with `user_confirmed`.
+- Every amount, %DV, serving quantity and servings per package must be a finite
+  number. Strings, booleans, `NaN` and `Infinity` are refused with 400
+  `invalid_confirmation`, as is a `serving`, `package`, `nutrition` or `nutrients`
+  that is not an object.
