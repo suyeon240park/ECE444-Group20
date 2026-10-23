@@ -2,11 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { API_BASE_URL, fetchHealth, type HealthResponse } from './src/api';
+import {
+  API_BASE_URL,
+  CLIENT_COMMIT,
+  fetchHealth,
+  shortCommit,
+  type HealthResponse,
+} from './src/api';
 import { fetchAnalysis } from './src/analysisApi';
 import StatusCard from './src/components/StatusCard';
 import { isMockName, MOCKS } from './src/mocks';
 import type { AnalysisResult } from './src/productResult';
+import BarcodeScreen from './src/screens/BarcodeScreen';
+import ResultsScreen from './src/screens/ResultsScreen';
 import BarcodeScreen from './src/screens/BarcodeScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 
@@ -112,7 +120,9 @@ export default function App() {
           {backend.kind === 'ok' && (
             <View style={styles.statusRow}>
               <View style={[styles.dot, styles.dotOk]} />
-              <Text style={styles.statusText}>Backend connected</Text>
+              <Text style={styles.statusText}>
+                Backend connected · {shortCommit(backend.health.commit)}
+              </Text>
             </View>
           )}
           {backend.kind === 'error' && (
@@ -122,6 +132,7 @@ export default function App() {
             </View>
           )}
           <Text style={styles.statusUrl}>{API_BASE_URL}</Text>
+          <Text style={styles.statusUrl}>App build {shortCommit(CLIENT_COMMIT)}</Text>
         </View>
       </View>
 

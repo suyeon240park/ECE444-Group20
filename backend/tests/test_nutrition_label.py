@@ -30,6 +30,7 @@ from app.services.label_reading import (
     LabelReader,
     LabelReadingError,
     extract_without_waiting,
+    give_up_on_rate_limit,
     parse_models,
     prepare_photo,
     to_contract,
@@ -358,6 +359,11 @@ def test_rate_limit_fails_fast_instead_of_waiting():
 
     assert_error(response, 502, "upstream_unavailable")
     assert len(responses.calls) == 1
+
+
+def test_give_up_on_rate_limit_raises_instead_of_sleeping():
+    with pytest.raises(LabelExtractionError):
+        give_up_on_rate_limit(30)
 
 
 @responses.activate

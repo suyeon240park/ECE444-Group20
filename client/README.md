@@ -33,6 +33,8 @@ Each time:
 4. Start the backend so it accepts connections from the network: `flask --app wsgi run --debug --host 0.0.0.0`. Allow it through the firewall if asked.
 5. In `client/`, run `npm start` and scan the QR code with the phone camera (iOS) or from inside Expo Go (Android).
 
+Only changing the app, not the backend? Use the staging backend (#22) instead of running your own: set `EXPO_PUBLIC_API_BASE_URL=https://whats-in-my-food-api.onrender.com` in `client/.env`, skip step 4, and restart with `npx expo start -c` so the new value is picked up. The phone still loads the app from your computer, so step 1 still applies. This works in Expo Go only: in a browser on `localhost`, the staging backend refuses the request because it only accepts the staging app's origin.
+
 If the status line on the phone says "Unreachable", open `http://<your IP>:5000/api/health` in the phone's browser. If that fails too, the problem is the network or the firewall, not the app.
 
 Expo Go cannot produce an installable APK or App Store build. Those come from EAS Build in the release sprint.

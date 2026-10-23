@@ -65,7 +65,8 @@ def parse_models(value: str, primary: str) -> tuple[str, ...]:
     return tuple(models)
 
 
-def _give_up(_seconds: float) -> None:
+def give_up_on_rate_limit(_seconds: float) -> None:
+    """A ``sleep`` for ``extract_label`` that fails instead of waiting out a rate limit."""
     raise LabelExtractionError("the vision model is rate limited")
 
 
@@ -75,7 +76,7 @@ def extract_without_waiting(image: bytes, mime_type: str, config: VisionConfig) 
     The benchmark CLI waits out a free-tier rate limit; a user waiting on a request
     should get a 502 they can retry instead.
     """
-    return extract_label(image, mime_type, config, sleep=_give_up)
+    return extract_label(image, mime_type, config, sleep=give_up_on_rate_limit)
 
 
 class LabelReadingError(Exception):
