@@ -15,8 +15,6 @@ import { isMockName, MOCKS } from './src/mocks';
 import type { AnalysisResult } from './src/productResult';
 import BarcodeScreen from './src/screens/BarcodeScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
-import BarcodeScreen from './src/screens/BarcodeScreen';
-import ResultsScreen from './src/screens/ResultsScreen';
 
 type BackendState =
   | { kind: 'loading' }
