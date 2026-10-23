@@ -2,7 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { API_BASE_URL, fetchHealth, type HealthResponse } from './src/api';
+import {
+  API_BASE_URL,
+  CLIENT_COMMIT,
+  fetchHealth,
+  shortCommit,
+  type HealthResponse,
+} from './src/api';
 import BarcodeScreen from './src/screens/BarcodeScreen';
 
 type BackendState =
@@ -38,7 +44,9 @@ export default function App() {
           {backend.kind === 'ok' && (
             <View style={styles.statusRow}>
               <View style={[styles.dot, styles.dotOk]} />
-              <Text style={styles.statusText}>Backend connected</Text>
+              <Text style={styles.statusText}>
+                Backend connected · {shortCommit(backend.health.commit)}
+              </Text>
             </View>
           )}
           {backend.kind === 'error' && (
@@ -48,6 +56,7 @@ export default function App() {
             </View>
           )}
           <Text style={styles.statusUrl}>{API_BASE_URL}</Text>
+          <Text style={styles.statusUrl}>App build {shortCommit(CLIENT_COMMIT)}</Text>
         </View>
       </View>
 
