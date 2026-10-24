@@ -5,6 +5,7 @@ import NutrientExplanationList from '../components/NutrientExplanationList';
 import PackageNutritionTable from '../components/PackageNutritionTable';
 import Section, { Unavailable } from '../components/Section';
 import { formatDate } from '../format';
+
 import { NOT_AVAILABLE, NUTRIENT_LABELS, type NutrientName } from '../packageNutrition';
 import type { AnalysisResult, DataSource } from '../productResult';
 
@@ -17,6 +18,7 @@ function sourceLine(provider: DataSource, retrievedAt: string): string {
     ? `Data from Open Food Facts, retrieved ${date}.`
     : `Read from your Nutrition Facts photo on ${date}.`;
 }
+
 
 /** A missing-data path from the API in words a shopper would use. */
 export function describeMissing(path: string): string {
@@ -45,6 +47,7 @@ type Props = {
   onScanAnother: () => void;
   /** Open the detail view for one checked ingredient. */
   onOpenIngredient: (ingredientId: string) => void;
+
 };
 
 /**
@@ -54,6 +57,7 @@ type Props = {
  * not provide says so and the rest still show. There is no overall score, grade or verdict.
  */
 export default function ResultsScreen({ analysis, onScanAnother, onOpenIngredient }: Props) {
+
   const { product } = analysis;
   const nutritionOnly = analysis.result === 'nutrition_only';
   const pending = analysis.package_nutrition?.pending_confirmation ?? [];
@@ -120,6 +124,7 @@ export default function ResultsScreen({ analysis, onScanAnother, onOpenIngredien
 
       <Section title="Ingredients">
         <IngredientSection result={analysis.ingredients} onOpen={onOpenIngredient} />
+
       </Section>
 
       <Pressable
