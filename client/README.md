@@ -62,11 +62,21 @@ After a barcode is read, the app calls `GET /api/analysis/{barcode}` and opens t
 whole package, nutrient explanations, and the ingredient summary. A section the server could
 not provide shows its "not available" message and the rest still show.
 
+
+The ingredient summary shows how many ingredients were checked, up to three flagged ones with
+their reason (the rest behind "Show N more"), the other ingredients that were checked, and
+the ones not in the reviewed database yet. Tapping a checked ingredient opens its detail screen
+(`src/screens/IngredientDetailScreen.tsx`): what it is, why it is used, an explanation, source
+links and the last-reviewed date, plus the reason, category and each authority's position for a
+flagged one. Going back returns to the same place on the results page.
+
 To work on the page without a backend, start the web build (`npm run web`) and open
 `http://localhost:8081/?preview=<name>`, where `<name>` is `complete`, `incomplete`,
-`nutrition_only`, `flagged` or `sections_unavailable`. The data is in `src/mocks/`: four are
-real pipeline responses, `flagged` uses the documented ingredient example. The preview works in
-development only.
+`nutrition_only`, `flagged`, `multiple_flags`, `no_flags` or `sections_unavailable`. The data is
+in `src/mocks/`: four are real pipeline responses, the other three use the documented
+ingredient examples (`multiple_flags` has four flags, so "Show 1 more" appears). The preview
+works in development only.
+
 
 ## Layout
 
@@ -80,11 +90,16 @@ client/
 │   ├── barcodeRules.ts  barcode error codes, plain-language messages, pre-upload checks
 │   ├── analysisApi.ts   fetchAnalysis(): GET /api/analysis/{barcode}
 │   ├── productResult.ts types of the product contract and the analysis response
-│   ├── components/      shared pieces: Section, StatusCard, nutrition table, explanations, ingredients
+
+│   ├── ingredientView.ts labels and helpers for showing the ingredient result
+│   ├── format.ts        formatDate(): ISO dates as "October 22, 2026"
+│   ├── components/      shared pieces: Section, StatusCard, nutrition table, explanations, ingredients, source links
 │   ├── mocks/           mock analysis responses for the results page
 │   └── screens/
 │       ├── BarcodeScreen.tsx   take or upload a photo, show the barcode or the failure
-│       └── ResultsScreen.tsx   the whole analysis for one product
+│       ├── ResultsScreen.tsx   the whole analysis for one product
+│       └── IngredientDetailScreen.tsx   one ingredient in detail
+
 ├── assets/          icons and splash images
 ├── app.json         Expo configuration (name, icons, web bundler, extra.apiBaseUrl)
 └── tsconfig.json    strict TypeScript, extends expo/tsconfig.base
