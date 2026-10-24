@@ -19,3 +19,13 @@ export function formatDate(iso: string): string {
   const month = match ? MONTHS[Number(match[2]) - 1] : undefined;
   return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : iso;
 }
+
+
+/** ["a", "b", "c"] as "a, b and c". */
+export function joinWords(words: string[]): string {
+  if (words.length < 2) {
+    return words.join('');
+  }
+  return `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
+}
+

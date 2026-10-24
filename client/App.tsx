@@ -146,7 +146,13 @@ export default function App() {
 
         {view.kind === 'loading' && (
           <View style={styles.card}>
-            <StatusCard kind="loading" message="Looking up the product…" />
+
+            <StatusCard
+              kind="loading"
+              message={`Looking up barcode ${view.barcode}…`}
+              slowMessage="Still looking. The food database is slow to answer; this can take up to 20 seconds."
+            />
+
           </View>
         )}
 
@@ -171,6 +177,13 @@ export default function App() {
               analysis={resultsView.analysis}
               onScanAnother={scanAnother}
               onOpenIngredient={(id) => openIngredient(resultsView.analysis, id)}
+
+              onRetry={
+                resultsView.analysis.product.barcode
+                  ? () => void openResults(resultsView.analysis.product.barcode as string)
+                  : undefined
+              }
+
             />
           </View>
         )}
