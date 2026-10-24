@@ -11,11 +11,13 @@ import {
 } from './src/api';
 import { fetchAnalysis } from './src/analysisApi';
 import StatusCard from './src/components/StatusCard';
+
 import { findEntry } from './src/ingredientView';
 import { isMockName, MOCKS } from './src/mocks';
 import type { AnalysisResult } from './src/productResult';
 import BarcodeScreen from './src/screens/BarcodeScreen';
 import IngredientDetailScreen from './src/screens/IngredientDetailScreen';
+
 import ResultsScreen from './src/screens/ResultsScreen';
 
 type BackendState =
@@ -27,6 +29,7 @@ type Screen =
   | { kind: 'scan' }
   | { kind: 'loading'; barcode: string }
   | { kind: 'error'; barcode: string; message: string }
+
   | { kind: 'results'; analysis: AnalysisResult }
   | { kind: 'ingredient'; analysis: AnalysisResult; ingredientId: string };
 
@@ -34,6 +37,7 @@ type Screen =
  * Development only, on the web: `?preview=complete` (or incomplete, nutrition_only, flagged,
  * multiple_flags, no_flags, sections_unavailable) opens the results page with mock data and no
  * backend (#41).
+
  */
 function previewFromUrl(): AnalysisResult | null {
   if (!__DEV__ || Platform.OS !== 'web' || typeof window === 'undefined') {
@@ -51,10 +55,12 @@ export default function App() {
   });
   // Only the latest lookup may change the screen; a slow one for an earlier scan is ignored.
   const latestLookup = useRef(0);
+
   const scrollRef = useRef<ScrollView>(null);
   // Where the results page was scrolled to when an ingredient's details were opened.
   const scrollY = useRef(0);
   const resultsScrollY = useRef<number | null>(null);
+
 
   async function openResults(barcode: string) {
     const lookup = ++latestLookup.current;
@@ -72,6 +78,7 @@ export default function App() {
 
   function scanAnother() {
     latestLookup.current += 1;
+main
     resultsScrollY.current = null;
     setView({ kind: 'scan' });
   }
@@ -96,6 +103,7 @@ export default function App() {
     }
   }, [view.kind]);
 
+
   useEffect(() => {
     fetchHealth()
       .then((health) => setBackend({ kind: 'ok', health }))
@@ -111,6 +119,7 @@ export default function App() {
       : undefined;
 
   return (
+
     <ScrollView
       ref={scrollRef}
       contentContainerStyle={styles.page}
@@ -121,6 +130,7 @@ export default function App() {
       scrollEventThrottle={16}
     >
       <View style={[styles.column, resultsView && styles.columnWide]}>
+
         <View style={styles.header}>
           <Text style={styles.title}>What's in My Food?</Text>
           {view.kind === 'scan' ? (
@@ -136,11 +146,13 @@ export default function App() {
 
         {view.kind === 'loading' && (
           <View style={styles.card}>
+
             <StatusCard
               kind="loading"
               message={`Looking up barcode ${view.barcode}…`}
               slowMessage="Still looking. The food database is slow to answer; this can take up to 20 seconds."
             />
+
           </View>
         )}
 
@@ -156,6 +168,7 @@ export default function App() {
           />
         )}
 
+
         {/* The results page stays mounted (hidden) while an ingredient is open, so its
             "Show N more" state is still there on the way back. */}
         {resultsView && (
@@ -164,11 +177,13 @@ export default function App() {
               analysis={resultsView.analysis}
               onScanAnother={scanAnother}
               onOpenIngredient={(id) => openIngredient(resultsView.analysis, id)}
+
               onRetry={
                 resultsView.analysis.product.barcode
                   ? () => void openResults(resultsView.analysis.product.barcode as string)
                   : undefined
               }
+
             />
           </View>
         )}
@@ -193,6 +208,7 @@ export default function App() {
               ]}
             />
           ))}
+
 
         <View style={styles.status}>
           {backend.kind === 'loading' && <Text style={styles.statusText}>Checking backend…</Text>}
@@ -231,7 +247,9 @@ const styles = StyleSheet.create({
   },
   column: { width: '100%', maxWidth: 520, gap: 20 },
   columnWide: { maxWidth: 760 },
+
   hidden: { display: 'none' },
+
   header: { gap: 4, alignItems: 'center' },
   title: { fontSize: 28, fontWeight: '700', color: '#1a1a1a' },
   subtitle: { color: '#555', textAlign: 'center' },

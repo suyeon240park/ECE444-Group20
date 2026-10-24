@@ -1,16 +1,20 @@
 /**
  * Mock analysis responses in the #20 / #43 format, for building and previewing the results
  * page without a backend (#41). Four were captured from the real pipeline (recorded Open Food
+
  * Facts and Gemini replies from the backend's end-to-end tests); `flagged`, `multiple_flags`
  * and `no_flags` swap in the documented ingredient examples (docs/api/ingredient-examples.json),
  * because no product in those tests has a flagged ingredient.
+
  */
 import type { AnalysisResult } from '../productResult';
 import complete from './complete.json';
 import flagged from './flagged.json';
 import incomplete from './incomplete.json';
+
 import multipleFlags from './multiple_flags.json';
 import noFlags from './no_flags.json';
+
 import nutritionOnly from './nutrition_only.json';
 import sectionsUnavailable from './sections_unavailable.json';
 
@@ -23,10 +27,12 @@ export const MOCKS = {
   nutrition_only: nutritionOnly as unknown as AnalysisResult,
   /** A product whose ingredient analysis flags one ingredient, and leaves one unmatched. */
   flagged: flagged as unknown as AnalysisResult,
+
   /** Four flagged ingredients: three show, "Show 1 more" reveals the fourth. */
   multiple_flags: multipleFlags as unknown as AnalysisResult,
   /** Ingredients were checked and none are flagged; coverage still shows. */
   no_flags: noFlags as unknown as AnalysisResult,
+
   /** Every analysis section failed on the server and came back null. */
   sections_unavailable: sectionsUnavailable as unknown as AnalysisResult,
 } as const;

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -8,10 +9,12 @@ import {
   flaggedEntries,
   unflaggedEntries,
 } from '../ingredientView';
+
 import { Unavailable } from './Section';
 
 /** Shown when there is no ingredient result at all, or no ingredient list to check. */
 export const INGREDIENTS_UNAVAILABLE = 'Ingredient information not available';
+
 
 const PARSE_NOTE =
   'We had trouble reading part of this ingredient list, so the counts above may not be exact.';
@@ -31,9 +34,11 @@ type Props = {
 export default function IngredientSection({ result, onOpen }: Props) {
   const [showAll, setShowAll] = useState(false);
 
+
   if (!result || result.status === 'unavailable') {
     return <Unavailable message={result?.message ?? INGREDIENTS_UNAVAILABLE} />;
   }
+
 
   const flagged = flaggedEntries(result);
   const shown = showAll ? flagged : flagged.slice(0, FLAGGED_PREVIEW_COUNT);
@@ -41,10 +46,12 @@ export default function IngredientSection({ result, onOpen }: Props) {
   const others = unflaggedEntries(result);
   const showParseNote = result.warnings.some((warning) => warning.code !== 'ignored_preamble');
 
+
   return (
     <View style={styles.container}>
       {result.coverage_text ? <Text style={styles.coverage}>{result.coverage_text}</Text> : null}
       {result.message ? <Text style={styles.body}>{result.message}</Text> : null}
+
       {showParseNote ? <Text style={styles.muted}>{PARSE_NOTE}</Text> : null}
 
       {flagged.length > 0 ? (
@@ -94,12 +101,14 @@ export default function IngredientSection({ result, onOpen }: Props) {
           <Text style={styles.groupTitle} accessibilityRole="header">
             Not in our database yet
           </Text>
+
           <Text style={styles.body}>{result.unmatched.map((u) => u.text).join(', ')}</Text>
         </View>
       ) : null}
     </View>
   );
 }
+
 
 function FlaggedCard({ entry, onOpen }: { entry: IngredientEntry; onOpen: Props['onOpen'] }) {
   if (!entry.flag) {
@@ -130,6 +139,7 @@ const styles = StyleSheet.create({
   body: { color: '#333', lineHeight: 20 },
   muted: { color: '#777', lineHeight: 20 },
   dim: { opacity: 0.6 },
+
   flag: {
     gap: 2,
     padding: 12,
@@ -138,6 +148,7 @@ const styles = StyleSheet.create({
     borderColor: '#e0b252',
     backgroundColor: '#fff6e5',
   },
+
   flagHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   flagName: { fontWeight: '600', color: '#1a1a1a', flexShrink: 1 },
   chevron: { color: '#7a4b00', fontSize: 20, lineHeight: 22 },
@@ -162,4 +173,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   pillText: { color: '#1a1a1a' },
+
 });

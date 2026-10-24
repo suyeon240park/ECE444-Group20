@@ -3,10 +3,12 @@ import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import IngredientSection from '../components/IngredientSection';
 import NutrientExplanationList from '../components/NutrientExplanationList';
 import PackageNutritionTable from '../components/PackageNutritionTable';
+
 import PerBasisNutritionTable from '../components/PerBasisNutritionTable';
 import Section, { Unavailable } from '../components/Section';
 import StatusCard from '../components/StatusCard';
 import { formatDate, joinWords } from '../format';
+
 import { NOT_AVAILABLE, NUTRIENT_LABELS, type NutrientName } from '../packageNutrition';
 import type { AnalysisResult, DataSource } from '../productResult';
 
@@ -19,6 +21,7 @@ function sourceLine(provider: DataSource, retrievedAt: string): string {
     ? `Data from Open Food Facts, retrieved ${date}.`
     : `Read from your Nutrition Facts photo on ${date}.`;
 }
+
 
 /** A missing-data path from the API in words a shopper would use. */
 export function describeMissing(path: string): string {
@@ -40,6 +43,7 @@ export function describeMissing(path: string): string {
       return path;
   }
 }
+
 
 /** What the analysis does have, in words a shopper would use (#45). */
 export function describeShown(analysis: AnalysisResult): string[] {
@@ -90,14 +94,17 @@ export function describeFailedSections(analysis: AnalysisResult): string[] {
   return failed;
 }
 
+
 type Props = {
   analysis: AnalysisResult;
   /** Go back to the scan screen. */
   onScanAnother: () => void;
   /** Open the detail view for one checked ingredient. */
   onOpenIngredient: (ingredientId: string) => void;
+
   /** Look the product up again; given only when there is a barcode to look up. */
   onRetry?: () => void;
+
 };
 
 /**
@@ -106,6 +113,7 @@ type Props = {
  * means, and the ingredient summary. Each section stands alone, so one the server could
  * not provide says so and the rest still show. There is no overall score, grade or verdict.
  */
+
 export default function ResultsScreen({
   analysis,
   onScanAnother,
@@ -125,6 +133,7 @@ export default function ResultsScreen({
     nutrition?.reason === 'no_per_serving_nutrition' && (basis === '100g' || basis === '100ml')
       ? basis
       : null;
+
 
   return (
     <View style={styles.container}>
@@ -152,6 +161,7 @@ export default function ResultsScreen({
       </Section>
 
       {analysis.missing_fields.length > 0 ? (
+
         <StatusCard
           kind="notice"
           title="Some information is missing"
@@ -176,10 +186,12 @@ export default function ResultsScreen({
           message={`We couldn't get ${joinWords(failedSections)} from the server. The rest is shown below.`}
           actions={onRetry ? [{ label: 'Try again', onPress: onRetry, primary: true }] : []}
         />
+
       ) : null}
 
       <Section
         title="Nutrition"
+
         subtitle={
           perBasis
             ? 'Amounts as the food database lists them.'
@@ -194,6 +206,7 @@ export default function ResultsScreen({
           />
         ) : nutrition ? (
           <PackageNutritionTable result={nutrition} />
+
         ) : (
           <Unavailable message={NOT_AVAILABLE} />
         )}
@@ -209,6 +222,7 @@ export default function ResultsScreen({
 
       <Section title="Ingredients">
         <IngredientSection result={analysis.ingredients} onOpen={onOpenIngredient} />
+
       </Section>
 
       <Pressable
@@ -226,6 +240,7 @@ const styles = StyleSheet.create({
   container: { alignSelf: 'stretch', gap: 16 },
   meta: { color: '#555' },
   link: { color: '#1b7f3b', textDecorationLine: 'underline' },
+
   button: {
     paddingVertical: 12,
     paddingHorizontal: 12,

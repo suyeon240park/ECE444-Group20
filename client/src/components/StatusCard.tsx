@@ -1,7 +1,10 @@
+
 import { useEffect, useState } from 'react';
+
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Action = { label: string; onPress: () => void; primary?: boolean };
+
 
 /** How long a lookup may wait before the card says it is taking longer than usual. */
 const SLOW_AFTER_MS = 8_000;
@@ -62,9 +65,11 @@ export default function StatusCard(props: Props) {
           ))}
         </View>
       ) : null}
+
     </View>
   );
 }
+
 
 function Loading({ message, slowMessage }: { message: string; slowMessage?: string }) {
   const [slow, setSlow] = useState(false);
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
   card: { padding: 16, borderRadius: 8, borderWidth: 1, gap: 8 },
   title: { fontWeight: '600', color: '#1a1a1a' },
   message: { lineHeight: 20 },
+
   buttons: { flexDirection: 'row', gap: 12, flexWrap: 'wrap' },
   button: {
     flexGrow: 1,
@@ -114,7 +120,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
   },
+
   dim: { opacity: 0.6 },
+
   buttonPrimary: { backgroundColor: '#1b7f3b', borderColor: '#1b7f3b' },
   buttonSecondary: { backgroundColor: '#fff', borderColor: '#1b7f3b' },
   buttonPrimaryText: { color: '#fff', fontWeight: '600' },

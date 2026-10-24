@@ -8,8 +8,14 @@ from datetime import datetime, timezone
 
 from flask import Blueprint, current_app, jsonify, request
 
-from app.models.product import ErrorCode, ProductResult, is_valid_barcode
+from app.models.product import ErrorCode, ProductResult, ResultType, is_valid_barcode
 from app.routes.nutrition_label import uploaded_image
+from app.services.confirmation import (
+    ConfirmationError,
+    parse_photo_values,
+    rebuild_nutrition_only,
+    rebuild_product,
+)
 from app.services.errors import ProductLookupError
 from app.services.fallback_routing import build_nutrition_only, merge_label_nutrition, route_lookup
 from app.services.label_reading import LabelReading, LabelReadingError
@@ -72,3 +78,43 @@ def _with_product(reading: LabelReading, barcode: str | None) -> ProductResult |
         current_app.logger.info("Label photo with barcode %s: %s", barcode, exc.code.value)
         return None
     return merge_label_nutrition(database, reading.serving, reading.nutrition, reading.package)
+
+
+@analysis_bp.post("/analysis/confirm")
+def confirm_photo_values():
+    """Re-analyze a photo result after the user checked its values (#39, Q1).
+
+    Request: JSON ``{"result": "product" | "nutrition_only", "product": {...}}``, the
+    result the client got from ``POST /api/analysis/label-photo`` (extra keys such as
+    ``package_nutrition`` are ignored). Each label-photo value carries ``certainty``
+    ``user_confirmed`` once the user checked it, or stays ``uncertain``. Only photo
+    values are read from the request: a ``product`` result is looked up again by
+    barcode, and its database values come from that lookup.
+
+    Errors: 400 ``invalid_confirmation`` or ``invalid_barcode``; for a ``product``
+    result, the lookup errors of ``GET /api/products/{barcode}`` (404, 502, 504).
+    """
+    body = request.get_json(silent=True)
+    try:
+        if not isinstance(body, dict):
+            raise ConfirmationError("Send the photo result as a JSON object.")
+        result_type = body.get("result")
+        photo = parse_photo_values(body.get("product"))
+        if result_type == ResultType.NUTRITION_ONLY.value:
+            result = rebuild_nutrition_only(photo, datetime.now(timezone.utc))
+        elif result_type == ResultType.PRODUCT.value:
+            barcode = body["product"].get("barcode")
+            if not isinstance(barcode, str) or not is_valid_barcode(barcode):
+                return _error(
+                    ErrorCode.INVALID_BARCODE.value, "Barcode must be 8 to 14 digits.", 400
+                )
+            try:
+                database = current_app.extensions["product_lookup"].lookup(barcode)
+            except ProductLookupError as exc:
+                return jsonify(exc.error.to_dict()), exc.error.http_status
+            result = rebuild_product(database, photo)
+        else:
+            raise ConfirmationError("result must be 'product' or 'nutrition_only'")
+    except ConfirmationError as error:
+        return _error(error.code, error.message, error.status)
+    return jsonify(current_app.extensions["analysis"].analyze(result).to_dict())

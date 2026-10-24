@@ -17,7 +17,8 @@ export type NutrientValue = {
   /** The %DV printed on the label; never a calculated one. */
   daily_value_percent: number | null;
   source: 'open_food_facts' | 'nutrition_label_photo';
-  certainty: 'reported' | 'confident' | 'uncertain';
+  /** `user_confirmed`: a photo value the user checked against the label (#39). */
+  certainty: 'reported' | 'confident' | 'uncertain' | 'user_confirmed';
 };
 
 export type WholePackageAmount = {

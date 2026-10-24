@@ -20,6 +20,7 @@ export function formatDate(iso: string): string {
   return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : iso;
 }
 
+
 /** ["a", "b", "c"] as "a, b and c". */
 export function joinWords(words: string[]): string {
   if (words.length < 2) {
@@ -27,3 +28,4 @@ export function joinWords(words: string[]): string {
   }
   return `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
 }
+
