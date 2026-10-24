@@ -78,7 +78,7 @@ export default function App() {
 
   function scanAnother() {
     latestLookup.current += 1;
-main
+
     resultsScrollY.current = null;
     setView({ kind: 'scan' });
   }
