@@ -55,6 +55,19 @@ npm run build:web    # static web build into dist/
 
 CI runs both on every pull request.
 
+## Results page
+
+After a barcode is read, the app calls `GET /api/analysis/{barcode}` and opens the results page
+(`src/screens/ResultsScreen.tsx`): product and data source, nutrition per serving and for the
+whole package, nutrient explanations, and the ingredient summary. A section the server could
+not provide shows its "not available" message and the rest still show.
+
+To work on the page without a backend, start the web build (`npm run web`) and open
+`http://localhost:8081/?preview=<name>`, where `<name>` is `complete`, `incomplete`,
+`nutrition_only`, `flagged` or `sections_unavailable`. The data is in `src/mocks/`: four are
+real pipeline responses, `flagged` uses the documented ingredient example. The preview works in
+development only.
+
 ## Layout
 
 ```
@@ -65,8 +78,13 @@ client/
 │   ├── api.ts           backend base URL and typed fetch helpers; add one module per API area
 │   ├── barcode.ts       detectBarcode(): uploads a photo to POST /api/barcode
 │   ├── barcodeRules.ts  barcode error codes, plain-language messages, pre-upload checks
+│   ├── analysisApi.ts   fetchAnalysis(): GET /api/analysis/{barcode}
+│   ├── productResult.ts types of the product contract and the analysis response
+│   ├── components/      shared pieces: Section, StatusCard, nutrition table, explanations, ingredients
+│   ├── mocks/           mock analysis responses for the results page
 │   └── screens/
-│       └── BarcodeScreen.tsx   take or upload a photo, show the barcode or the failure
+│       ├── BarcodeScreen.tsx   take or upload a photo, show the barcode or the failure
+│       └── ResultsScreen.tsx   the whole analysis for one product
 ├── assets/          icons and splash images
 ├── app.json         Expo configuration (name, icons, web bundler, extra.apiBaseUrl)
 └── tsconfig.json    strict TypeScript, extends expo/tsconfig.base

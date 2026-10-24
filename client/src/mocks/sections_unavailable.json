@@ -1,0 +1,117 @@
+{
+  "completeness": "complete",
+  "explanations": null,
+  "ingredients": null,
+  "missing_fields": [],
+  "next_step": {
+    "action": "use_database",
+    "can_retry_lookup": false,
+    "photo_fields": [],
+    "product_identified": true,
+    "reason": "complete"
+  },
+  "package_nutrition": null,
+  "product": {
+    "barcode": "0013000006408",
+    "brand": "Heinz",
+    "ingredients_text": "Tomatoes (148g per 100g ketchup), Natural Vinegar, Sugar, Salt, Spice and Herb Extracts (contains Celery), Spices.",
+    "name": "Tomato Ketchup",
+    "nutrition": {
+      "basis": "serving",
+      "nutrients": {
+        "calories": {
+          "amount": 16.5,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "kcal"
+        },
+        "carbohydrate": {
+          "amount": 4.08,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "cholesterol": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "fibre": {
+          "amount": 0.119,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.204,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "saturated_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "sodium": {
+          "amount": 122.0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "sugars": {
+          "amount": 3.91,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "total_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "trans_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        }
+      }
+    },
+    "package": {
+      "certainty": "reported",
+      "quantity": 566.9904625,
+      "quantity_text": "20 oz - 570g",
+      "servings_per_package": null,
+      "source": "open_food_facts",
+      "unit": "g"
+    },
+    "serving": {
+      "certainty": "reported",
+      "quantity": 17,
+      "size_text": "1 Tbsp (17 g)",
+      "source": "open_food_facts",
+      "unit": "g"
+    },
+    "source": {
+      "last_modified_at": "2026-07-17T17:21:12Z",
+      "provider": "open_food_facts",
+      "retrieved_at": "2026-10-22T04:12:56.861449Z",
+      "url": "https://world.openfoodfacts.org/product/0013000006408"
+    }
+  },
+  "result": "product"
+}

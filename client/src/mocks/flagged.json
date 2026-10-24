@@ -1,0 +1,1111 @@
+{
+  "completeness": "complete",
+  "explanations": {
+    "basis": "serving",
+    "basis_label": "per serving",
+    "basis_note": null,
+    "daily_value_definition": {
+      "sources": [
+        {
+          "id": "nutrition_facts_table",
+          "publisher": "Health Canada",
+          "title": "Nutrition labelling: Nutrition facts table",
+          "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+        },
+        {
+          "id": "daily_values_table",
+          "publisher": "Health Canada",
+          "title": "Table of Daily Values",
+          "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+        }
+      ],
+      "term": "% Daily Value (%DV)",
+      "text": "%DV is a quick way to tell whether one serving of a food has a little or a lot of a nutrient. It compares the amount in one serving with a daily reference amount set by Health Canada. 5% DV or less is a little, and 15% DV or more is a lot."
+    },
+    "daily_values_reference": {
+      "title": "Table of Daily Values: Part 1, foods for adults and children 4 years of age or older",
+      "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html",
+      "version": "2022-10-20"
+    },
+    "rows": [
+      {
+        "daily_value": null,
+        "display_name": "Calories",
+        "explanation_message": null,
+        "guidance": "neutral",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            },
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            }
+          ],
+          "text": "The number is for the serving size at the top of the table. The serving size is not a recommendation of how much to eat, so the calories you get change with the amount you eat. Calories have no %DV."
+        },
+        "name": "calories",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 16.5,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "kcal"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            },
+            {
+              "id": "carbohydrates",
+              "publisher": "Health Canada",
+              "title": "Carbohydrates",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/carbohydrates.html"
+            },
+            {
+              "id": "fats",
+              "publisher": "Health Canada",
+              "title": "Fats: Fats and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats.html"
+            },
+            {
+              "id": "protein",
+              "publisher": "Health Canada",
+              "title": "Protein",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/protein.html"
+            }
+          ],
+          "text": "Calories show how much energy one serving of the food gives you. Carbohydrate, fat and protein all provide energy."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 0,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 0.0
+        },
+        "display_name": "Fat",
+        "explanation_message": null,
+        "guidance": "neutral",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "The %DV compares the fat in one serving with a Daily Value of 75 g. 5% DV or less is a little, and 15% DV or more is a lot."
+        },
+        "name": "total_fat",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "fats",
+              "publisher": "Health Canada",
+              "title": "Fats: Fats and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats.html"
+            }
+          ],
+          "text": "Fat is a nutrient your body needs. It gives energy, supports growth and development, and helps the body absorb vitamins A, D, E and K. Choosing mostly unsaturated fats instead of saturated and trans fats can lower the risk of heart disease."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 0,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 0.0
+        },
+        "display_name": "Saturated fat",
+        "explanation_message": null,
+        "guidance": "limit",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "fats_food_labels",
+              "publisher": "Health Canada",
+              "title": "Fats: Using the food labels",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats/using-food-labels.html"
+            },
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "Saturated and trans fat share one %DV on the label, based on a combined Daily Value of 20 g. For a nutrient you want to limit, 5% DV or less is a little, and 15% DV or more is a lot."
+        },
+        "name": "saturated_fat",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "fats",
+              "publisher": "Health Canada",
+              "title": "Fats: Fats and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "Saturated fat is found in foods such as meat, butter, cheese, whole milk, lard, shortening, and tropical oils such as palm and coconut oil. Health Canada lists it as a nutrient you may want to limit. Choosing unsaturated fats instead can lower the risk of heart disease."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 5,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 5.304347826086957
+        },
+        "display_name": "Sodium",
+        "explanation_message": null,
+        "guidance": "limit",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "The %DV compares the sodium in one serving with a Daily Value of 2300 mg. Sodium is a nutrient you may want to limit: 5% DV or less is a little, and 15% DV or more is a lot."
+        },
+        "name": "sodium",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 122.0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "sodium",
+              "publisher": "Health Canada",
+              "title": "Sodium: Sodium and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/sodium.html"
+            }
+          ],
+          "text": "Sodium is a mineral found in food and table salt. The body needs some sodium, but too much may lead to high blood pressure, a major risk factor for stroke and heart disease. Most people in Canada eat too much sodium, and most of it is added during food processing."
+        }
+      },
+      {
+        "daily_value": null,
+        "display_name": "Carbohydrate",
+        "explanation_message": null,
+        "guidance": "neutral",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "Carbohydrate is shown in grams and has no %DV."
+        },
+        "name": "carbohydrate",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 4.08,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "carbohydrates",
+              "publisher": "Health Canada",
+              "title": "Carbohydrates",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/carbohydrates.html"
+            }
+          ],
+          "text": "Carbohydrates are the body's main source of energy. The carbohydrate total on the label includes fibre, starch and sugars."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 4,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 3.91
+        },
+        "display_name": "Sugars",
+        "explanation_message": null,
+        "guidance": "limit",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "The %DV compares the sugars in one serving with a Daily Value of 100 g. Sugars are a nutrient you may want to limit: 5% DV or less is a little, and 15% DV or more is a lot."
+        },
+        "name": "sugars",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 3.91,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "sugars",
+              "publisher": "Health Canada",
+              "title": "Sugars: Sugars and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/sugars.html"
+            }
+          ],
+          "text": "Sugars are a type of carbohydrate that gives the body energy. They occur naturally in fruit, vegetables and unsweetened milk products, and are also added to many foods. Eating too many added sugars has been linked to tooth decay in children and to taking in extra calories."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 0,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 0.42499999999999993
+        },
+        "display_name": "Fibre",
+        "explanation_message": null,
+        "guidance": "get_more",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            },
+            {
+              "id": "nutrition_facts_table",
+              "publisher": "Health Canada",
+              "title": "Nutrition labelling: Nutrition facts table",
+              "url": "https://www.canada.ca/en/health-canada/services/food-nutrition/nutrition-labelling/nutrition-facts-tables.html"
+            }
+          ],
+          "text": "The %DV compares the fibre in one serving with a Daily Value of 28 g. Fibre is a nutrient you may want more of: 15% DV or more is a lot, and 5% DV or less is a little."
+        },
+        "name": "fibre",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0.119,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "fibre",
+              "publisher": "Health Canada",
+              "title": "Fibre",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fibre.html"
+            }
+          ],
+          "text": "Fibre is a carbohydrate in plant foods that the body does not digest. It may support regular bowel movements, help lower blood cholesterol and help you feel full for longer. Most people in Canada get about half the fibre they need."
+        }
+      },
+      {
+        "daily_value": null,
+        "display_name": "Protein",
+        "explanation_message": null,
+        "guidance": "neutral",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "protein",
+              "publisher": "Health Canada",
+              "title": "Protein",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/protein.html"
+            }
+          ],
+          "text": "Protein is shown in grams and has no %DV."
+        },
+        "name": "protein",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0.204,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "protein",
+              "publisher": "Health Canada",
+              "title": "Protein",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/protein.html"
+            }
+          ],
+          "text": "Protein helps build and repair body tissues and, like carbohydrate and fat, provides energy. Most people in Canada who eat a mixed diet get enough protein."
+        }
+      },
+      {
+        "daily_value": null,
+        "display_name": "Trans fat",
+        "explanation_message": null,
+        "guidance": "limit",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "fats_food_labels",
+              "publisher": "Health Canada",
+              "title": "Fats: Using the food labels",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats/using-food-labels.html"
+            },
+            {
+              "id": "daily_values_table",
+              "publisher": "Health Canada",
+              "title": "Table of Daily Values",
+              "url": "https://www.canada.ca/en/health-canada/services/technical-documents-labelling-requirements/table-daily-values/nutrition-labelling.html"
+            }
+          ],
+          "text": "Trans fat is listed under saturated fat and has no %DV of its own. It is counted in the combined saturated and trans fat %DV."
+        },
+        "name": "trans_fat",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "what_it_is": {
+          "sources": [
+            {
+              "id": "fats",
+              "publisher": "Health Canada",
+              "title": "Fats: Fats and your health",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats.html"
+            }
+          ],
+          "text": "Small amounts of trans fat occur naturally in beef, lamb and dairy foods. Partially hydrogenated oils, once the main source of industrially produced trans fat, are banned from foods sold in Canada. Choosing unsaturated fats instead of trans and saturated fats can lower the risk of heart disease."
+        }
+      },
+      {
+        "daily_value": {
+          "display_percent": 0,
+          "interpretation": "a_little",
+          "interpretation_text": "a little",
+          "label": "Calculated",
+          "origin": "calculated",
+          "percent": 0.0
+        },
+        "display_name": "Cholesterol",
+        "explanation_message": null,
+        "guidance": "neutral",
+        "how_to_read": {
+          "sources": [
+            {
+              "id": "fats_food_labels",
+              "publisher": "Health Canada",
+              "title": "Fats: Using the food labels",
+              "url": "https://www.canada.ca/en/health-canada/services/nutrients/fats/using-food-labels.html"
+            }
+          ],
+          "text": "Cholesterol is shown in milligrams. The label shows no %DV for it."
+        },
+        "name": "cholesterol",
+        "status": "verified",
+        "status_text": null,
+        "value": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "what_it_is": null
+      }
+    ]
+  },
+  "ingredients": {
+    "status": "analyzed",
+    "checked_count": 4,
+    "total_count": 5,
+    "flagged_count": 1,
+    "matched": [
+      {
+        "ingredient": {
+          "id": "sugar",
+          "name": "Sugar",
+          "aliases": [
+            "sucre",
+            "cane sugar"
+          ],
+          "e_numbers": [],
+          "ins_numbers": [],
+          "what_it_is": {
+            "text": "Synthetic identity text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "why_used": {
+            "text": "Synthetic function text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "explanation": {
+            "text": "Synthetic explanation; not reviewed food guidance.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "sources": [
+            {
+              "id": "hc",
+              "publisher": "Health Canada (synthetic fixture)",
+              "title": "Synthetic source reference",
+              "url": "https://www.canada.ca/en/health-canada.html",
+              "published_on": null,
+              "accessed_on": "2000-01-01"
+            }
+          ],
+          "last_reviewed": "2000-01-01",
+          "authority_positions": [],
+          "flag": null
+        },
+        "occurrences": [
+          {
+            "text": "Sugar",
+            "path": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "ingredient": {
+          "id": "corn_syrup",
+          "name": "Corn syrup",
+          "aliases": [
+            "sirop de maïs"
+          ],
+          "e_numbers": [],
+          "ins_numbers": [],
+          "what_it_is": {
+            "text": "Synthetic identity text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "why_used": {
+            "text": "Synthetic function text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "explanation": {
+            "text": "Synthetic explanation; not reviewed food guidance.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "sources": [
+            {
+              "id": "hc",
+              "publisher": "Health Canada (synthetic fixture)",
+              "title": "Synthetic source reference",
+              "url": "https://www.canada.ca/en/health-canada.html",
+              "published_on": null,
+              "accessed_on": "2000-01-01"
+            }
+          ],
+          "last_reviewed": "2000-01-01",
+          "authority_positions": [],
+          "flag": null
+        },
+        "occurrences": [
+          {
+            "text": "corn syrup",
+            "path": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "ingredient": {
+          "id": "modified_corn_starch",
+          "name": "Modified corn starch",
+          "aliases": [
+            "amidon de maïs modifié"
+          ],
+          "e_numbers": [],
+          "ins_numbers": [],
+          "what_it_is": {
+            "text": "Synthetic identity text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "why_used": {
+            "text": "Synthetic function text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "explanation": {
+            "text": "Synthetic explanation; not reviewed food guidance.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "sources": [
+            {
+              "id": "hc",
+              "publisher": "Health Canada (synthetic fixture)",
+              "title": "Synthetic source reference",
+              "url": "https://www.canada.ca/en/health-canada.html",
+              "published_on": null,
+              "accessed_on": "2000-01-01"
+            }
+          ],
+          "last_reviewed": "2000-01-01",
+          "authority_positions": [],
+          "flag": null
+        },
+        "occurrences": [
+          {
+            "text": "modified corn starch",
+            "path": [
+              0,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "ingredient": {
+          "id": "titanium_dioxide",
+          "name": "Titanium dioxide",
+          "aliases": [
+            "dioxyde de titane",
+            "TiO2"
+          ],
+          "e_numbers": [
+            "E171"
+          ],
+          "ins_numbers": [
+            "INS 171"
+          ],
+          "what_it_is": {
+            "text": "Synthetic identity text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "why_used": {
+            "text": "Synthetic function text for automated tests only.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "explanation": {
+            "text": "Synthetic explanation; not reviewed food guidance.",
+            "source_ids": [
+              "hc"
+            ]
+          },
+          "sources": [
+            {
+              "id": "hc",
+              "publisher": "Health Canada (synthetic fixture)",
+              "title": "Synthetic source reference",
+              "url": "https://www.canada.ca/en/health-canada.html",
+              "published_on": null,
+              "accessed_on": "2000-01-01"
+            },
+            {
+              "id": "efsa",
+              "publisher": "EFSA (synthetic fixture)",
+              "title": "Synthetic opposing reference",
+              "url": "https://www.efsa.europa.eu/en",
+              "published_on": "2000-01-01",
+              "accessed_on": "2000-01-01"
+            }
+          ],
+          "last_reviewed": "2000-01-01",
+          "authority_positions": [
+            {
+              "id": "hc_position",
+              "authority": "health_canada",
+              "statement": "Synthetic first assessment.",
+              "scope": "Synthetic food-use scope.",
+              "source_ids": [
+                "hc"
+              ],
+              "assessed_on": "2000-01-01",
+              "effective_on": null
+            },
+            {
+              "id": "efsa_position",
+              "authority": "efsa",
+              "statement": "Synthetic differing assessment.",
+              "scope": "Synthetic food-use scope.",
+              "source_ids": [
+                "efsa"
+              ],
+              "assessed_on": "2000-01-01",
+              "effective_on": null
+            }
+          ],
+          "flag": {
+            "flag_reason": "Synthetic disagreement example; not food guidance.",
+            "category": "conflicting_assessments",
+            "source_ids": [
+              "hc",
+              "efsa"
+            ],
+            "position_ids": [
+              "hc_position",
+              "efsa_position"
+            ]
+          }
+        },
+        "occurrences": [
+          {
+            "text": "titanium dioxide",
+            "path": [
+              0,
+              3,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "unmatched": [
+      {
+        "text": "carnauba wax",
+        "occurrences": [
+          {
+            "text": "carnauba wax",
+            "path": [
+              0,
+              4
+            ]
+          }
+        ]
+      }
+    ],
+    "flagged_ids": [
+      "titanium_dioxide"
+    ],
+    "warnings": [],
+    "message": null,
+    "coverage_text": "Checked 4 of 5 ingredients against our reviewed ingredient database."
+  },
+  "missing_fields": [],
+  "next_step": {
+    "action": "use_database",
+    "can_retry_lookup": false,
+    "photo_fields": [],
+    "product_identified": true,
+    "reason": "complete"
+  },
+  "package_nutrition": {
+    "approximate": true,
+    "approximate_label": "Approximate",
+    "daily_value_label": "Calculated for whole package",
+    "display_servings": 33.4,
+    "message": null,
+    "method": "package_quantity",
+    "pending_confirmation": [],
+    "per_serving_label": "Per serving (1 Tbsp (17 g))",
+    "reason": null,
+    "rows": [
+      {
+        "name": "calories",
+        "per_serving": {
+          "amount": 16.5,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "kcal"
+        },
+        "whole_package": {
+          "amount": 550.3142724264706,
+          "daily_value_percent": null,
+          "display_amount": 550.0,
+          "display_daily_value_percent": null,
+          "unit": "kcal"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "total_fat",
+        "per_serving": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 0.0,
+          "daily_value_percent": 0.0,
+          "display_amount": 0.0,
+          "display_daily_value_percent": 0,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "saturated_fat",
+        "per_serving": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 0.0,
+          "daily_value_percent": 0.0,
+          "display_amount": 0.0,
+          "display_daily_value_percent": 0,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "sodium",
+        "per_serving": {
+          "amount": 122.0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "whole_package": {
+          "amount": 4068.9903779411766,
+          "daily_value_percent": 176.91262512787725,
+          "display_amount": 4069.0,
+          "display_daily_value_percent": 177,
+          "unit": "mg"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "carbohydrate",
+        "per_serving": {
+          "amount": 4.08,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 136.077711,
+          "daily_value_percent": null,
+          "display_amount": 136.0,
+          "display_daily_value_percent": null,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "sugars",
+        "per_serving": {
+          "amount": 3.91,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 130.407806375,
+          "daily_value_percent": 130.407806375,
+          "display_amount": 130.0,
+          "display_daily_value_percent": 130,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "fibre",
+        "per_serving": {
+          "amount": 0.119,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 3.9689332375,
+          "daily_value_percent": 14.174761562499999,
+          "display_amount": 4.0,
+          "display_daily_value_percent": 14,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "protein",
+        "per_serving": {
+          "amount": 0.204,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 6.8038855499999995,
+          "daily_value_percent": null,
+          "display_amount": 6.8,
+          "display_daily_value_percent": null,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "trans_fat",
+        "per_serving": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "whole_package": {
+          "amount": 0.0,
+          "daily_value_percent": null,
+          "display_amount": 0.0,
+          "display_daily_value_percent": null,
+          "unit": "g"
+        },
+        "whole_package_status": "calculated"
+      },
+      {
+        "name": "cholesterol",
+        "per_serving": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "whole_package": {
+          "amount": 0.0,
+          "daily_value_percent": 0.0,
+          "display_amount": 0.0,
+          "display_daily_value_percent": 0,
+          "unit": "mg"
+        },
+        "whole_package_status": "calculated"
+      }
+    ],
+    "servings": 33.352380147058824,
+    "status": "calculated",
+    "whole_package_label": "Whole package (20 oz - 570g)"
+  },
+  "product": {
+    "barcode": "0000000000000",
+    "brand": null,
+    "ingredients_text": "Sugar, corn syrup, modified corn starch, colour (titanium dioxide), carnauba wax",
+    "name": "Sample candy (mock data)",
+    "nutrition": {
+      "basis": "serving",
+      "nutrients": {
+        "calories": {
+          "amount": 16.5,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "kcal"
+        },
+        "carbohydrate": {
+          "amount": 4.08,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "cholesterol": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "fibre": {
+          "amount": 0.119,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.204,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "saturated_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "sodium": {
+          "amount": 122.0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "mg"
+        },
+        "sugars": {
+          "amount": 3.91,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "total_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        },
+        "trans_fat": {
+          "amount": 0,
+          "certainty": "reported",
+          "daily_value_percent": null,
+          "source": "open_food_facts",
+          "unit": "g"
+        }
+      }
+    },
+    "package": {
+      "certainty": "reported",
+      "quantity": 566.9904625,
+      "quantity_text": "20 oz - 570g",
+      "servings_per_package": null,
+      "source": "open_food_facts",
+      "unit": "g"
+    },
+    "serving": {
+      "certainty": "reported",
+      "quantity": 17,
+      "size_text": "1 Tbsp (17 g)",
+      "source": "open_food_facts",
+      "unit": "g"
+    },
+    "source": {
+      "last_modified_at": "2026-07-17T17:21:12Z",
+      "provider": "open_food_facts",
+      "retrieved_at": "2026-10-22T04:12:56.861449Z",
+      "url": null
+    }
+  },
+  "result": "product"
+}

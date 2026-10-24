@@ -32,7 +32,7 @@ export default function PackageNutritionTable({ result }: Props) {
           {result.per_serving_label ?? 'Per serving'}
         </Text>
         {calculated ? (
-          <View style={styles.cell}>
+          <View style={[styles.cell, styles.whole]}>
             <Text style={styles.headerText}>
               {result.whole_package_label}
               {result.approximate ? ' (approximate)' : ''}
@@ -73,13 +73,13 @@ function PerServingCell({ row }: { row: PackageNutrientRow }) {
 function WholePackageCell({ row }: { row: PackageNutrientRow }) {
   const whole = row.whole_package;
   if (row.whole_package_status === 'needs_confirmation') {
-    return <Text style={[styles.cell, styles.muted]}>Confirm the photo value first</Text>;
+    return <Text style={[styles.cell, styles.whole, styles.muted]}>Confirm the photo value first</Text>;
   }
   if (!whole) {
-    return <Text style={[styles.cell, styles.muted]}>{NOT_AVAILABLE}</Text>;
+    return <Text style={[styles.cell, styles.whole, styles.muted]}>{NOT_AVAILABLE}</Text>;
   }
   return (
-    <View style={styles.cell}>
+    <View style={[styles.cell, styles.whole]}>
       <Text style={styles.amount}>{formatAmount(whole.display_amount, whole.unit)}</Text>
       {whole.display_daily_value_percent !== null ? (
         <Text style={styles.note}>
@@ -103,15 +103,17 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: 8,
-    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e5e2',
   },
   header: { borderBottomColor: '#1a1a1a' },
   headerText: { fontWeight: '600', color: '#1a1a1a' },
-  cell: { flex: 1 },
+  // The padding is on the cells, not the row, so a tinted cell fills the row's full height.
+  cell: { flex: 1, paddingVertical: 8 },
   name: { color: '#1a1a1a' },
   amount: { color: '#1a1a1a', fontWeight: '600' },
   note: { color: '#555', fontSize: 12 },
   muted: { color: '#777' },
+  /** Tints the whole-package column so it reads apart from the per-serving one (#41). */
+  whole: { backgroundColor: '#f1faf3', paddingHorizontal: 6 },
 });
