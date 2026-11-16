@@ -16,7 +16,11 @@ import { findEntry } from './src/ingredientView';
 import { isMockName, MOCKS } from './src/mocks';
 import type { AnalysisResult } from './src/productResult';
 import BarcodeScreen from './src/screens/BarcodeScreen';
+import ConfirmPhotoValuesScreen, {
+  type PhotoReading,
+} from './src/screens/ConfirmPhotoValuesScreen';
 import IngredientDetailScreen from './src/screens/IngredientDetailScreen';
+import LabelPhotoScreen from './src/screens/LabelPhotoScreen';
 
 import ResultsScreen from './src/screens/ResultsScreen';
 
@@ -28,10 +32,16 @@ type BackendState =
 type Screen =
   | { kind: 'scan' }
   | { kind: 'loading'; barcode: string }
-  | { kind: 'error'; barcode: string; message: string }
+  | { kind: 'error'; barcode: string; code: string; message: string }
 
   | { kind: 'results'; analysis: AnalysisResult }
-  | { kind: 'ingredient'; analysis: AnalysisResult; ingredientId: string };
+  | { kind: 'ingredient'; analysis: AnalysisResult; ingredientId: string }
+  // The label-photo path (#63). `back` is the results page to return to, if there was one.
+  | { kind: 'photo'; barcode: string | null; back: AnalysisResult | null }
+  | { kind: 'confirm'; reading: PhotoReading; barcode: string | null; back: AnalysisResult | null };
+
+/** Lookup failures where a Nutrition Facts photo can still show what's in the product. */
+const PHOTO_INSTEAD = ['product_not_found', 'upstream_unavailable', 'upstream_timeout'];
 
 /**
  * Development only, on the web: `?preview=complete` (or incomplete, nutrition_only, flagged,
@@ -72,7 +82,7 @@ export default function App() {
     setView(
       outcome.kind === 'ok'
         ? { kind: 'results', analysis: outcome.analysis }
-        : { kind: 'error', barcode, message: outcome.message },
+        : { kind: 'error', barcode, code: outcome.code, message: outcome.message },
     );
   }
 
@@ -92,14 +102,29 @@ export default function App() {
     setView({ kind: 'results', analysis });
   }
 
-  // Details open at the top; going back returns to where the results page was.
+  /** With a barcode, the label fills that product's gaps; without one, the result is nutrition-only. */
+  function openLabelPhoto(barcode: string | null, back: AnalysisResult | null) {
+    latestLookup.current += 1;
+    setView({ kind: 'photo', barcode, back });
+  }
+
+  function leaveLabelPhoto(back: AnalysisResult | null) {
+    if (back) {
+      setView({ kind: 'results', analysis: back });
+    } else {
+      scanAnother();
+    }
+  }
+
+  // Every screen opens at the top, except the results page on the way back from an
+  // ingredient's details, which returns to where it was.
   useEffect(() => {
-    if (view.kind === 'ingredient') {
-      scrollRef.current?.scrollTo({ y: 0, animated: false });
-    } else if (view.kind === 'results' && resultsScrollY.current !== null) {
+    if (view.kind === 'results' && resultsScrollY.current !== null) {
       const y = resultsScrollY.current;
       resultsScrollY.current = null;
       requestAnimationFrame(() => scrollRef.current?.scrollTo({ y, animated: false }));
+    } else {
+      scrollRef.current?.scrollTo({ y: 0, animated: false });
     }
   }, [view.kind]);
 
@@ -162,10 +187,46 @@ export default function App() {
             title="Couldn't get the product"
             message={view.message}
             actions={[
-              { label: 'Try again', onPress: () => void openResults(view.barcode), primary: true },
+              ...(PHOTO_INSTEAD.includes(view.code)
+                ? [
+                    {
+                      label: 'Photograph the Nutrition Facts',
+                      onPress: () => openLabelPhoto(null, null),
+                      primary: true,
+                    },
+                  ]
+                : []),
+              {
+                label: 'Try again',
+                onPress: () => void openResults(view.barcode),
+                primary: !PHOTO_INSTEAD.includes(view.code),
+              },
               { label: 'Scan another product', onPress: scanAnother },
             ]}
           />
+        )}
+
+        {view.kind === 'photo' && (
+          <View style={styles.card}>
+            <LabelPhotoScreen
+              barcode={view.barcode}
+              onReading={(reading) =>
+                setView({ kind: 'confirm', reading, barcode: view.barcode, back: view.back })
+              }
+              onCancel={() => leaveLabelPhoto(view.back)}
+              cancelLabel={view.back ? 'Back to results' : 'Scan another product'}
+            />
+          </View>
+        )}
+
+        {view.kind === 'confirm' && (
+          <View style={styles.card}>
+            <ConfirmPhotoValuesScreen
+              reading={view.reading}
+              onAnalyzed={(analysis) => setView({ kind: 'results', analysis })}
+              onRetake={() => openLabelPhoto(view.barcode, view.back)}
+            />
+          </View>
         )}
 
 
@@ -181,6 +242,12 @@ export default function App() {
               onRetry={
                 resultsView.analysis.product.barcode
                   ? () => void openResults(resultsView.analysis.product.barcode as string)
+                  : undefined
+              }
+              onAddLabelPhoto={
+                resultsView.analysis.next_step?.action === 'request_nutrition_photo'
+                  ? () =>
+                      openLabelPhoto(resultsView.analysis.product.barcode, resultsView.analysis)
                   : undefined
               }
 
