@@ -16,6 +16,8 @@ The second button is "Scan live" where the browser allows the webcam, and "Take 
 
 **Scan live** opens the webcam and keeps sending frames to `POST /api/barcode` until one has a barcode (it gives up after a minute, and **Stop** ends it). Browsers only offer the webcam on `localhost` or https, so there the button is replaced by "Take photo".
 
+**Photograph the Nutrition Facts** (#63) appears when the food database can't complete a product (on the results page) or can't find it (on the error screen). The photo goes to `POST /api/analysis/label-photo`, the user checks each value on the confirm screen (#39), and the results page shows the re-analyzed product, or a nutrition-only result when the product wasn't found. The backend needs `GEMINI_API_KEY` for this; reading a photo can take up to a minute.
+
 ## Run on a phone (Expo Go)
 
 Expo Go runs the real app on your phone, with real camera and barcode scanning. It loads the JavaScript from your own computer, so each teammate runs their own copy.
