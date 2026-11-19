@@ -110,3 +110,30 @@ If the repository's **Settings** tab is not visible to you, the repository owner
 - https://whats-in-my-food-api.onrender.com/api/health returns `{"status": "ok", "commit": "<sha>", …}`.
 - The app URL shows the backend as `ok` with the same commit as "App build". "Unreachable: Failed to fetch" usually means `CORS_ORIGINS` does not exactly match the app's URL.
 - After the next merge to `main`, the Actions run shows **Deploy staging** green and both commits update.
+
+## Smoke test and the demo (#72)
+
+`backend/scripts/smoke_test.py` checks the deployed app end to end in about 30 seconds. Run it from `backend/` after a deploy:
+
+```
+python -m scripts.smoke_test
+```
+
+It waits for a sleeping backend to wake, then checks:
+
+- the backend and the app were built from the same commit;
+- the backend accepts requests from the app's URL (CORS);
+- a barcode photo is read;
+- a complete product needs no label photo;
+- an incomplete product asks for one, and a label photo plus confirmation completes it;
+- an unknown barcode is "not found", and a label photo gives a nutrition-only result;
+- bad input gets the documented errors.
+
+It prints a table and exits 1 if any check fails. The two label photos use the vision model on Render, so the Gemini key is tested too; `--skip-photos` leaves them out. `--api` and `--app` point it at another deployment, such as a local one.
+
+Before the demo:
+
+1. Merge the last pull request and wait for **Deploy staging** to go green.
+2. About 10 minutes before, open the app so the backend wakes up, then run the smoke test. All checks must pass.
+3. On a phone and on a laptop, go through the four flows by hand: a complete product (the ketchup in `docs/images/test-barcode.png`), an incomplete product with a label photo, an unknown barcode with a label photo, and an error (for example, a photo with no barcode).
+4. Tag the commit you demo: `git tag demo-YYYY-MM-DD <commit>` and `git push origin --tags`.
