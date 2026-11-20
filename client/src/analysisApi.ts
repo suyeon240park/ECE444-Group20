@@ -11,7 +11,7 @@ export type AnalysisOutcome =
 /** What to tell the person for each way the lookup can fail, and what to do next. */
 const ERROR_MESSAGES: Record<string, string> = {
   product_not_found:
-    "We couldn't find this product in the food database. Check the barcode, or scan a different product.",
+    "We couldn't find this product in the food database. Check the barcode, or photograph its Nutrition Facts table instead.",
   invalid_barcode: 'That barcode does not look right. Scan it again.',
   upstream_unavailable:
     "The food database isn't answering right now. Try again in a moment.",

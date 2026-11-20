@@ -104,6 +104,8 @@ type Props = {
 
   /** Look the product up again; given only when there is a barcode to look up. */
   onRetry?: () => void;
+  /** Fill the gaps with a Nutrition Facts photo (#63); given when the server asks for one. */
+  onAddLabelPhoto?: () => void;
 
 };
 
@@ -119,6 +121,7 @@ export default function ResultsScreen({
   onScanAnother,
   onOpenIngredient,
   onRetry,
+  onAddLabelPhoto,
 }: Props) {
   const { product } = analysis;
   const nutritionOnly = analysis.result === 'nutrition_only';
@@ -176,6 +179,11 @@ export default function ResultsScreen({
                 ]
               : []),
           ]}
+          actions={
+            onAddLabelPhoto
+              ? [{ label: 'Photograph the Nutrition Facts', onPress: onAddLabelPhoto, primary: true }]
+              : []
+          }
         />
       ) : null}
 

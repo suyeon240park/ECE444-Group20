@@ -17,7 +17,8 @@ export type PickedImage = ImageInfo & {
   file?: File;
 };
 
-async function buildForm(image: PickedImage): Promise<FormData> {
+/** A multipart form with the photo in the field the backend reads; also used for label photos. */
+export async function buildForm(image: PickedImage): Promise<FormData> {
   const form = new FormData();
   if (Platform.OS === 'web') {
     const blob = image.file ?? (await (await fetch(image.uri)).blob());

@@ -61,3 +61,14 @@ Preprocessing follows Q3: product names and brands, ingredient names, aliases an
 Each product's text is joined into one passage and graded; the result is the mean over products, passing at grade 8 or below (exit status 0, or 1 on a fail). The report also lists the five hardest single texts to rewrite first. One-sentence texts are not reliable passages on their own (Q3), so they are not pass/fail.
 
 Syllables are counted with the usual vowel-group rules, not a dictionary, so grades can differ slightly from other tools; the count is deterministic, so a grade changes only when the text does.
+
+## Smoke test of staging (#72)
+
+Checks the deployed app end to end: health and commit, CORS, a barcode photo, a complete product, an incomplete product with a label photo and confirmation, an unknown barcode with a label photo, and bad input. It waits up to 120 s for a sleeping Render backend (`--wake-seconds`).
+
+```
+python -m scripts.smoke_test                  # staging
+python -m scripts.smoke_test --skip-photos    # no vision-model calls
+```
+
+`--api` and `--app` point it at another deployment; the commit check needs a web build (`npm run build:web`), not the Expo dev server. Exit status 0 when every check passes, 1 otherwise. See `docs/deployment.md` for the pre-demo checklist.

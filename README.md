@@ -54,6 +54,8 @@ The app shows what is in the product and what credible authorities say. It gives
 
 Each section stands on its own: if one cannot be calculated, it says so, and the others still show.
 
+When the food database is missing a product's nutrition, or doesn't have the product at all, the app offers **Photograph the Nutrition Facts** (#63). A vision model reads the photo, the user checks each value, and the results page uses the confirmed values; an unknown product gives a nutrition-only result.
+
 **How to use it.**
 
 1. Open https://whats-in-my-food.onrender.com on a computer or phone, or [run it locally](#quick-start).
@@ -211,7 +213,7 @@ The latest `main` runs on Render's free tier (#22):
 - App: https://whats-in-my-food.onrender.com
 - Backend health check: https://whats-in-my-food-api.onrender.com/api/health
 
-A merge to `main` is deployed automatically once CI passes. The home screen shows the commit of the app build and of the backend, so you can check that staging is up to date. The backend sleeps after 15 minutes without traffic, so the first request after a quiet period takes about a minute. Setup, settings and limits: [docs/deployment.md](docs/deployment.md).
+A merge to `main` is deployed automatically once CI passes. The home screen shows the commit of the app build and of the backend, so you can check that staging is up to date. The backend sleeps after 15 minutes without traffic, so the first request after a quiet period takes about a minute. Setup, settings and limits: [docs/deployment.md](docs/deployment.md). To check that staging works end to end, run `python -m scripts.smoke_test` from `backend/`.
 
 ## Repository layout
 

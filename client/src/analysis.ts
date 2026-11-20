@@ -7,6 +7,7 @@ import { API_BASE_URL } from './api';
 import type { IngredientAnalysisResult } from './ingredients';
 import type { NutrientExplanationResult } from './nutrientExplanations';
 import type { NutrientName, NutrientValue, PackageNutritionResult } from './packageNutrition';
+import type { NextStep } from './productResult';
 
 export type Source = 'open_food_facts' | 'nutrition_label_photo';
 export type Certainty = NutrientValue['certainty'];
@@ -55,7 +56,7 @@ export type ProductResult = {
 };
 
 export type AnalysisResult = ProductResult & {
-  next_step: unknown;
+  next_step: NextStep | null;
   package_nutrition: PackageNutritionResult | null;
   explanations: NutrientExplanationResult | null;
   ingredients: IngredientAnalysisResult | null;

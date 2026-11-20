@@ -31,7 +31,8 @@ type ScreenState =
   | { kind: 'success'; previewUri: string; barcode: string; format: string }
   | { kind: 'failure'; previewUri: string | null; code: BarcodeErrorCode; message: string };
 
-const PICKER_OPTIONS: ImagePicker.ImagePickerOptions = {
+/** Picker settings for product photos; the label photo (#63) uses them too. */
+export const PICKER_OPTIONS: ImagePicker.ImagePickerOptions = {
   mediaTypes: ['images'],
   // Compresses the photo before it is uploaded.
   quality: 0.8,
@@ -228,7 +229,7 @@ type ActionButtonProps = {
   primary?: boolean;
 };
 
-function ActionButton({ label, onPress, disabled, primary }: ActionButtonProps) {
+export function ActionButton({ label, onPress, disabled, primary }: ActionButtonProps) {
   return (
     <Pressable
       accessibilityRole="button"
