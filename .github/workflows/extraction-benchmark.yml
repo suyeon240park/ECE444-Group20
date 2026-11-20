@@ -1,0 +1,63 @@
+name: Extraction benchmark
+
+# Q1 verification step 6 (#18): run the Nutrition Facts benchmark on every change that
+# can alter what the extraction reads, and fail below the 95% accuracy target or if a
+# critical serving value could be used before the user confirms it.
+#
+# It calls the Gemini API with the repository secret GEMINI_API_KEY (Settings, Secrets
+# and variables, Actions). Without the secret it passes with a warning, like the deploy
+# job in ci.yml, so forks and fresh clones are not blocked. See backend/scripts/README.md.
+
+on:
+  pull_request:
+    paths:
+      - backend/app/services/label_extraction.py
+      - backend/app/services/label_reading.py
+      - backend/app/services/package_nutrition.py
+      - backend/app/models/product.py
+      - backend/scripts/label_benchmark.py
+      - tests/fixtures/nutrition_labels/**
+      - .github/workflows/extraction-benchmark.yml
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    name: Benchmark (Q1)
+    runs-on: ubuntu-latest
+    # Free-tier rate limits make the script wait 30 s between retries.
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: pip install -r requirements.txt
+      - name: Run the benchmark
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          VISION_MODEL: ${{ vars.VISION_MODEL }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::warning::GEMINI_API_KEY is not configured; the extraction benchmark did not run."
+            exit 0
+          fi
+          status=0
+          python -m scripts.label_benchmark --out ../benchmark-results > ../benchmark-report.md || status=$?
+          cat ../benchmark-report.md
+          cat ../benchmark-report.md >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - name: Keep the saved replies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: |
+            benchmark-results
+            benchmark-report.md
+          if-no-files-found: ignore
+          retention-days: 30

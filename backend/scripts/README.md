@@ -27,9 +27,36 @@ python -m scripts.label_benchmark --from ../.label-results   # re-score without 
 
 What is measured: aggregate and per-field accuracy under Q1's rules (fields not printed are not counted), every mismatch, "extra" values the model returned for fields that are not printed, response time, tokens and cost per photo.
 
+## Accuracy verification against Q1 (#18)
+
+The same command is the Q1 check. Its report starts with a verdict, and its exit status says whether Q1 is met:
+
+| Exit status | Meaning |
+|---|---|
+| 0 | Aggregate accuracy is at least **95%** and no critical value can be used before the user confirms it |
+| 1 | Setup error: no photos, no `GEMINI_API_KEY`, or a mistake in `ground_truth.csv` |
+| 2 | Q1 not met |
+
+What the report adds to the per-photo, mismatch and per-field tables:
+
+- **Verdict line.** Aggregate accuracy against the 95% target and the number of correct fields that would have been needed. The comparison uses the counts, so 94.99% fails even though it prints as 95.0%. Nothing scored counts as a fail.
+- **Critical fields.** Accuracy of `serving.quantity` and `package.servings_per_package` on their own, a list of every wrong or missing critical value, and the **safe-use** result. Q1 asks for 100% safe use: for each reply with a table, the script builds the product the API would build (`to_contract`) and asks F2 (`calculate_package_nutrition`) for whole-package values with nothing confirmed. A photo fails if a critical value is not `uncertain`, if F2 calculates anything, or if the reply cannot be read. A wrong critical value is not a safe-use failure: the user catches it on the confirm screen (#39), and it is listed so the team can see how often that happens.
+- **Reproducible runs.** `--out DIR` saves every reply and `--from DIR` scores them again with no API calls, so a number in a report can be re-checked, and a change to the scoring can be tried on old replies. The model is named in the report. Re-running live can differ a little because the model's replies do.
+
+The target is the constant `TARGET_ACCURACY`. Q1 allows changing it only through a reviewed requirements revision, so there is no command-line flag for it.
+
+**A PASS counts toward Q1 only once two teammates have checked the ground truth.** Photos 011 to 054 are still a draft (`tests/fixtures/nutrition_labels/README.md`); the report says so under its verdict.
+
+### In CI
+
+`.github/workflows/extraction-benchmark.yml` runs the benchmark on pull requests that change the extraction code (`label_extraction.py`, `label_reading.py`, `package_nutrition.py`, the product model), the benchmark script or the fixtures, and on demand from the Actions tab. It prints the report into the job summary, keeps the saved replies as a build artifact for 30 days, and fails the check on exit status 2.
+
+It needs the repository secret `GEMINI_API_KEY` (Settings, Secrets and variables, Actions, New repository secret). Add it in GitHub's page, never in a file or a chat. Optionally add the repository variable `VISION_MODEL`. Without the secret the job passes with a warning and the benchmark did not run, so do not read a green check as "benchmark passed" until the secret exists. A full run reads 54 photos and can take several minutes; on the free tier a rate limit adds 30-second waits.
+
 Known limits of the prototype:
 
-- Vision models give no per-field confidence. The model is told to return `null` for anything it cannot read with certainty and to list it in `unreadable_fields`; Q1's confidence rule is not implemented.
+- Vision models give no per-field confidence. The model is told to return `null` for anything it cannot read with certainty and to list it in `unreadable_fields`; Q1's confidence rule is not implemented: every photo value is treated as uncertain until the user confirms it (#39).
+- The benchmark sends each original photo to the model. The API (`label_reading.prepare_photo`) first shrinks it to 2000 px on the longest side, so a live user's photo can read slightly differently from the benchmark's.
 - Free-tier requests may be used by Google to improve its models. The fixtures contain only package photos, so this is acceptable for the benchmark but must be revisited before user photos are sent.
 
 ## Recording replies for the end-to-end tests (#44)

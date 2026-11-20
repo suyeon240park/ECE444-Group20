@@ -3,7 +3,9 @@ from pathlib import Path
 
 import pytest
 
+from app.models.product import Certainty
 from app.services.label_extraction import Extraction, LabelExtractionError
+from app.services.label_reading import to_contract
 from scripts import label_benchmark as lb
 from scripts.label_benchmark import Record, TruthRow, load_truth, render_report, score_image
 
@@ -191,7 +193,8 @@ def test_main_runs_photos_saves_and_rescores(tmp_path, monkeypatch, capsys):
 
     monkeypatch.setattr(lb, "extract_label_file", fake_extract)
 
-    assert lb.main(["--fixtures", str(fixtures), "--out", str(out)]) == 0
+    # 2 of 3 fields correct: below the 95% target, so the exit status says so (#18).
+    assert lb.main(["--fixtures", str(fixtures), "--out", str(out)]) == lb.EXIT_BELOW_TARGET
     first = capsys.readouterr().out
     assert "**Aggregate field accuracy: 66.7% (2/3)**" in first
     assert sorted(p.name for p in out.iterdir()) == [
@@ -201,7 +204,7 @@ def test_main_runs_photos_saves_and_rescores(tmp_path, monkeypatch, capsys):
     assert json.loads((out / "002_box_back.jpg.json").read_text())["error"] == "HTTP 500"
 
     monkeypatch.setattr(lb, "extract_label_file", None)  # --from must not call the API
-    assert lb.main(["--fixtures", str(fixtures), "--from", str(out)]) == 0
+    assert lb.main(["--fixtures", str(fixtures), "--from", str(out)]) == lb.EXIT_BELOW_TARGET
     assert capsys.readouterr().out == first
 
 
@@ -220,3 +223,121 @@ def test_main_errors(tmp_path, monkeypatch, capsys):
         f.write("001_crackers.jpg,serving.household,,\n")
     assert lb.main(["--fixtures", str(fixtures)]) == 1
     assert "serving.household has no expected value" in capsys.readouterr().err
+
+
+# --- Q1 pass/fail and critical fields (#18) ---------------------------------------
+
+PASSING_RESULT = {
+    "status": "found",
+    "serving": {"size_text": "6 crackers (30 g)", "household": "6", "quantity": 30.0, "unit": "g"},
+    "package": {"servings_per_package": 4.0},
+    "nutrition": {
+        "basis": "serving",
+        "nutrients": {"sodium": {"amount": 310.0, "unit": "mg", "daily_value_percent": 13.0}},
+    },
+}
+PASSING_TRUTH = [
+    TruthRow("serving.quantity", "30", "g"),
+    TruthRow("package.servings_per_package", "4", ""),
+    TruthRow("nutrition.nutrients.sodium.amount", "310", "mg"),
+]
+
+
+def test_evaluate_meets_the_target_exactly():
+    # 19 of 20 fields correct is 95%: a pass. 18 of 20 is 90%: a fail.
+    passing = lb.Evaluation([], 19, 20, 95.0, [])
+    failing = lb.Evaluation([], 18, 20, 95.0, [])
+    assert passing.accuracy_met and passing.passed and passing.needed == 19
+    assert not failing.accuracy_met and not failing.passed
+    assert not lb.Evaluation([], 20, 20, 95.0, ["001.jpg"]).passed  # unsafe photo: fail
+
+
+def test_evaluate_just_below_target_fails_even_though_it_prints_as_95():
+    ev = lb.Evaluation([], 9499, 10000, 95.0, [])  # 94.99%
+    assert lb._pct(ev.correct, ev.total) == "95.0%"
+    assert not ev.accuracy_met
+
+
+def test_evaluate_nothing_scored_is_a_fail():
+    ev = lb.evaluate({}, {})
+    assert ev.total == 0 and not ev.passed
+    assert "nothing was scored" in "\n".join(lb.verdict_lines(ev))
+
+
+def test_critical_safe_use_checks_every_photo_with_a_table():
+    records = {
+        "001.jpg": Record("001.jpg", PASSING_RESULT),
+        "002.jpg": Record("002.jpg", {"status": "not_found"}),  # no table: nothing to use
+        "003.jpg": Record("003.jpg", None, error="HTTP 500"),
+    }
+    assert lb.critical_safe_use(records) == (1, [])
+
+
+def test_critical_safe_use_fails_when_a_photo_value_is_not_unconfirmed(monkeypatch):
+    def confirmed(result):
+        reading = to_contract(result)
+        object.__setattr__(reading.package, "certainty", Certainty.USER_CONFIRMED)
+        return reading
+
+    monkeypatch.setattr(lb, "to_contract", confirmed)
+    checked, unsafe = lb.critical_safe_use({"001.jpg": Record("001.jpg", PASSING_RESULT)})
+    assert (checked, unsafe) == (1, ["001.jpg"])
+
+
+def test_critical_safe_use_fails_closed_on_a_reply_it_cannot_read():
+    record = Record("001.jpg", {"status": "found", "serving": {"quantity": "lots", "unit": "g"}})
+    assert lb.critical_safe_use({"001.jpg": record}) == (1, ["001.jpg"])
+
+
+def test_report_has_a_verdict_and_a_critical_fields_section():
+    report = render_report(
+        {"001.jpg": PASSING_TRUTH}, {"001.jpg": Record("001.jpg", PASSING_RESULT)}
+    )
+
+    assert "**Q1 verdict: PASS**: aggregate accuracy 100.0% (3/3) against the 95% target" in report
+    assert "at least 3 correct fields were needed" in report
+    assert "### Critical fields (they set the serving multiplier in F2)" in report
+    assert "| serving.quantity | 1 | 1 | 100.0% |" in report
+    assert "| package.servings_per_package | 1 | 1 | 100.0% |" in report
+    assert "Safe use (Q1: 100%): 1 of 1 photos" in report
+    assert "wrong or missing (the user must catch these when confirming):\n\nNone." in report
+
+
+def test_report_lists_wrong_critical_values_and_fails():
+    wrong = {**PASSING_RESULT, "package": {"servings_per_package": 14.0}}
+    report = render_report({"001.jpg": PASSING_TRUTH}, {"001.jpg": Record("001.jpg", wrong)})
+
+    assert "**Q1 verdict: FAIL**: aggregate accuracy 66.7% (2/3)" in report
+    assert "| 001.jpg | package.servings_per_package | wrong | 4 | 14 |" in report
+    assert "| package.servings_per_package | 0 | 1 | 0.0% |" in report
+
+
+def test_report_names_unsafe_photos(monkeypatch):
+    monkeypatch.setattr(lb, "critical_safe_use", lambda records: (2, ["002.jpg"]))
+    report = render_report(
+        {"001.jpg": PASSING_TRUTH}, {"001.jpg": Record("001.jpg", PASSING_RESULT)}
+    )
+
+    assert "**Q1 verdict: FAIL**" in report
+    assert "critical-field safe use FAILED on 1 photo(s)" in report
+    assert "Safe use (Q1: 100%): 1 of 2 photos" in report
+    assert "Unsafe: 002.jpg" in report
+
+
+def test_main_exits_zero_when_q1_is_met(tmp_path, monkeypatch, capsys):
+    fixtures = tmp_path / "fx"
+    (fixtures / "images").mkdir(parents=True)
+    (fixtures / "images" / "001_crackers.jpg").write_bytes(b"jpg")
+    (fixtures / "ground_truth.csv").write_text(
+        "image,field,expected,unit\n"
+        "001_crackers.jpg,serving.quantity,30,g\n"
+        "001_crackers.jpg,package.servings_per_package,4,\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("GEMINI_API_KEY", "key")
+    monkeypatch.setattr(
+        lb, "extract_label_file", lambda photo, config: Extraction(PASSING_RESULT, "m", 1.0, 1, 1)
+    )
+
+    assert lb.main(["--fixtures", str(fixtures)]) == 0
+    assert "**Q1 verdict: PASS**" in capsys.readouterr().out
