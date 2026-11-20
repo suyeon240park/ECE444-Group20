@@ -72,3 +72,9 @@ python -m scripts.smoke_test --skip-photos    # no vision-model calls
 ```
 
 `--api` and `--app` point it at another deployment; the commit check needs a web build (`npm run build:web`), not the Expo dev server. Exit status 0 when every check passes, 1 otherwise. See `docs/deployment.md` for the pre-demo checklist.
+
+## Usability test scoring (#69)
+
+`python -m scripts.usability_report ../docs/usability/session-1` reads the three anonymized CSV files of a usability session (`participants.csv`, `attempts.csv`, `sus.csv`; blank templates and the rules are in `docs/usability/`), checks Q3's conditions (5 or more outside participants, 3 or more on a phone and 2 or more on a desktop, 3 or more product categories, nobody with nutrition training), and prints overall and per-task success, mean SUS and the T3/T4 scorer disagreements against Q3's targets (80%, 3 of 5 per task, SUS 68).
+
+Exit status: 0 when every target is met, 1 when the files or conditions are not valid (the run must not be reported), 2 when a target is missed. `--pilot` scores a run that does not meet Q3's conditions (for example one team member trying the tasks): the report is stamped as a pilot with no Q3 verdict, and the exit status is 0 for valid files. A target is changed only through a reviewed requirements revision, so none is a command-line option.
