@@ -41,3 +41,14 @@ python -m scripts.record_gemini_reply ../tests/fixtures/nutrition_labels/images/
 ```
 
 The photo is prepared as the server prepares it, and `VISION_MODEL` then each fallback model is tried. Only the reply and the model that gave it are saved, never the request or the key. List new recordings in `tests/fixtures/e2e/README.md`.
+
+## Smoke test of staging (#72)
+
+Checks the deployed app end to end: health and commit, CORS, a barcode photo, a complete product, an incomplete product with a label photo and confirmation, an unknown barcode with a label photo, and bad input. It waits up to 120 s for a sleeping Render backend (`--wake-seconds`).
+
+```
+python -m scripts.smoke_test                  # staging
+python -m scripts.smoke_test --skip-photos    # no vision-model calls
+```
+
+`--api` and `--app` point it at another deployment; the commit check needs a web build (`npm run build:web`), not the Expo dev server. Exit status 0 when every check passes, 1 otherwise. See `docs/deployment.md` for the pre-demo checklist.
