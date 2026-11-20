@@ -42,6 +42,26 @@ python -m scripts.record_gemini_reply ../tests/fixtures/nutrition_labels/images/
 
 The photo is prepared as the server prepares it, and `VISION_MODEL` then each fallback model is tried. Only the reply and the model that gave it are saved, never the request or the key. List new recordings in `tests/fixtures/e2e/README.md`.
 
+## Q3 readability check (#70)
+
+Flesch-Kincaid grade of the explanation text the results page shows: the %DV definition, each nutrient's "what it is" and "how to read" text, and each matched ingredient's explanations, flag reason and authority statements. It runs the app's own services on each product, so re-run it after any change to `content/`.
+
+```
+python -m scripts.readability                   # the three default products, Markdown report
+python -m scripts.readability --json            # the same as JSON
+python -m scripts.readability --product ../my-products/cheerios.json=cereal --product ...
+```
+
+A product file is an Open Food Facts v3 response, saved for example with
+`curl -A "<your app name>" "https://world.openfoodfacts.org/api/v3/product/<barcode>" -o <file>`.
+Append `=category` to label it. Use the usability-test products (#69) once they are chosen.
+
+Preprocessing follows Q3: product names and brands, ingredient names, aliases and E/INS numbers, source citations and URLs are removed. "%DV" is removed too, since the results page defines it in its glossary box; `--keep-defined-terms` scores it.
+
+Each product's text is joined into one passage and graded; the result is the mean over products, passing at grade 8 or below (exit status 0, or 1 on a fail). The report also lists the five hardest single texts to rewrite first. One-sentence texts are not reliable passages on their own (Q3), so they are not pass/fail.
+
+Syllables are counted with the usual vowel-group rules, not a dictionary, so grades can differ slightly from other tools; the count is deterministic, so a grade changes only when the text does.
+
 ## Smoke test of staging (#72)
 
 Checks the deployed app end to end: health and commit, CORS, a barcode photo, a complete product, an incomplete product with a label photo and confirmation, an unknown barcode with a label photo, and bad input. It waits up to 120 s for a sleeping Render backend (`--wake-seconds`).

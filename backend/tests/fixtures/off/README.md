@@ -13,6 +13,7 @@ as indented JSON); the others are written by hand.
 | `not_found.json` | real | v3 answer (HTTP 404) for an unknown barcode. |
 | `oyster_sauce_no_serving.json` | real | Premium Oyster Sauce `4891130005418` (captured 2026-10-16): per-100 g data only, no serving, brand or ingredients. Its label is photo `010_dark-sauce.jpg`; used by the end-to-end tests (#44). |
 | `not_found_valid_code.json` | real | v3 answer (HTTP 404) for `0620009999909`, a barcode with a valid check digit that OFF does not have (captured 2026-10-16). |
+| `oatmeal_squares_found.json` | real | Quaker Oatmeal Squares `0055577105665` (captured 2026-11-18): a Canadian breakfast cereal with an English ingredient list and nutrition. The third default product of the Q3 readability check (#70, `scripts/readability.py`). |
 | `empty_record.json` | synthetic | A record that exists but holds only its code. OFF returned one of these on 2026-10-08, but it has since been filled in, so this is a stand-in. |
 
 Open Food Facts is edited by the public, so a live product may differ from its fixture today.
