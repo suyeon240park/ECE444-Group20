@@ -29,7 +29,7 @@ Rules:
 | 001 to 010 | by hand from the package, by the team (#16) | under the rule at the time: one teammate transcribes, a second checks |
 | 011 to 054 | see below | **not yet**: the check sheet is on PR #57 |
 
-Until 011 to 054 are checked, they are a draft: an accuracy number from this set must not be reported as meeting Q1.
+Until 011 to 054 are checked, they are a draft: an accuracy number from this set must not be reported as meeting Q1, even when `python -m scripts.label_benchmark` prints PASS (#18).
 
 How photos 011 to 054 were transcribed (October 18, 2026): the packages were not available, so an AI assistant made the first transcription from each photo at full resolution. It is a different model from the one the benchmark scores (`VISION_MODEL` and its fallbacks), so the two do not share the same reading of a photo. The values were then cross-checked two ways: against the per-serving values Open Food Facts contributors typed in by hand (241 values agreed and 49 did not; each disagreement was either re-read on the photo, which matched the transcription, or came from an Open Food Facts record for a different serving size or converted from per-100 g values), and by recomputing every printed %DV from its amount and every calorie count from fat, carbohydrate and protein. Q1 asks for a manual transcription, so the teammates' check replaces it: each of them reads every value on the photo, not on the sheet.
 
