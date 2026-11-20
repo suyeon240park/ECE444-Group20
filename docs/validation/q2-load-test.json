@@ -1,0 +1,975 @@
+{
+  "api": "https://whats-in-my-food-api.onrender.com",
+  "started": "2026-11-20T09:14:50-05:00",
+  "cold_start_seconds": 37.41,
+  "health_round_trips": [
+    0.171,
+    0.079,
+    0.078,
+    0.078,
+    0.094
+  ],
+  "off_baseline": [
+    {
+      "barcode": "065633132832",
+      "seconds": 0.4529999999795109,
+      "status": "200"
+    },
+    {
+      "barcode": "055577105405",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "072400011597",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "060410047019",
+      "seconds": 0.10900000005494803,
+      "status": "200"
+    },
+    {
+      "barcode": "673513001507",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "063211000115",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "068400014294",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "076808011128",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "056800430318",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "068200750156",
+      "seconds": 0.10899999993853271,
+      "status": "200"
+    },
+    {
+      "barcode": "056412503011",
+      "seconds": 0.125,
+      "status": "200"
+    },
+    {
+      "barcode": "059600010865",
+      "seconds": 0.10999999998603016,
+      "status": "200"
+    },
+    {
+      "barcode": "0620009999909",
+      "seconds": 0.10999999998603016,
+      "status": "404"
+    },
+    {
+      "barcode": "0620009999916",
+      "seconds": 0.10900000005494803,
+      "status": "404"
+    },
+    {
+      "barcode": "0620009999923",
+      "seconds": 0.10999999998603016,
+      "status": "404"
+    }
+  ],
+  "rounds": {
+    "external": [
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "error",
+        "seconds": 6.688,
+        "barcode_seconds": 4.5,
+        "lookup_seconds": 2.188,
+        "outcome": "upstream_unavailable",
+        "expected": false,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.188,
+        "barcode_seconds": 1.484,
+        "lookup_seconds": 4.704,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "error",
+        "seconds": 6.688,
+        "barcode_seconds": 4.484,
+        "lookup_seconds": 2.204,
+        "outcome": "upstream_unavailable",
+        "expected": false,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "error",
+        "seconds": 6.578,
+        "barcode_seconds": 4.281,
+        "lookup_seconds": 2.297,
+        "outcome": "upstream_unavailable",
+        "expected": false,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.078,
+        "barcode_seconds": 1.391,
+        "lookup_seconds": 4.687,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.094,
+        "barcode_seconds": 0.984,
+        "lookup_seconds": 5.11,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.391,
+        "barcode_seconds": 2.797,
+        "lookup_seconds": 3.594,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.297,
+        "barcode_seconds": 1.891,
+        "lookup_seconds": 4.406,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "09_activia.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.484,
+        "barcode_seconds": 3.688,
+        "lookup_seconds": 2.796,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "10_balkan-yogurt.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.281,
+        "barcode_seconds": 1.188,
+        "lookup_seconds": 5.093,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "11_apple-juice.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.297,
+        "barcode_seconds": 2.188,
+        "lookup_seconds": 4.109,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "12_orange-juice.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 6.5,
+        "barcode_seconds": 4.078,
+        "lookup_seconds": 2.422,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "13_unknown-a.jpg",
+        "case": "unknown",
+        "kind": "error",
+        "seconds": 6.781,
+        "barcode_seconds": 3.688,
+        "lookup_seconds": 3.093,
+        "outcome": "upstream_unavailable",
+        "expected": false,
+        "timed_out": false
+      },
+      {
+        "photo": "14_unknown-b.jpg",
+        "case": "unknown",
+        "kind": "external",
+        "seconds": 6.391,
+        "barcode_seconds": 2.484,
+        "lookup_seconds": 3.907,
+        "outcome": "product_not_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "15_unknown-c.jpg",
+        "case": "unknown",
+        "kind": "external",
+        "seconds": 6.484,
+        "barcode_seconds": 3.688,
+        "lookup_seconds": 2.796,
+        "outcome": "product_not_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "16_no-barcode.jpg",
+        "case": "no_barcode",
+        "kind": "no_barcode",
+        "seconds": 0.391,
+        "barcode_seconds": 0.391,
+        "lookup_seconds": null,
+        "outcome": "no_barcode_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "005_crackers.jpg",
+        "case": "no_barcode",
+        "kind": "no_barcode",
+        "seconds": 3.688,
+        "barcode_seconds": 3.688,
+        "lookup_seconds": null,
+        "outcome": "no_barcode_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "044_condensed-soup.jpg",
+        "case": "no_barcode",
+        "kind": "no_barcode",
+        "seconds": 6.281,
+        "barcode_seconds": 6.281,
+        "lookup_seconds": null,
+        "outcome": "no_barcode_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "027_cottage-cheese.jpg",
+        "case": "no_barcode",
+        "kind": "no_barcode",
+        "seconds": 4.281,
+        "barcode_seconds": 4.281,
+        "lookup_seconds": null,
+        "outcome": "no_barcode_found",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "040_orange-juice.jpg",
+        "case": "no_barcode",
+        "kind": "no_barcode",
+        "seconds": 5.078,
+        "barcode_seconds": 5.078,
+        "lookup_seconds": null,
+        "outcome": "no_barcode_found",
+        "expected": true,
+        "timed_out": false
+      }
+    ],
+    "cached": [
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.813,
+        "barcode_seconds": 2.11,
+        "lookup_seconds": 1.703,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.407,
+        "barcode_seconds": 0.422,
+        "lookup_seconds": 2.985,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.797,
+        "barcode_seconds": 1.703,
+        "lookup_seconds": 2.094,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.703,
+        "barcode_seconds": 1.5,
+        "lookup_seconds": 2.203,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.391,
+        "barcode_seconds": 0.891,
+        "lookup_seconds": 2.5,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.5,
+        "barcode_seconds": 1.203,
+        "lookup_seconds": 2.297,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.407,
+        "lookup_seconds": 0.39,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.703,
+        "barcode_seconds": 2.297,
+        "lookup_seconds": 1.406,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "09_activia.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.907,
+        "lookup_seconds": 0.89,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "10_balkan-yogurt.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.813,
+        "barcode_seconds": 2.797,
+        "lookup_seconds": 1.016,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "11_apple-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.094,
+        "lookup_seconds": 0.703,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "12_orange-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.813,
+        "barcode_seconds": 3.5,
+        "lookup_seconds": 0.313,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.907,
+        "barcode_seconds": 3.703,
+        "lookup_seconds": 0.204,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.5,
+        "barcode_seconds": 1.016,
+        "lookup_seconds": 2.484,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.907,
+        "barcode_seconds": 2.516,
+        "lookup_seconds": 1.391,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "external",
+        "seconds": 3.797,
+        "barcode_seconds": 2.11,
+        "lookup_seconds": 1.687,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.5,
+        "barcode_seconds": 1.016,
+        "lookup_seconds": 2.484,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.703,
+        "barcode_seconds": 1.797,
+        "lookup_seconds": 1.906,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.907,
+        "barcode_seconds": 3.719,
+        "lookup_seconds": 0.188,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.813,
+        "barcode_seconds": 2.907,
+        "lookup_seconds": 0.906,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.469,
+        "barcode_seconds": 1.578,
+        "lookup_seconds": 1.891,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 3.172,
+        "lookup_seconds": 0.313,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.578,
+        "barcode_seconds": 3.485,
+        "lookup_seconds": 0.093,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.375,
+        "lookup_seconds": 1.11,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.375,
+        "barcode_seconds": 0.688,
+        "lookup_seconds": 2.687,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.281,
+        "lookup_seconds": 1.204,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.891,
+        "lookup_seconds": 0.594,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.078,
+        "lookup_seconds": 1.407,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "09_activia.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.578,
+        "lookup_seconds": 0.907,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "10_balkan-yogurt.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 3.375,
+        "lookup_seconds": 0.11,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "11_apple-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.188,
+        "barcode_seconds": 0.281,
+        "lookup_seconds": 2.907,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "12_orange-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 1.485,
+        "lookup_seconds": 2.0,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 1.375,
+        "lookup_seconds": 2.11,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "error",
+        "seconds": 0.203,
+        "barcode_seconds": 0.0,
+        "lookup_seconds": null,
+        "outcome": "no answer: SSLError",
+        "expected": false,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.781,
+        "lookup_seconds": 0.704,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 2.281,
+        "lookup_seconds": 1.204,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.375,
+        "barcode_seconds": 0.875,
+        "lookup_seconds": 2.5,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 1.5,
+        "lookup_seconds": 1.985,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.578,
+        "barcode_seconds": 3.375,
+        "lookup_seconds": 0.203,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.485,
+        "barcode_seconds": 0.985,
+        "lookup_seconds": 2.5,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.187,
+        "lookup_seconds": 0.61,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.578,
+        "lookup_seconds": 1.219,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.187,
+        "lookup_seconds": 1.61,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.594,
+        "barcode_seconds": 0.891,
+        "lookup_seconds": 2.703,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.687,
+        "barcode_seconds": 0.984,
+        "lookup_seconds": 2.703,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.687,
+        "barcode_seconds": 0.984,
+        "lookup_seconds": 2.703,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.203,
+        "lookup_seconds": 0.594,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.781,
+        "lookup_seconds": 1.016,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "09_activia.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.187,
+        "lookup_seconds": 1.61,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "10_balkan-yogurt.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.578,
+        "barcode_seconds": 1.187,
+        "lookup_seconds": 2.391,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "11_apple-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.781,
+        "barcode_seconds": 1.781,
+        "lookup_seconds": 2.0,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "12_orange-juice.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.891,
+        "barcode_seconds": 3.687,
+        "lookup_seconds": 0.204,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "01_cheerios.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 2.891,
+        "lookup_seconds": 0.906,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "02_harvest-crunch.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.5,
+        "barcode_seconds": 0.484,
+        "lookup_seconds": 3.016,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "03_cream-of-wheat.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.781,
+        "barcode_seconds": 1.594,
+        "lookup_seconds": 2.187,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "04_lays-classic.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.687,
+        "barcode_seconds": 1.484,
+        "lookup_seconds": 2.203,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "05_potato-chips.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.484,
+        "lookup_seconds": 0.313,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "06_tomato-soup.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.891,
+        "barcode_seconds": 3.781,
+        "lookup_seconds": 0.11,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "07_chicken-noodle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.797,
+        "barcode_seconds": 3.594,
+        "lookup_seconds": 0.203,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      },
+      {
+        "photo": "08_farfalle.jpg",
+        "case": "known",
+        "kind": "cached",
+        "seconds": 3.781,
+        "barcode_seconds": 2.391,
+        "lookup_seconds": 1.39,
+        "outcome": "product",
+        "expected": true,
+        "timed_out": false
+      }
+    ]
+  }
+}

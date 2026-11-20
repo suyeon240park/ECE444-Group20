@@ -73,8 +73,21 @@ python -m scripts.smoke_test --skip-photos    # no vision-model calls
 
 `--api` and `--app` point it at another deployment; the commit check needs a web build (`npm run build:web`), not the Expo dev server. Exit status 0 when every check passes, 1 otherwise. See `docs/deployment.md` for the pre-demo checklist.
 
+
 ## Usability test scoring (#69)
 
 `python -m scripts.usability_report ../docs/usability/session-1` reads the three anonymized CSV files of a usability session (`participants.csv`, `attempts.csv`, `sus.csv`; blank templates and the rules are in `docs/usability/`), checks Q3's conditions (5 or more outside participants, 3 or more on a phone and 2 or more on a desktop, 3 or more product categories, nobody with nutrition training), and prints overall and per-task success, mean SUS and the T3/T4 scorer disagreements against Q3's targets (80%, 3 of 5 per task, SUS 68).
 
 Exit status: 0 when every target is met, 1 when the files or conditions are not valid (the run must not be reported), 2 when a target is missed. `--pilot` scores a run that does not meet Q3's conditions (for example one team member trying the tasks): the report is stamped as a pilot with no Q3 verdict, and the exit status is 0 for valid files. A target is changed only through a reviewed requirements revision, so none is a command-line option.
+
+## Q2 load test of product identification (#68)
+
+Times what the app does after a photo is taken, `POST /api/barcode` and then `GET /api/products/{barcode}`, with 20 requests at once, following Q2's verification method: the cold start on its own, Open Food Facts timed directly (4 s apart, within its 15 reads per minute), one round of the 20 photos in `tests/fixtures/barcode_photos/` (external lookups, unknown products, no barcode), then rounds the server answers from its product cache.
+
+```
+python -m scripts.load_test --out ../q2.json   # staging; also saves every request
+python -m scripts.load_test --from ../q2.json  # the report again, sending nothing
+```
+
+Run it 15 minutes after the last request, so the backend is asleep and its cache empty; the report says if known products were already cached. It reports, per kind of identification, the share within target (5 s; 1 s for cached, provisional), p50, p95, max, the share with no answer within 10 s, and unexpected answers. Times are measured by the client, so they include the network and upload that Q2's server-side measure leaves out; the median `/api/health` round trip shows about how much. Exit status 0 when Q2's targets are met, 1 otherwise. The photo set is made by `python -m scripts.make_barcode_photos`; see its README.
+

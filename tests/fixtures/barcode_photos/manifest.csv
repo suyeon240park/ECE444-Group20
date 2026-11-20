@@ -1,0 +1,21 @@
+photo,case,barcode,product,category
+01_cheerios.jpg,known,065633132832,Multi-Grain Cheerios,cereal
+02_harvest-crunch.jpg,known,055577105405,Harvest Crunch Original,cereal
+03_cream-of-wheat.jpg,known,072400011597,Cream of Wheat Original,cereal
+04_lays-classic.jpg,known,060410047019,Lay's Classic,chips
+05_potato-chips.jpg,known,673513001507,Potato Chips All Natural,chips
+06_tomato-soup.jpg,known,063211000115,Tomato soup,soup
+07_chicken-noodle.jpg,known,068400014294,Chicken Noodle soup,soup
+08_farfalle.jpg,known,076808011128,Farfalle,pasta
+09_activia.jpg,known,056800430318,Activia Yogurt,yogurt
+10_balkan-yogurt.jpg,known,068200750156,Original Balkan Yogurt,yogurt
+11_apple-juice.jpg,known,056412503011,Apple juice,juice
+12_orange-juice.jpg,known,059600010865,Minute Maid Orange juice,juice
+13_unknown-a.jpg,unknown,0620009999909,,
+14_unknown-b.jpg,unknown,0620009999916,,
+15_unknown-c.jpg,unknown,0620009999923,,
+16_no-barcode.jpg,no_barcode,,,
+../nutrition_labels/images/005_crackers.jpg,no_barcode,,,
+../nutrition_labels/images/044_condensed-soup.jpg,no_barcode,,,
+../nutrition_labels/images/027_cottage-cheese.jpg,no_barcode,,,
+../nutrition_labels/images/040_orange-juice.jpg,no_barcode,,,
