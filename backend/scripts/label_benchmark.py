@@ -9,14 +9,17 @@ per-field accuracy, the critical serving fields on their own, response time and 
 Scoring follows Q1: a field not printed on the label is left out of the accuracy
 denominator, and whitespace and unit spacing are ignored ("1 g" equals "1g").
 
-Exit status: 0 when Q1 is met, 1 for a setup error, 2 when the run misses the target
-(#18), so CI can fail an extraction change that makes the reading worse.
+Exit status: 0 when Q1 is met, 1 when the run is not usable (a setup error, or photos
+that could not be read because of an API error such as a quota limit, so the run is
+INCOMPLETE and must be repeated), 2 when the run misses the target (#18), so CI can
+fail an extraction change that makes the reading worse.
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import dataclasses
 import json
 import math
 import os
@@ -25,7 +28,7 @@ import statistics
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +61,7 @@ FIELDS: tuple[str, ...] = (
 
 COUNTED = ("correct", "wrong", "missing")
 
+EXIT_INCOMPLETE = 1
 EXIT_BELOW_TARGET = 2
 
 # Q1's target: at least 95% aggregate field-level accuracy. Change it only through a
@@ -212,6 +216,7 @@ class Evaluation:
     total: int
     target: float
     unsafe: list[str]  # photos whose critical values could be used without confirmation
+    failed: list[str] = dataclasses.field(default_factory=list)  # photos the API call failed for
 
     @property
     def accuracy_met(self) -> bool:
@@ -224,8 +229,26 @@ class Evaluation:
         return math.ceil(self.target * self.total / 100)
 
     @property
+    def verdict(self) -> str:
+        """PASS, FAIL, or INCOMPLETE when photos failed with an API error.
+
+        An API error (a quota limit, a network failure) says nothing about extraction
+        accuracy, so those photos are left out of the score and the run cannot pass.
+        A critical value that could be used unconfirmed fails the run regardless.
+        """
+        if self.unsafe:
+            return "FAIL"
+        if self.failed:
+            return "INCOMPLETE"
+        return "PASS" if self.accuracy_met else "FAIL"
+
+    @property
     def passed(self) -> bool:
-        return self.accuracy_met and not self.unsafe
+        return self.verdict == "PASS"
+
+    @property
+    def exit_code(self) -> int:
+        return {"PASS": 0, "INCOMPLETE": EXIT_INCOMPLETE, "FAIL": EXIT_BELOW_TARGET}[self.verdict]
 
 
 def critical_safe_use(records: dict[str, Record]) -> tuple[int, list[str]]:
@@ -248,7 +271,7 @@ def critical_safe_use(records: dict[str, Record]) -> tuple[int, list[str]]:
         try:
             reading = to_contract(result)
             product = Product(
-                source=DataSource(Source.NUTRITION_LABEL_PHOTO, datetime.now(UTC)),
+                source=DataSource(Source.NUTRITION_LABEL_PHOTO, datetime.now(timezone.utc)),
                 serving=reading.serving,
                 package=reading.package,
                 nutrition=reading.nutrition,
@@ -270,6 +293,10 @@ def critical_safe_use(records: dict[str, Record]) -> tuple[int, list[str]]:
     return checked, unsafe
 
 
+def failed_photos(records: dict[str, Record]) -> list[str]:
+    return sorted(image for image, record in records.items() if record.error)
+
+
 def evaluate(
     truth: dict[str, list[TruthRow]],
     records: dict[str, Record],
@@ -277,9 +304,14 @@ def evaluate(
 ) -> Evaluation:
     scores: list[Score] = []
     for image in sorted(set(truth) | set(records)):
-        scores += score_image(image, truth.get(image, []), records.get(image))
+        record = records.get(image)
+        if record is not None and record.error:
+            continue  # an API error is not a misread: see Evaluation.verdict
+        scores += score_image(image, truth.get(image, []), record)
     correct, total = accuracy(scores)
-    return Evaluation(scores, correct, total, target, critical_safe_use(records)[1])
+    return Evaluation(
+        scores, correct, total, target, critical_safe_use(records)[1], failed_photos(records)
+    )
 
 
 def _cost(record: Record) -> float | None:
@@ -309,8 +341,16 @@ def verdict_lines(ev: Evaluation) -> list[str]:
         if not ev.unsafe
         else f"critical-field safe use FAILED on {len(ev.unsafe)} photo(s)"
     )
+    incomplete = ""
+    if ev.failed and ev.verdict == "INCOMPLETE":
+        incomplete = (
+            f" {len(ev.failed)} photo(s) failed with an API error (for example a quota limit) "
+            "and are left out of the score, so this run cannot decide Q1: run it again "
+            "(`--from` re-scores saved replies; a second run only needs the failed photos' "
+            "quota). The figures below cover only the photos that were read."
+        )
     return [
-        f"**Q1 verdict: {'PASS' if ev.passed else 'FAIL'}**: {accuracy_text}; {safe_text}.",
+        f"**Q1 verdict: {ev.verdict}**: {accuracy_text}; {safe_text}.{incomplete}",
         "",
         "A PASS counts toward Q1 only once two teammates have checked the ground truth "
         "(see tests/fixtures/nutrition_labels/README.md, status of the values).",
@@ -368,7 +408,7 @@ def render_report(
     per_image: list[str] = []
     for image in images:
         record = records.get(image)
-        scores = score_image(image, truth.get(image, []), record)
+        scores = [] if record and record.error else score_image(image, truth.get(image, []), record)
         all_scores += scores
         counts = {o: sum(s.outcome == o for s in scores) for o in (*COUNTED, "extra")}
         notes = []
@@ -379,7 +419,7 @@ def render_report(
         if record is None:
             notes.append("no photo")
         elif record.error:
-            notes.append(f"error: {record.error}")
+            notes.append(f"error, not scored: {record.error}")
         elif record.result and record.result.get("status") == "not_found":
             notes.append("model: table not found")
         seconds = f"{record.latency_seconds:.1f}" if record and record.latency_seconds else ""
@@ -535,7 +575,7 @@ def main(argv: list[str] | None = None) -> int:
         records = run_photos(photos, config, args.out)
 
     print(render_report(truth, records))
-    return 0 if evaluate(truth, records).passed else EXIT_BELOW_TARGET
+    return evaluate(truth, records).exit_code
 
 
 if __name__ == "__main__":

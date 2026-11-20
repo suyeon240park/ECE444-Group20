@@ -151,7 +151,7 @@ def test_render_report(monkeypatch):
     assert "Response time: mean 2.7 s, max 4.0 s" in report
     assert "Cost per photo: mean $0.0008" in report
     assert "| 003.jpg | 0 | 0 | 5 | 0 |  | no photo |" in report
-    assert "| 004.jpg | 0 | 0 | 0 | 0 |  | no ground truth; error: HTTP 500 |" in report
+    assert "| 004.jpg | 0 | 0 | 0 | 0 |  | no ground truth; error, not scored: HTTP 500 |" in report
     assert "| 002.jpg | 1 | 0 | 0 | 0 | 2.0 | model: table not found |" in report
     assert (
         "| 001.jpg | nutrition.nutrients.sodium.daily_value_percent | wrong | 13 | 18 |" in report
@@ -193,10 +193,10 @@ def test_main_runs_photos_saves_and_rescores(tmp_path, monkeypatch, capsys):
 
     monkeypatch.setattr(lb, "extract_label_file", fake_extract)
 
-    # 2 of 3 fields correct: below the 95% target, so the exit status says so (#18).
-    assert lb.main(["--fixtures", str(fixtures), "--out", str(out)]) == lb.EXIT_BELOW_TARGET
+    # 002 failed with an API error: the run is incomplete, not a score (#18).
+    assert lb.main(["--fixtures", str(fixtures), "--out", str(out)]) == lb.EXIT_INCOMPLETE
     first = capsys.readouterr().out
-    assert "**Aggregate field accuracy: 66.7% (2/3)**" in first
+    assert "**Aggregate field accuracy: 100.0% (2/2)**" in first
     assert sorted(p.name for p in out.iterdir()) == [
         "001_crackers.jpg.json",
         "002_box_back.jpg.json",
@@ -204,7 +204,7 @@ def test_main_runs_photos_saves_and_rescores(tmp_path, monkeypatch, capsys):
     assert json.loads((out / "002_box_back.jpg.json").read_text())["error"] == "HTTP 500"
 
     monkeypatch.setattr(lb, "extract_label_file", None)  # --from must not call the API
-    assert lb.main(["--fixtures", str(fixtures), "--from", str(out)]) == lb.EXIT_BELOW_TARGET
+    assert lb.main(["--fixtures", str(fixtures), "--from", str(out)]) == lb.EXIT_INCOMPLETE
     assert capsys.readouterr().out == first
 
 
@@ -341,3 +341,65 @@ def test_main_exits_zero_when_q1_is_met(tmp_path, monkeypatch, capsys):
 
     assert lb.main(["--fixtures", str(fixtures)]) == 0
     assert "**Q1 verdict: PASS**" in capsys.readouterr().out
+
+
+# --- API errors are not misreads (review of #18) ----------------------------------
+
+
+def _two_photos(second_record):
+    truth = {"001.jpg": PASSING_TRUTH, "002.jpg": PASSING_TRUTH}
+    records = {"001.jpg": Record("001.jpg", PASSING_RESULT), "002.jpg": second_record}
+    return truth, records
+
+
+def test_a_photo_that_failed_with_an_api_error_is_left_out_of_the_score():
+    truth, records = _two_photos(Record("002.jpg", None, error="HTTP 429: quota"))
+    ev = lb.evaluate(truth, records)
+
+    assert (ev.correct, ev.total) == (3, 3)  # the failed photo's 3 fields are not "missing"
+    assert ev.failed == ["002.jpg"]
+    assert ev.verdict == "INCOMPLETE" and not ev.passed
+    assert ev.exit_code == lb.EXIT_INCOMPLETE == 1
+
+
+def test_a_missing_photo_still_counts_as_missing():
+    truth, records = _two_photos(None)
+    del records["002.jpg"]
+    ev = lb.evaluate(truth, records)
+
+    assert (ev.correct, ev.total) == (3, 6)
+    assert ev.failed == [] and ev.verdict == "FAIL" and ev.exit_code == lb.EXIT_BELOW_TARGET
+
+
+def test_a_misread_is_still_a_fail_not_incomplete():
+    wrong = {**PASSING_RESULT, "package": {"servings_per_package": 14.0}}
+    truth, records = _two_photos(Record("002.jpg", wrong))
+    assert lb.evaluate(truth, records).verdict == "FAIL"
+
+
+def test_an_unsafe_photo_fails_even_when_the_run_is_incomplete(monkeypatch):
+    monkeypatch.setattr(lb, "critical_safe_use", lambda records: (1, ["001.jpg"]))
+    truth, records = _two_photos(Record("002.jpg", None, error="HTTP 429"))
+    assert lb.evaluate(truth, records).verdict == "FAIL"
+
+
+def test_report_says_the_run_is_incomplete_and_how_many_photos_failed():
+    truth, records = _two_photos(Record("002.jpg", None, error="HTTP 429: quota"))
+    report = render_report(truth, records)
+
+    assert "**Q1 verdict: INCOMPLETE**" in report
+    assert "1 photo(s) failed with an API error" in report
+    assert "run it again" in report
+    assert "| 002.jpg | 0 | 0 | 0 | 0 |  | error, not scored: HTTP 429: quota |" in report
+    assert "**Aggregate field accuracy: 100.0% (3/3)**" in report
+    assert "Photos: 2 (1 failed)" in report
+
+
+def test_scripts_do_not_import_datetime_utc():
+    """datetime.UTC exists only since Python 3.11; the README promises 3.10 or newer."""
+    import ast
+
+    for path in Path(lb.__file__).parent.glob("*.py"):
+        for node in ast.walk(ast.parse(path.read_text())):
+            if isinstance(node, ast.ImportFrom) and node.module == "datetime":
+                assert "UTC" not in [alias.name for alias in node.names], path.name
