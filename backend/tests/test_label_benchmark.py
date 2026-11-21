@@ -400,6 +400,6 @@ def test_scripts_do_not_import_datetime_utc():
     import ast
 
     for path in Path(lb.__file__).parent.glob("*.py"):
-        for node in ast.walk(ast.parse(path.read_text())):
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
             if isinstance(node, ast.ImportFrom) and node.module == "datetime":
                 assert "UTC" not in [alias.name for alias in node.names], path.name
