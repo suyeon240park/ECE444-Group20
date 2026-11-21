@@ -38,7 +38,7 @@ export default function PackageNutritionTable({ result }: Props) {
               {result.approximate ? ' (approximate)' : ''}
             </Text>
             {result.daily_value_label ? (
-              <Text style={styles.note}>%DV {result.daily_value_label.toLowerCase()}</Text>
+              <Text style={styles.note}>% daily value {result.daily_value_label.toLowerCase()}</Text>
             ) : null}
           </View>
         ) : null}

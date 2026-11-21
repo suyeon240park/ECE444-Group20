@@ -52,11 +52,15 @@ function NutrientCard({
         </View>
       </View>
       {dv ? (
-        <Text style={styles.dv}>
-          {dv.display_percent}% DV
-          {dv.label ? ` (${dv.label})` : ''}
-          {dv.interpretation_text ? `: ${dv.interpretation_text}` : ''}
-        </Text>
+        <View style={styles.dvBox}>
+          <Text style={styles.dvPercent}>
+            {dv.display_percent}% of your daily value
+            {dv.label ? ` — ${dv.label}` : ''}
+          </Text>
+          {dv.interpretation_text ? (
+            <Text style={styles.dvDetail}>{dv.interpretation_text}</Text>
+          ) : null}
+        </View>
       ) : null}
       {row.status === 'needs_confirmation' ? (
         <Text style={styles.warning}>{row.status_text}</Text>
@@ -111,7 +115,9 @@ const styles = StyleSheet.create({
     padding: 12,
     lineHeight: 20,
   },
-  dv: { color: '#1a1a1a' },
+  dvBox: { gap: 2 },
+  dvPercent: { color: '#1a1a1a', fontWeight: '500' },
+  dvDetail: { color: '#555', lineHeight: 20 },
   warning: { color: '#7a4b00' },
   explanation: { gap: 2 },
   body: { color: '#333', lineHeight: 20 },
