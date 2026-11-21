@@ -150,7 +150,7 @@ cd client && npm run typecheck && npm run build:web
 | M2: Requirements engineering | Done. See [docs/requirements.md](docs/requirements.md) |
 | M3: First sprint | Done. See [docs/M3-sprint-1-report.pdf](docs/M3-sprint-1-report.pdf) |
 | M4: Second sprint | Done: scan to results page, nutrition, explanations, ingredients, staging |
-| Sprint 3 (October 24 – November 20) | Next: the photo path in the app, Q1–Q3 measurements, release |
+| Sprint 3 (October 24 – November 20) | Done: Nutrition Facts photo path (#63), Q1 extraction accuracy benchmark (#18), Q2 load test (#68), Q3 readability check (#70) and usability test plan (#69), UI polish (#73), smoke test and demo checklist (#72), final deployment (#77) |
 
 ## What the app does
 
@@ -229,6 +229,7 @@ A merge to `main` is deployed automatically once CI passes. The home screen show
 │   ├── deployment.md            staging on Render: setup, settings, limits (#22)
 │   ├── M3-sprint-1-report.pdf   sprint reports (Milestones 3 and 4)
 │   ├── images/                  README screenshot and a test barcode
+│   ├── usability/               Q3 usability test plan, rubric and CSV templates (#69)
 │   ├── validation/              checks of the ingredient content against real products
 │   └── api/                     client–backend API contract: openapi.yaml + README.md (#20)
 ├── .github/workflows/ci.yml     backend lint + tests, client typecheck + web build, staging deploy
@@ -245,6 +246,7 @@ A merge to `main` is deployed automatically once CI passes. The home screen show
 - [Requirements](docs/requirements.md)
 - [Product API contract](docs/api/README.md)
 - [Staging deployment](docs/deployment.md)
+- [Usability test plan and rubric](docs/usability/test-plan.md)
 - [Team Workflow Document](Team_Workflow_Document.md)
 - [Team members](team_members.md)
 - [Contributing guide](CONTRIBUTING.md)
