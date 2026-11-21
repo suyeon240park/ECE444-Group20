@@ -190,7 +190,7 @@
       "name": "Sugars",
       "guidance": "limit",
       "what_it_is": {
-        "text": "Sugars are a type of carbohydrate that gives the body energy. They occur naturally in fruit, vegetables and unsweetened milk products, and are also added to many foods. Eating too many added sugars has been linked to tooth decay in children and to taking in extra calories.",
+        "text": "Sugars give the body energy. They are found in fruit, vegetables and milk, and are also added to many foods. Eating too many added sugars has been linked to tooth decay and to taking in extra calories.",
         "source_ids": ["sugars"]
       },
       "how_to_read": {

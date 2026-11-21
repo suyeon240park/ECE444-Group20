@@ -9,19 +9,19 @@
     "e_numbers": [],
     "ins_numbers": [],
     "what_it_is": {
-      "text": "Salt is primarily sodium chloride.",
+      "text": "Salt is a common food ingredient made up of sodium and chloride. It is one of the main sources of sodium in the diet.",
       "source_ids": [
         "standards"
       ]
     },
     "why_used": {
-      "text": "It is used to season foods.",
+      "text": "It is added to foods for flavour and to help preserve them.",
       "source_ids": [
         "seasonings"
       ]
     },
     "explanation": {
-      "text": "Salt contributes to the taste of seasoning mixtures.",
+      "text": "Salt is one of the most common seasonings. Because it is a major source of sodium, checking the sodium line on the label can help you keep track of how much you are getting.",
       "source_ids": [
         "seasonings"
       ]

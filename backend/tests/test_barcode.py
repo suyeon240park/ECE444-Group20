@@ -14,6 +14,7 @@ from PIL import Image
 
 from app import create_app
 from app.services import barcode as barcode_service
+from app.services.barcode import _SCAN_MAX_EDGE, _prepare_for_scan
 
 EAN13 = "5901234123457"
 EAN8 = "96385074"
@@ -187,6 +188,32 @@ def test_image_past_pillows_own_pixel_limit_is_413_not_500(client, monkeypatch):
     response = post_image(client, encode(Image.new("RGB", (100, 100), "white")))
 
     assert_error(response, 413, "image_too_large")
+
+
+def test_prepare_for_scan_downscales_and_converts_to_grayscale():
+    image = Image.new("RGB", (4032, 3024))
+    result = _prepare_for_scan(image)
+
+    assert result.mode == "L"
+    assert max(result.size) <= _SCAN_MAX_EDGE
+
+
+def test_prepare_for_scan_keeps_small_images():
+    image = Image.new("RGB", (640, 480))
+    result = _prepare_for_scan(image)
+
+    assert result.mode == "L"
+    assert result.size == (640, 480)
+
+
+def test_detects_barcode_in_a_high_resolution_photo(client):
+    """A phone-sized photo is downscaled before scanning (#71, Q2)."""
+    code = barcode_image("ean13", EAN13)
+    canvas = Image.new("RGB", (4032, 3024), (225, 215, 190))
+    scaled = code.resize((code.width * 3, code.height * 3))
+    canvas.paste(scaled, (1200, 800))
+
+    assert post_image(client, encode(canvas, "JPEG")).get_json()["barcode"] == EAN13
 
 
 def test_wrong_method_is_405(client):
