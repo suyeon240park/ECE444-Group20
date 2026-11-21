@@ -16,13 +16,13 @@
       "INS 110"
     ],
     "what_it_is": {
-      "text": "A synthetic orange-yellow food colour.",
+      "text": "A man-made dye that gives food and drinks an orange-yellow colour. It is also known as Yellow 6.",
       "source_ids": [
         "cfia_colours"
       ]
     },
     "why_used": {
-      "text": "It colours foods and beverages orange-yellow.",
+      "text": "It is added to give food and drinks an orange-yellow look.",
       "source_ids": [
         "cfia_colours"
       ]
@@ -64,7 +64,7 @@
       {
         "id": "fda_phaseout_2025",
         "authority": "fda",
-        "statement": "FDA announced it is working with industry to eliminate FD&C Yellow No. 6 from the food supply, citing concerns about children's health.",
+        "statement": "The FDA said it plans to remove Yellow 6 from the food supply over time because of concerns about the health of children.",
         "scope": "food colour use",
         "source_ids": [
           "fda_phaseout"

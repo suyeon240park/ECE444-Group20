@@ -15,13 +15,13 @@
       "INS 102"
     ],
     "what_it_is": {
-      "text": "A synthetic yellow food colour.",
+      "text": "A man-made dye that gives food and drinks a bright yellow colour. It is also known as Yellow 5.",
       "source_ids": [
         "cfia_colours"
       ]
     },
     "why_used": {
-      "text": "It colours foods and beverages yellow.",
+      "text": "It is added to give food and drinks a yellow look.",
       "source_ids": [
         "cfia_colours"
       ]
@@ -63,7 +63,7 @@
       {
         "id": "fda_phaseout_2025",
         "authority": "fda",
-        "statement": "FDA announced it is working with industry to eliminate FD&C Yellow No. 5 from the food supply, citing concerns about children's health.",
+        "statement": "The FDA said it plans to remove Yellow 5 from the food supply over time because of concerns about the health of children.",
         "scope": "food colour use",
         "source_ids": [
           "fda_phaseout"

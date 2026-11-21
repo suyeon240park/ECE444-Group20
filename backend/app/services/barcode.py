@@ -23,6 +23,10 @@ SUPPORTED_IMAGE_FORMATS = frozenset({"JPEG", "PNG", "WEBP"})
 # Reject photos larger than this before decoding. A 12 MP phone photo is well inside it.
 MAX_IMAGE_PIXELS = 40_000_000
 
+# Barcode scanning does not need high-resolution images. Downscaling to this longest
+# edge before scanning cuts CPU time on constrained servers (Q2, #68).
+_SCAN_MAX_EDGE = 1024
+
 # Retail barcode symbologies from the product contract: EAN-8, UPC-A, EAN-13, GTIN-14.
 # UPC-A is not listed because it is an EAN-13 with a leading 0; see ``_normalize``.
 _FORMATS = (
@@ -113,14 +117,21 @@ def _normalize(text: str, format_name: str) -> DetectedBarcode:
     return DetectedBarcode(barcode=text, format=format_name)
 
 
+def _prepare_for_scan(image: Image.Image) -> Image.Image:
+    """Downscale and convert to grayscale for faster barcode scanning (#71, Q2)."""
+    image.thumbnail((_SCAN_MAX_EDGE, _SCAN_MAX_EDGE))
+    return image.convert("L")
+
+
 def detect_barcode(data: bytes) -> DetectedBarcode:
     """Return the retail barcode found in the image bytes ``data``.
 
     Raises ``BarcodeError`` if the image is invalid or contains no readable barcode.
     """
     image = load_image(data)
+    scan = _prepare_for_scan(image)
 
-    for result in zxingcpp.read_barcodes(image, formats=_FORMATS):
+    for result in zxingcpp.read_barcodes(scan, formats=_FORMATS):
         text = result.text
         if result.valid and text.isdigit() and _MIN_DIGITS <= len(text) <= _MAX_DIGITS:
             return _normalize(text, str(result.format).replace("-", ""))
