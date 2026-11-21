@@ -14,7 +14,7 @@ from PIL import Image
 
 from app import create_app
 from app.services import barcode as barcode_service
-from app.services.barcode import _prepare_for_scan, _SCAN_MAX_EDGE
+from app.services.barcode import _SCAN_MAX_EDGE, _prepare_for_scan
 
 EAN13 = "5901234123457"
 EAN8 = "96385074"
