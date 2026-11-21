@@ -80,6 +80,7 @@ export default function IngredientSection({ result, onOpen }: Props) {
           <Text style={styles.groupTitle} accessibilityRole="header">
             {flagged.length > 0 ? 'Other ingredients we checked' : 'Ingredients we checked'}
           </Text>
+          <Text style={styles.tapHint}>Tap any name to see what it is and where the information comes from.</Text>
           <View style={styles.pills}>
             {others.map((entry) => (
               <Pressable
@@ -89,7 +90,7 @@ export default function IngredientSection({ result, onOpen }: Props) {
                 onPress={() => onOpen(entry.id)}
                 style={({ pressed }) => [styles.pill, pressed && styles.dim]}
               >
-                <Text style={styles.pillText}>{entry.name}</Text>
+                <Text style={styles.pillText}>{entry.name} ›</Text>
               </Pressable>
             ))}
           </View>
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
     borderColor: '#cfd6cf',
     backgroundColor: '#fff',
   },
-  pillText: { color: '#1a1a1a' },
+  pillText: { color: '#1b7f3b', fontWeight: '500' },
+  tapHint: { color: '#555', fontSize: 13, lineHeight: 18 },
 
 });

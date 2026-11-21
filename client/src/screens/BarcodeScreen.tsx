@@ -169,8 +169,8 @@ export default function BarcodeScreen({ onBarcode }: Props) {
     <View style={styles.container}>
       <Text style={styles.heading}>Scan a product</Text>
       <Text style={styles.help}>
-        Scan the barcode, or upload a photo of it. Keep the barcode flat, in focus and fully in
-        frame.
+        Upload or take a photo of the barcode on the package. Keep the barcode flat, in focus and
+        fully in frame. The app will look up the product for you.
       </Text>
 
       <View style={styles.buttons}>

@@ -203,7 +203,7 @@ export default function ResultsScreen({
         subtitle={
           perBasis
             ? 'Amounts as the food database lists them.'
-            : 'Per serving is what the label states. Whole package is calculated from it.'
+            : 'The label gives amounts per serving. The whole-package column shows what you get if you eat the entire package.'
         }
       >
         {nutrition && perBasis ? (
@@ -220,7 +220,7 @@ export default function ResultsScreen({
         )}
       </Section>
 
-      <Section title="What the nutrients mean">
+      <Section title="What the numbers mean">
         {analysis.explanations ? (
           <NutrientExplanationList result={analysis.explanations} />
         ) : (

@@ -16,7 +16,7 @@ export default function SourceLinks({ sources }: { sources: IngredientSource[] }
           style={styles.link}
           onPress={() => void Linking.openURL(source.url)}
         >
-          Source: {source.publisher}, {source.title}
+          Source: {source.publisher} — {source.title}
         </Text>
       ))}
     </View>
@@ -24,6 +24,6 @@ export default function SourceLinks({ sources }: { sources: IngredientSource[] }
 }
 
 const styles = StyleSheet.create({
-  sources: { gap: 2 },
-  link: { color: '#1b7f3b', fontSize: 12, textDecorationLine: 'underline' },
+  sources: { gap: 4 },
+  link: { color: '#1b7f3b', fontSize: 13, lineHeight: 18, textDecorationLine: 'underline' },
 });

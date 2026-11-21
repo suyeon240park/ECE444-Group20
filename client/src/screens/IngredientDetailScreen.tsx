@@ -81,10 +81,16 @@ function Statement({
   entry: IngredientEntry;
   text: { text: string; source_ids: string[] };
 }) {
+  const sources = sourcesFor(entry, text.source_ids);
   return (
     <View style={styles.statement}>
       <Text style={styles.body}>{text.text}</Text>
-      <SourceLinks sources={sourcesFor(entry, text.source_ids)} />
+      {sources.length > 0 ? (
+        <View style={styles.sourceBox}>
+          <Text style={styles.sourceLabel}>Where this comes from</Text>
+          <SourceLinks sources={sources} />
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -118,7 +124,14 @@ const styles = StyleSheet.create({
   meta: { color: '#555', fontSize: 12 },
   reviewed: { color: '#555', fontSize: 12 },
   dim: { opacity: 0.6 },
-  statement: { gap: 4 },
+  statement: { gap: 8 },
+  sourceBox: {
+    gap: 4,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#f6f7f6',
+  },
+  sourceLabel: { color: '#555', fontSize: 12, fontWeight: '600' },
   flag: {
     gap: 4,
     padding: 12,
